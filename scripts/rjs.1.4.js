@@ -32,7 +32,9 @@ String.prototype.format = (function() {
 	}
 })();
 
-/** Performs variable substitution on the string, replacing items in {curly braces}. */
+/** Performs variable substitution on the string, replacing items in {curly braces}.
+	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+*/
 String.prototype.supplant = function (o) {
 	return this.replace(/{([^{}]*)}/g,
 		function (a, b) {
@@ -42,9 +44,11 @@ String.prototype.supplant = function (o) {
 	);
 };
 
-/** Removes whitespace from both ends of a string. */
-String.prototype.trim = function() {
-	return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+/** Removes whitespace from both ends of a string.
+	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+*/
+String.prototype.trim = function () {
+	return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1");
 };
 
 /** Returns true if the string starts with the given substring. */
@@ -52,50 +56,54 @@ String.prototype.startsWith = function(str){
     return (this.indexOf(str) === 0);
 };
 
-if (!String.prototype.entityify) {
-    String.prototype.entityify = function () {
-        return this.replace(/&/g, "&amp;").replace(/</g,
-            "&lt;").replace(/>/g, "&gt;");
-    };
-}
+/** Encodes angled brackets and ampersands as HTML entities.
+	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+*/
+String.prototype.entityify = function () {
+	return this
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;");
+};
 
-if (!String.prototype.quote) {
-    String.prototype.quote = function () {
-        var c, i, l = this.length, o = '"';
-        for (i = 0; i < l; i += 1) {
-            c = this.charAt(i);
-            if (c >= ' ') {
-                if (c === '\\' || c === '"') {
-                    o += '\\';
-                }
-                o += c;
-            } else {
-                switch (c) {
-                case '\b':
-                    o += '\\b';
-                    break;
-                case '\f':
-                    o += '\\f';
-                    break;
-                case '\n':
-                    o += '\\n';
-                    break;
-                case '\r':
-                    o += '\\r';
-                    break;
-                case '\t':
-                    o += '\\t';
-                    break;
-                default:
-                    c = c.charCodeAt();
-                    o += '\\u00' + Math.floor(c / 16).toString(16) +
-                        (c % 16).toString(16);
-                }
-            }
-        }
-        return o + '"';
-    };
-} 
+/** Produces a quoted string. 
+	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+*/
+String.prototype.quote = function () {
+	var c, i, l = this.length, o = '"';
+	for (i = 0; i < l; i += 1) {
+		c = this.charAt(i);
+		if (c >= ' ') {
+			if (c === '\\' || c === '"') {
+				o += '\\';
+			}
+			o += c;
+		} else {
+			switch (c) {
+			case '\b':
+				o += '\\b';
+				break;
+			case '\f':
+				o += '\\f';
+				break;
+			case '\n':
+				o += '\\n';
+				break;
+			case '\r':
+				o += '\\r';
+				break;
+			case '\t':
+				o += '\\t';
+				break;
+			default:
+				c = c.charCodeAt();
+				o += '\\u00' + Math.floor(c / 16).toString(16) +
+					(c % 16).toString(16);
+			}
+		}
+	}
+	return o + '"';
+};
 
 if (!String.prototype.supplant) {
     String.prototype.supplant = function (o) {
@@ -401,7 +409,9 @@ var joinObj = function(obj, propSeparator, valueSeparator) {
 	return keyValuePairs.join(propSeparator);
 };
 
-/** Returns true if the object has no non-undefined properties. */
+/** Returns true if the object has no non-undefined properties.
+	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+*/
 var isEmpty = function(o) {
     var i, v;
     if (typeOf(o) === 'object') {
@@ -578,7 +588,9 @@ var guid = (function() {
 	}
 })();
 
-/** Returns a string representing the type of the object, with special handling for null and arrays. */
+/** Returns a string representing the type of the object, with special handling for null and arrays.
+	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+*/
 var typeOf = function(value) {
     var s = typeof value;
     if (s === 'object') {
