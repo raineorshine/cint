@@ -261,23 +261,23 @@ Array.prototype.pluck = function(property) {
 };
 
 /** Group the array of objects by one of the object's properties. Returns a dictionary containing the original arrays items indexed by the property value. */
-var group = function(arr, property) {
+var group = function(arr, propOrFunc) {
 
-	if(!property) {
-		throw new Error("Invalid property.");
+	if(!propOrFunc) {
+		throw new Error("You must specific a property name or mappable function.");
 	}
 
 	var dict = {};
 	each(arr, function(item) {
-		if(!(item[property] in dict)) {
-			dict[item[property]] = [];
+		if(!(item[propOrFunc] in dict)) {
+			dict[item[propOrFunc]] = [];
 		}
-		dict[item[property]].push(item);
+		dict[item[propOrFunc]].push(item);
 	});
 	return dict;
 }
-Array.prototype.group = function(property) {
-	return group(this, property);
+Array.prototype.group = function(propOrFunc) {
+	return group(this, propOrFunc);
 };
 
 /***********************************
@@ -461,7 +461,7 @@ var merge = function(/*arguments*/) {
 		
 		// add each property to the mothership
 		for(prop in outlier) {
-			if(typeof outlier[prop] === "object" && !(outlier[prop] instanceof Array)) {
+			if(typeOf(outlier[prop]) == "object") {
 				mothership[prop] = merge(mothership[prop], outlier[prop]); // RECURSION
 			}
 			else if(outlier[prop] !== undefined) {
@@ -491,10 +491,10 @@ var hash = function(o) {
 	else if(typeof(o) === "string" || typeof(o) === "number") {
 		return "" + o;
 	}
-	else if(o instanceof Array) {
+	else if(typeOf(o) === "array") {
 		return "_[{0}]_".format(o.map(hash).join(","));
 	}
-	else if(typeof(o) === "object") {
+	else if(typeOf(o) === "object") {
 		var objString = "";
 		for(prop in o) {
 			objString += "{0}_:_{1}".format(prop, hash(o[prop]));
@@ -515,6 +515,23 @@ var guid = (function() {
 		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	}
 })();
+
+/** Returns a string representing the type of the object, with special handling for null and arrays. */
+var typeOf = function(value) {
+    var s = typeof value;
+    if (s === 'object') {
+        if (value) {
+            if (typeof value.length === 'number' &&
+                    !(value.propertyIsEnumerable('length')) &&
+                    typeof value.splice === 'function') {
+                s = 'array';
+            }
+        } else {
+            s = 'null';
+        }
+    }
+    return s;
+};
 
 /** Identity function. */
 var I = function(x) { return x; }
