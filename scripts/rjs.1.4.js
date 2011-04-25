@@ -177,7 +177,7 @@ Array.prototype.filter = function(f, context) {
 	return filter(this, f, context);
 };
 
-var /**
+/**
  * Applies `fn` to `init` and the first element of `sequence`,
  * and then to the result and the second element, and so on.
  * == reduce(f, init, [x0, x1, x2]) == f(f(f(init, x0), x1), x2)
