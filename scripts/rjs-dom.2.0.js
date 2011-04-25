@@ -1,6 +1,5 @@
 /** 
  * Raine's Javascript Extensions for the DOM
- * Last Updated: 04/13/11
  */
 
 /** Creates an element from the given HTML s-expression.

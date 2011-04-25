@@ -50,7 +50,7 @@ String.prototype.trim = function() {
 /** Returns true if the string starts with the given substring. */
 String.prototype.startsWith = function(str){
     return (this.indexOf(str) === 0);
-}
+};
 
 /***********************************
  * Function overrides
@@ -124,7 +124,7 @@ Function.prototype.Context = function(obj) {
 	@param f				If collection is an array, (item index) => newValue.
 							If collection is an object, (key value index) => [newKey, newValue] or (key value index) => newValue.
 */
-map = function(collection, f, context) {
+var map = function(collection, f, context) {
 
 	// error handling
 	if(!collection) {
@@ -164,7 +164,7 @@ Array.prototype.map = function(f, context) {
 };
 
 /** Returns a new array consisting of a subset of arr for which the given function returns truthy. */
-filter = function(arr, f, context) {
+var filter = function(arr, f, context) {
 	var newArray = [];
 	for(var i=0, n=arr.length; i<n; i++) {
 		if(f.apply(context, [arr[i], i])) {
@@ -177,7 +177,7 @@ Array.prototype.filter = function(f, context) {
 	return filter(this, f, context);
 };
 
-/**
+var /**
  * Applies `fn` to `init` and the first element of `sequence`,
  * and then to the result and the second element, and so on.
  * == reduce(f, init, [x0, x1, x2]) == f(f(f(init, x0), x1), x2)
@@ -185,7 +185,7 @@ Array.prototype.filter = function(f, context) {
  * >> reduce('x y -> 2*x+y', 0, [1,0,1,0]) -> 10
  * 	 (from Oliver Steele's Functional Javascript library)
  */
-reduce = function(fn, init, sequence, context) {
+var reduce = function(fn, init, sequence, context) {
     //fn = Function.toFunction(fn);
 	sequence = [].concat(sequence);
     var len = sequence.length,
@@ -196,7 +196,7 @@ reduce = function(fn, init, sequence, context) {
 };
  
 /** Returns a list of integers from min (default: 0) to max (inclusive). */
-range = function(min, max) {
+var range = function(min, max) {
 
 	// override for 1 argument
 	if(arguments.length == 1) {
@@ -213,7 +213,7 @@ range = function(min, max) {
 
 
 /** Applies the given function to each item in the array.  Same as map but doesn't build and return an array. */
-each = function(arr, f, context) {
+var each = function(arr, f, context) {
 	for(var i=0, n=arr.length; i<n; i++) {
 		f.apply(context, [arr[i], i]);
 	}
@@ -223,7 +223,7 @@ Array.prototype.each = function(f, context) {
 };
 
 /** Returns the first item in arr for which the function f returns true.  Returns null if no matches are found. */
-find = function(arr, f, context) {
+var find = function(arr, f, context) {
 	for(var i=0, n=arr.length; i<n; i++) {
 		if(f.apply(context, [arr[i], i])) {
 			return arr[i];
@@ -237,7 +237,7 @@ Array.prototype.find = function(f, context) {
 };
 
 /** Returns true if the array contains the given item (compared by address, but works by value for strings). */
-contains = function(arr, item) {
+var contains = function(arr, item) {
 	for(var i=0, n=arr.length; i<n; i++) {
 		if(arr[0] === item) {
 			return true;
@@ -245,13 +245,13 @@ contains = function(arr, item) {
 	}
 
 	return false;
-}
+};
 Array.prototype.contains = function(item) {
 	return contains(this, item);
 };
 
 /** Returns an array of values of the given property for each item in the array. */
-pluck = function(arr, property) {
+var pluck = function(arr, property) {
 	return map(arr, function(item) {
 		return item[property];
 	});
@@ -261,7 +261,7 @@ Array.prototype.pluck = function(property) {
 };
 
 /** Group the array of objects by one of the object's properties. Returns a dictionary containing the original arrays items indexed by the property value. */
-group = function(arr, property) {
+var group = function(arr, property) {
 
 	if(!property) {
 		throw new Error("Invalid property.");
@@ -285,7 +285,7 @@ Array.prototype.group = function(property) {
  ***********************************/
 
 /** Returns an array of the object's keys. */
-keys = function(obj) {
+var keys = function(obj) {
 	var newArray = [];
 	for(var property in obj) {
 		newArray.push(property);
@@ -294,7 +294,7 @@ keys = function(obj) {
 };
 
 /** Returns an array of the object's values. */
-values = function(obj) {
+var values = function(obj) {
 	var newArray = [];
 	for(var property in obj) {
 		newArray.push(obj[property]);
@@ -303,7 +303,7 @@ values = function(obj) {
 };
 
 /** Converts an array to a dictionary given a function that takes an array value and returns a 2-part array of the key and value. */
-toDict = function(arr, makeKeyValue) {
+var toDict = function(arr, makeKeyValue) {
 	var dict = {};
 	arr.each(function(item) {
 		kvp = makeKeyValue(item);
@@ -314,7 +314,7 @@ toDict = function(arr, makeKeyValue) {
 Array.prototype.toDict = function(makeKeyValues) { return toDict(this, makeKeyValues); };
 
 /** Returns a dictionary whose keys are the values of the array and values are the number of instances of that value within the array. */
-tally = function(arr) {
+var tally = function(arr) {
 	var dict = {};
 	arr.each(function(value) {
 		var count = dict[value] || 0;
@@ -327,11 +327,11 @@ Array.prototype.tally = function() { return tally(this); };
 /** Returns the unique values in the array. */
 var unique = function(arr) {
 	return keys(tally(arr));
-}
+};
 Array.prototype.unique = function() { return unique(this); };
 
 /** Join the object into a single string with the given separators separating properties from each other as well as values. */
-joinObj = function(obj, propSeparator, valueSeparator) {
+var joinObj = function(obj, propSeparator, valueSeparator) {
 	var keyValuePairs = [];
 	for(var prop in obj) {
 		keyValuePairs.push(prop + valueSeparator + obj[prop]);
@@ -341,12 +341,12 @@ joinObj = function(obj, propSeparator, valueSeparator) {
 
 /** Returns true if the array contains the given object. */
 // why is there this and contains()?
-inArray = function(arr, obj) {
+var inArray = function(arr, obj) {
 	return find(arr, function(x) { return x === obj; }) !== null;
 };
 
 /** Returns true if the object has no properties, like {}. */
-isEmpty = function(obj) {
+var isEmpty = function(obj) {
 	for(var prop in obj) {
 		return false;
 	}
@@ -354,20 +354,14 @@ isEmpty = function(obj) {
 };
 
 /** Compares two items lexigraphically.  Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
-compare = function(a,b) {
-	if(a > b) {
-		return 1;
-	}
-	else if(a == b) {
-		return 0;
-	}
-	else {//if(a < b) {
-		return -1;
-	}
+var compare = function(a,b) {
+	return a > b ? 1 :
+		a == b ? 0 :
+		-1;
 };
 
 /** Returns a function that compares the given property of two items. */
-compareProperty = function(property) {
+var compareProperty = function(property) {
 	return function(a,b) {
 		return compare(a[property], b[property]);
 	};
@@ -377,7 +371,7 @@ compareProperty = function(property) {
 /** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties.
  * A property can also be appended with " ASC" or " DESC" to control the sort order.
  * */
-dynamicCompare = function(props) {
+var dynamicCompare = function(props) {
 	return function(a,b) {
 		for(var i=0; i<props.length; i++) {
 			var aVal, bVal, sortDir;
@@ -406,10 +400,10 @@ dynamicCompare = function(props) {
 		}
 		return false;
 	};
-}
+};
 
 /** Returns true if all the items in a are equal to all the items in b, recursively. */
-equals = function(a,b) {
+var equals = function(a,b) {
 	// compare arrays
 	if(a instanceof Array) {
 
@@ -443,7 +437,7 @@ equals = function(a,b) {
 	return true;
 };
 
-numProperties = function(o) {
+var numProperties = function(o) {
 	var n = 0;
 	for(property in o) {
 		n++;
@@ -452,12 +446,12 @@ numProperties = function(o) {
 };
 
 /** Returns true if the given value is not undefined, null, or an empty string. */
-hasValue = function(x) { 
+var hasValue = function(x) { 
 	return x !== undefined && x !== null && x !== ""; 
 };
 
 /** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. */
-merge = function(/*arguments*/) {
+var merge = function(/*arguments*/) {
 
 	var mothership = {};
 	
@@ -480,14 +474,14 @@ merge = function(/*arguments*/) {
 };
 
 /** Returns a function that returns the inverse of the given boolean function. */
-not = function(f) { 
+var not = function(f) { 
 	return function() { 
 		return !f.apply(this, arguments); 
 	} 
 };
 
 /** Returns a string representation of the given scalar, array, or dictionary. */
-hash = function(o) {
+var hash = function(o) {
 	if(o === undefined) {
 		return "undefined";
 	}
@@ -512,7 +506,7 @@ hash = function(o) {
 	}
 };
 
-guid = (function() {
+var guid = (function() {
 	var S4 = function() {
 	   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	}
@@ -521,6 +515,7 @@ guid = (function() {
 	}
 })();
 
+/** Identity function. */
 var I = function(x) { return x; }
 
 /***********************************
@@ -528,14 +523,14 @@ var I = function(x) { return x; }
  ***********************************/
 
 /** Asserts that a is truthy. */
-assert = function(a,b) {
+var assert = function(a) {
 	if(!a) {
 		console.error("Assertion failure: {0}".format(a));
 	}
 };
 
 /** Asserts that a is equal to b, using recursive equality checking for arrays. */
-assertEquals = function(a,b) {
+var assertEquals = function(a,b) {
 	if(!equals(a,b)) {
 		console.error("Assertion failure: {0} === {1}".format(a,b));
 	}
