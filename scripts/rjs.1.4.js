@@ -401,12 +401,6 @@ var joinObj = function(obj, propSeparator, valueSeparator) {
 	return keyValuePairs.join(propSeparator);
 };
 
-/** Returns true if the array contains the given object. */
-// why is there this and contains()?
-var inArray = function(arr, obj) {
-	return find(arr, function(x) { return x === obj; }) !== null;
-};
-
 /** Returns true if the object has no non-undefined properties. */
 var isEmpty = function(o) {
     var i, v;
