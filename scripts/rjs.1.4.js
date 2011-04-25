@@ -8,7 +8,7 @@
  ***********************************/
 
 /** Replaces occurrences of {0}, {1}, ... with each additional argument passed.  Like sprintf. 
-	Caches compiled regular expressions to improve performance.
+	DEPRECATED: Use supplant instead.
 */
 String.prototype.format = (function() { 
 	
