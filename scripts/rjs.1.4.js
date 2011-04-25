@@ -1,56 +1,7 @@
 /** 
  * Raine's Javascript Extensions 
- * Commonly used functions that should be built-in, but aren't, and that we don't mind polluting the global namespace with. 
- * Client-side and server-side compatible
- *
- * Change Log:
- * 12/26/10: Added object support to map.
- * 04/29/09
+ * A library of basic Javascript functions that nobody should be without.
  */
-
-/**
-String.prototype.format
-String.prototype.supplant
-String.prototype.trim
-String.prototype.startsWith
-Function.prototype.Extend
-Function.prototype.Super
-Function.prototype.Implements
-Function.prototype.Context
-Function.prototype.compose
-Function.prototype.sequence
-Function.prototype.curry
-Function.prototype.rcurry
-map
-filter
-reduce
-range
-each
-find
-contains
-pluck
-group
-keys
-values
-toDict
-tally
-joinObj
-inArray
-isEmpty
-compare
-compareProperty
-dynamicCompare
-equals
-hasValue
-numProperties
-merge
-not
-hash
-guid
-I
-assert
-assertEquals
-*/
 
 /***********************************
  * String overrides
@@ -81,6 +32,7 @@ String.prototype.format = (function() {
 	}
 })();
 
+/** Performs variable substitution on the string, replacing items in {curly braces}. */
 String.prototype.supplant = function (o) {
 	return this.replace(/{([^{}]*)}/g,
 		function (a, b) {
@@ -247,8 +199,8 @@ reduce = function(fn, init, sequence, context) {
 range = function(min, max) {
 
 	// override for 1 argument
-	if(max === undefined) {
-		max = min;
+	if(arguments.length == 1) {
+		max = min - 1;
 		min = 0;
 	}
 
@@ -308,20 +260,19 @@ Array.prototype.pluck = function(property) {
 	return pluck(this, property);
 };
 
-/** Group the array of objects by one of the object's properties (if prop is a string), or the result of a function on the object (if prop is a function). Returns a dictionary containing the original arrays items indexed by the property value or function return value. */
-group = function(arr, prop) {
+/** Group the array of objects by one of the object's properties. Returns a dictionary containing the original arrays items indexed by the property value. */
+group = function(arr, property) {
 
-	if(!prop) {
+	if(!property) {
 		throw new Error("Invalid property.");
 	}
 
 	var dict = {};
 	each(arr, function(item) {
-		var value = typeof(prop) == "function" ? prop(item) : item[prop];
-		if(!(value in dict)) {
-			dict[value] = [];
+		if(!(item[property] in dict)) {
+			dict[item[property]] = [];
 		}
-		dict[value].push(item);
+		dict[item[property]].push(item);
 	});
 	return dict;
 }
