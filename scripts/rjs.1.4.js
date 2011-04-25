@@ -52,6 +52,68 @@ String.prototype.startsWith = function(str){
     return (this.indexOf(str) === 0);
 };
 
+if (!String.prototype.entityify) {
+    String.prototype.entityify = function () {
+        return this.replace(/&/g, "&amp;").replace(/</g,
+            "&lt;").replace(/>/g, "&gt;");
+    };
+}
+
+if (!String.prototype.quote) {
+    String.prototype.quote = function () {
+        var c, i, l = this.length, o = '"';
+        for (i = 0; i < l; i += 1) {
+            c = this.charAt(i);
+            if (c >= ' ') {
+                if (c === '\\' || c === '"') {
+                    o += '\\';
+                }
+                o += c;
+            } else {
+                switch (c) {
+                case '\b':
+                    o += '\\b';
+                    break;
+                case '\f':
+                    o += '\\f';
+                    break;
+                case '\n':
+                    o += '\\n';
+                    break;
+                case '\r':
+                    o += '\\r';
+                    break;
+                case '\t':
+                    o += '\\t';
+                    break;
+                default:
+                    c = c.charCodeAt();
+                    o += '\\u00' + Math.floor(c / 16).toString(16) +
+                        (c % 16).toString(16);
+                }
+            }
+        }
+        return o + '"';
+    };
+} 
+
+if (!String.prototype.supplant) {
+    String.prototype.supplant = function (o) {
+        return this.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = o[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
+}
+
+if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+        return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1");
+    };
+}
+
 /***********************************
  * Function overrides
  ***********************************/
@@ -345,13 +407,19 @@ var inArray = function(arr, obj) {
 	return find(arr, function(x) { return x === obj; }) !== null;
 };
 
-/** Returns true if the object has no properties, like {}. */
-var isEmpty = function(obj) {
-	for(var prop in obj) {
-		return false;
-	}
-	return true;
-};
+/** Returns true if the object has no non-undefined properties. */
+var isEmpty = function(o) {
+    var i, v;
+    if (typeOf(o) === 'object') {
+        for (i in o) {
+            v = o[i];
+            if (v !== undefined && typeOf(v) !== 'function') {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 /** Compares two items lexigraphically.  Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
 var compare = function(a,b) {
