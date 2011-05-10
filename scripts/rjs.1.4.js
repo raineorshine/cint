@@ -120,7 +120,23 @@ if (!String.prototype.trim) {
     String.prototype.trim = function () {
         return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1");
     };
-}
+};
+
+/** Returns the substring before the given delimiter. Same as this.split(delim)[0]; */
+String.prototype.before = function(delim) { 
+	return this.split(delim)[0]; 
+};
+
+/** Returns the substring after the given delimiter. Same as this.split(delim)[1]; but returns the whole string if the delimiter is not found. */
+String.prototype.after = function(delim) { 
+	var split = this.split(delim);
+	return split[split.length > 1 ? 1 : 0]; 
+};
+
+/** Returns the substring between the given delimiters. */
+String.prototype.between = function(left, right) { 
+	return this.after(left).before(right); 
+};
 
 /***********************************
  * Function overrides
