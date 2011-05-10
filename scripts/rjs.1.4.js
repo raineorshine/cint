@@ -120,7 +120,7 @@ if (!String.prototype.trim) {
     String.prototype.trim = function () {
         return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1");
     };
-};
+}
 
 /** Returns the substring before the given delimiter. Same as this.split(delim)[0]; */
 String.prototype.before = function(delim) { 
