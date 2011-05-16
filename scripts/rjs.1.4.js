@@ -122,15 +122,16 @@ if (!String.prototype.trim) {
     };
 }
 
-/** Returns the substring before the given delimiter. Same as this.split(delim)[0]; */
+/** Returns the substring before the first instance of the given delimiter. */
 String.prototype.before = function(delim) { 
 	return this.split(delim)[0]; 
 };
 
-/** Returns the substring after the given delimiter. Same as this.split(delim)[1]; but returns the whole string if the delimiter is not found. */
-String.prototype.after = function(delim) { 
-	var split = this.split(delim);
-	return split[split.length > 1 ? 1 : 0]; 
+/** Returns the substring after the first instance of the given delimiter. Returns the whole string if the delimiter is not found. */
+String.prototype.after = function(delim) {
+	var delimIndex = this.indexOf(delim);
+	return delimIndex >= 0 ?
+		this.substring(delimIndex+delim.length) : this;
 };
 
 /** Returns the substring between the given delimiters. */
