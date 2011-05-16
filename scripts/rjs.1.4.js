@@ -105,23 +105,6 @@ String.prototype.quote = function () {
 	return o + '"';
 };
 
-if (!String.prototype.supplant) {
-    String.prototype.supplant = function (o) {
-        return this.replace(/{([^{}]*)}/g,
-            function (a, b) {
-                var r = o[b];
-                return typeof r === 'string' || typeof r === 'number' ? r : a;
-            }
-        );
-    };
-}
-
-if (!String.prototype.trim) {
-    String.prototype.trim = function () {
-        return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1");
-    };
-}
-
 /** Returns the substring before the first instance of the given delimiter. */
 String.prototype.before = function(delim) { 
 	return this.split(delim)[0]; 
