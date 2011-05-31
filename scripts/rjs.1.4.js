@@ -123,6 +123,19 @@ String.prototype.between = function(left, right) {
 };
 
 /***********************************
+ * Number overrides
+ ***********************************/
+Number.prototype.ordinal = function() {
+	var lastDigit = this%10;
+	return this + (
+		this >= 11 && this <= 13 ? "th" :
+		lastDigit === 1 ? "st" :
+		lastDigit === 2 ? "nd" :
+		lastDigit === 3 ? "rd" : 
+		"th");
+};
+
+/***********************************
  * Function overrides
  ***********************************/
 
@@ -337,17 +350,50 @@ var group = function(arr, propOrFunc) {
 		throw new Error("You must specific a property name or mappable function.");
 	}
 
+	var getGroupKey = typeof(prop) == "function" ? 
+		propOrFunc :
+		function(item) { return item[propOrFunc]; };
+
 	var dict = {};
 	each(arr, function(item) {
-		if(!(item[propOrFunc] in dict)) {
-			dict[item[propOrFunc]] = [];
+		var key = getGroupKey(item);
+		if(!(key in dict)) {
+			dict[key] = [];
 		}
-		dict[item[propOrFunc]].push(item);
+		dict[key].push(item);
 	});
+
 	return dict;
 }
 Array.prototype.group = function(propOrFunc) {
 	return group(this, propOrFunc);
+};
+
+var orderedGroup = function(arr, propOrFunc) {
+
+	if(!propOrFunc) {
+		throw new Error("You must specific a property name or mappable function.");
+	}
+
+	var getGroupKey = typeof(propOrFunc) == "function" ? 
+		propOrFunc :
+		function(item) { return item[propOrFunc]; };
+
+	var results = [];
+	var dict = {};
+	each(arr, function(item) {
+		var key = getGroupKey(item);
+		if(!(key in dict)) {
+			dict[key] = [];
+			results.push({key: key, items: dict[key]});
+		}
+		dict[key].push(item);
+	});
+
+	return results;
+}
+Array.prototype.orderedGroup = function(propOrFunc) {
+	return orderedGroup(this, propOrFunc);
 };
 
 /***********************************
@@ -409,6 +455,20 @@ var joinObj = function(obj, propSeparator, valueSeparator) {
 	return keyValuePairs.join(propSeparator);
 };
 
+var zip = function() {
+	var results = [];
+	if(arguments.length > 0) {
+		for(var i=0, len=arguments[0].length; i<len; i++) {
+			var item = [];
+			results.push(item);
+			for(var i2=0, len2=arguments.length; i2<len2; i2++) {
+				item.push(arguments[i2][i]);
+			}
+		}
+	}
+	return results;
+};
+
 /** Returns true if the object has no non-undefined properties.
 	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 */
@@ -428,8 +488,8 @@ var isEmpty = function(o) {
 /** Compares two items lexigraphically.  Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
 var compare = function(a,b) {
 	return a > b ? 1 :
-		a == b ? 0 :
-		-1;
+		a < b ? -1 :
+		0;
 };
 
 /** Returns a function that compares the given property of two items. */
@@ -439,11 +499,15 @@ var compareProperty = function(property) {
 	};
 };
 
-
 /** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties.
  * A property can also be appended with " ASC" or " DESC" to control the sort order.
  * */
 var dynamicCompare = function(props) {
+
+	if(!props || !(props instanceof Array)) {
+		console.error("Invalid props");
+	}
+
 	return function(a,b) {
 		for(var i=0; i<props.length; i++) {
 			var aVal, bVal, sortDir;
@@ -464,18 +528,23 @@ var dynamicCompare = function(props) {
 				bVal = b[props[i]];
 				sortDir = "asc";
 			}
+
+			// this is important so that if the values are equial, it continues to the next sort property
 			if(aVal != bVal) {
-				return sortDir == "asc" ? 
-					aVal > bVal ? 1 : -1 : 
-					aVal < bVal ? -1 : 1;
+				return sortDir == "asc" ? compare(aVal,bVal) : compare(bVal,aVal);
 			}
 		}
-		return false;
+		return 0;
 	};
-};
+}
 
 /** Returns true if all the items in a are equal to all the items in b, recursively. */
 var equals = function(a,b) {
+
+	if(typeof(a) !== typeof(b)) {
+		return false;
+	}
+
 	// compare arrays
 	if(a instanceof Array) {
 
@@ -491,19 +560,22 @@ var equals = function(a,b) {
 			}
 		}
 	}
+	// compare scalars
+	else if(typeof(a) === "number" || typeof(a) === "string" || typeof(a) === "boolean" || typeof(a) === "undefined") {
+		if(a !== b) {
+			return false;
+		}
+	}
 	// compare objects
-	if(numProperties(a) > 0 && numProperties(a) == numProperties(b)) {
+	else if(numProperties(a) === numProperties(b)) {
 		for(property in a) {
-			if(!(property in b && b[property] == a[property])) {
+			if(!(property in b && b[property] === a[property])) {
 				return false;
 			}
 		}
 	}
-	// compare scalars
 	else {
-		if(a !== b) {
-			return false;
-		}
+		return false;
 	}
 
 	return true;
@@ -533,7 +605,7 @@ var merge = function(/*arguments*/) {
 		
 		// add each property to the mothership
 		for(prop in outlier) {
-			if(typeOf(outlier[prop]) == "object") {
+			if(typeof outlier[prop] === "object" && outlier[prop] !== null && !(outlier[prop] instanceof Array)) {
 				mothership[prop] = merge(mothership[prop], outlier[prop]); // RECURSION
 			}
 			else if(outlier[prop] !== undefined) {
