@@ -1,33 +1,36 @@
-var moduleUrl = location.pathname + "module.php";
+//global $, hash, merge, guid, String.format
 
-var moduleRequestCache = {};
-window.data = {};
+/** Build client-side modules from an Ajax request that are smart enough to know how to refresh its contents along with any inputs that were changed by the user. */
+var SmartModule = function() {
+	this.baseUrl = baseUrl;
+	this.requestCache = {};
+	this.ajaxLoader = null;
+	this.moduleTagName = "span";
+	this.moduleClassName = "module";
+};
 
 /** Makes an ajax request to the given module url and returns a placeholder module div. When the ajax request returns a response, the placeholder is filled with the results of the given build function (which takes the module response data). */
-function buildAjaxModule(module, requestData, build, postBuild) {
+SmartModule.prototype.buildAjaxModule = function(module, requestData, build, postBuild) {
 
+	requestData = requestData || {};
 	requestData.module = requestData.module || module; // default to given module, but allow requestData.module to be set separately for refreshes.
 
 	var cacheKey = module + guid();
-	var moduleMarkup = ["span.module", {"data-module": cacheKey}, [
-		["img", {src: location.pathname + "images/ajax-loader.gif"}]
-	]];
+	var moduleMarkup = $("<{0} class='{1}'".format(this.moduleTagName, this.moduleClassName))
+		.data("module", cacheKey)
+		.append(this.ajaxLoader ?  $("<img>").attr("src", this.ajaxLoader) : null);
 
-	// TODO: documentation
-	requestKey = "{0}|{1}".format(module, hash(merge(requestData, { module: module })));
-	if(!(requestKey in moduleRequestCache)) {
-		moduleRequestCache[requestKey] = $.ajax({
-			url: moduleUrl,
+	var requestKey = "{0}|{1}".format(module, hash(merge(requestData, { module: module })));
+	if(!(requestKey in this.requestCache)) {
+		this.requestCache[requestKey] = $.ajax({
+			url: this.baseUrl,
 			data: merge(requestData, { module: module }) // merge the given module name for the initial request, preserve requestData.module for refreshes
 		});
 	}
 
-	moduleRequestCache[requestKey].success(function(data, textStatus, request) {
+	this.requestCache[requestKey].success(function(data, textStatus, request) {
 
-		// save response data to window for debugging
-		window.data[module] = data;
-
-		var moduleEl = $(".module[data-module={0}]".format(cacheKey));
+		var moduleEl = $("{0}.{1}[data-module={2}]".format(this.moduleTagName, this.moduleClassName, cacheKey));
 		moduleEl.data("requestData", requestData);
 		//moduleEl.data("responseData", data);
 		moduleEl.data("build", build); // store a reference to the build function so that the module can be rebuilt after an ajax refresh
@@ -42,7 +45,7 @@ function buildAjaxModule(module, requestData, build, postBuild) {
 		else {
 			// this is a weird line because we have closure over moduleMarkup, but if this is not called immediately (that is, if the response is not cached), then moduleMarkup doesn't have any other effect, but if it is called immediately, we simply return the built module instead of the placeholder
 			moduleMarkup = build(data, requestData);
-			moduleEl.html(create(moduleMarkup));
+			moduleEl.html(moduleMarkup);
 
 			if(postBuild) {
 				postBuild(moduleEl);
@@ -60,12 +63,12 @@ function refreshModule(el, module, requestData, build, postBuild) {
 	var requestData = merge(moduleEl.data("requestData") || {}, requestData, { isRefresh: true });
 	moduleEl.css("opacity", 0.3);
 
-	// For some reason thethese argument will *not* be closed over if we don't assign it to a local variable here.
+	// For some reason these argument will *not* be closed over if we don't assign it to a local variable here.
 	var buildClosure = build;
 	var postBuildClosure = postBuild;
 
 	$.ajax({
-		url: moduleUrl, 
+		url: this.baseUrl, 
 		data: merge(requestData, { module: module }),
 		success: function(data, textStatus, request) {
 			//moduleEl.fadeIn(2000);
