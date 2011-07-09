@@ -43,8 +43,7 @@ String.prototype.supplant = function (o) {
 
 	return this.replace(/{([^{}]*)}/g,
 		function (a, b) {
-			var r = o[b];
-			return typeof r === 'string' || typeof r === 'number' ? r : a;
+			return b in o ? o[b] : a;
 		}
 	);
 };
@@ -127,6 +126,12 @@ String.prototype.between = function(left, right) {
 	return this.after(left).before(right); 
 };
 
+/** Returns a single string that repeats this string n times. */
+String.prototype.repeat = function(n) {
+	var that = this;
+	return n.map(function(i) { return that; }).join("");
+};
+
 /***********************************
  * Number overrides
  ***********************************/
@@ -138,6 +143,14 @@ Number.prototype.ordinal = function() {
 		lastDigit === 2 ? "nd" :
 		lastDigit === 3 ? "rd" : 
 		"th");
+};
+
+Number.prototype.map = function(f) {
+	var results = [];
+	for(var i=0; i<this; i++) {
+		results.push(f(i));
+	}
+	return results;
 };
 
 /***********************************
