@@ -155,11 +155,22 @@ Function.prototype.sequence = function(fn) {
         return fn.apply(this, [self.apply(this, arguments)]);
     }
 };
+
 /**
  * Returns a function that, applied to an argument list $arg2$,
  * applies the underlying function to $args ++ arg2$.
  * :: (a... b... -> c) a... -> (b... -> c)
  * == f.curry(args1...)(args2...) == f(args1..., args2...)
+ *
+ * Note that, unlike in languages with true partial application such as Haskell,
+ * `curry` and `uncurry` are not inverses.  This is a repercussion of the
+ * fact that in JavaScript, unlike Haskell, a fully saturated function is
+ * not equivalent to the value that it returns.  The definition of `curry`
+ * here matches semantics that most people have used when implementing curry
+ * for procedural languages.
+ *
+ * This implementation is adapted from
+ * [http://www.coryhudson.com/blog/2007/03/10/javascript-currying-redux/].
  */
 Function.prototype.curry = function(/*args...*/) {
     var fn = this;
@@ -168,6 +179,7 @@ Function.prototype.curry = function(/*args...*/) {
         return fn.apply(this, args.concat(Array.slice(arguments, 0)));
     };
 };
+
 /*
  * Right curry.  Returns a function that, applied to an argument list $args2$,
  * applies the underlying function to $args2 + args$.
@@ -181,6 +193,36 @@ Function.prototype.rcurry = function(/*args...*/) {
         return fn.apply(this, Array.slice(arguments, 0).concat(args));
     };
 };
+
+/**
+ * Invoking the function returned by this function only passes `n`
+ * arguments to the underlying function.  If the underlying function
+ * is not saturated, the result is a function that passes all its
+ * arguments to the underlying function.  (That is, `aritize` only
+ * affects its immediate caller, and not subsequent calls.)
+ * >> '[a,b]'.lambda()(1,2) -> [1, 2]
+ * >> '[a,b]'.lambda().aritize(1)(1,2) -> [1, undefined]
+ * >> '+'.lambda()(1,2)(3) -> error
+ * >> '+'.lambda().ncurry(2).aritize(1)(1,2)(3) -> 4
+ *
+ * `aritize` is useful to remove optional arguments from a function that
+ * is passed to a higher-order function that supplies *different* optional
+ * arguments.
+ *
+ * For example, many implementations of `map` and other collection
+ * functions, including those in this library, call the function argument
+ *  with both the collection element
+ * and its position.  This is convenient when expected, but can wreak
+ * havoc when the function argument is a curried function that expects
+ * a single argument from `map` and the remaining arguments from when
+ * the result of `map` is applied.
+ */
+Function.prototype.aritize = function(n) {
+    var fn = this;
+    return function() {
+        return fn.apply(this, Array.slice(arguments, 0, n));
+    }
+}
 
 /** Calls the function in the scope of the given object. */
 Function.prototype.Context = function(obj) {
