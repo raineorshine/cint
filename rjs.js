@@ -61,12 +61,8 @@ RJS.repeatString = function(str, n, delim) {
 };
 
 RJS.toTitleCase = function(str) {
-	var a = this.split(" "), b = [];
-	for (var i = 0; a[i] !== undefined; i++) {
-		b[B.length] = a[i].substr(0, 1). »
-		toUpperCase() + a[i].substr(1);
-	}
-	return b.join(' ');
+	var capitalizeFirst = function(s) { return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase(); };
+	return RJS.map(str.split(" "), capitalizeFirst).join(" ");
 };
 
 /***********************************
@@ -106,7 +102,6 @@ RJS.map = function(arr, f) {
 	}
 	return results;
 };
-
 
 /** Group the array of objects by one of the object's properties or mappable function. Returns a dictionary containing the original array's items indexed by the property value. */
 RJS.group = function(arr, propOrFunc) {
