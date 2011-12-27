@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<link rel="Stylesheet" type="text/css" href="qunit.css" />
+	<title>Unit Test</title>
+</head>
+<body>
+
+<h1 id="qunit-header">Unit Test</h1>
+<h2 id="qunit-banner"></h2>
+<ol id="qunit-tests"></ol>
+
+<script src="jquery-1.6.2.min.js"></script>
+<script src="qunit.js"></script>
+<script src="../YOUR_SCRIPT.js"></script>
+
+<script>
+$(function() {
+
+	module("Module A");
+
+	test("First Test", function() {
+		// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
+	});
+});
+</script>
+
+</body>
+</html>
