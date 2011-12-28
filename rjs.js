@@ -559,6 +559,7 @@ RJS.mapObject = function(obj, f) {
 
 /** Returns an array whose items are the result of calling f(key, value) on each property of the given object. */
 RJS.toArray = function(obj, f) {
+	var f = f || function(key, value) { return { key: key, value: value }; };
 	var result = [];
 	for(var key in obj) {
 		result.push(f(key, obj[key]));
