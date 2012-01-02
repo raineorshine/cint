@@ -578,9 +578,22 @@ RJS.filterObject = function(obj, f) {
 	return result;
 };
 
+/** Changes the specified keys in an object. 
+	@example RJS.changeKeys(
+		{ fname: "Raine", lname: "Lourie", specialty: "Javascript" }, 
+		{ fname: "fname", lname: "lname" }
+	)
+*/
+RJS.changeKeys = function(obj, changedKeys) {
+	var result = {};
+	for(var key in obj) {
+		result[key in changedKeys ? changedKeys[key] : key] = obj[key];
+	}
+	return result;
+};
 
 /** Invokes a callback after all the given asynchronous functions have completed. All asynchronous functions must accept a single callback argument. */
-var callAfterDone = function(queue, callback) {
+RJS.callAfterDone = function(queue, callback) {
 
 	// defaults
 	queue = queue || [];

@@ -13,15 +13,20 @@
 
 <script src="jquery-1.6.2.min.js"></script>
 <script src="qunit.js"></script>
-<script src="../YOUR_SCRIPT.js"></script>
+<script src="../rjs.js"></script>
 
 <script>
 $(function() {
 
-	module("Module A");
+	//module("Module A");
 
-	test("First Test", function() {
+	test("changeKeys", function() {
 		// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
+		var oldObject = { fname: "Raine", lname: "Lourie", specialty: "Javascript" };
+		var newObject = RJS.changeKeys( oldObject, { fname: "first", lname: "last" });
+		deepEqual(oldObject, { fname: "Raine", lname: "Lourie", specialty: "Javascript" }, "Old object is unmodified.");
+		deepEqual(newObject, { first: "Raine", last: "Lourie", specialty: "Javascript" }, "New object contains modified keys.");
+
 	});
 });
 </script>
