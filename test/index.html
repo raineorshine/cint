@@ -20,6 +20,18 @@ $(function() {
 
 	//module("Module A");
 
+	test("filter", function() {
+		var arr = [1,2,3,4,5];
+		var even = function(n) { return n%2===0; };
+		deepEqual(RJS.filter(arr, even), [2,4], "Filters out falsey results.");
+		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+	});
+
+	test("filterBy", function() {
+		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
+		deepEqual(RJS.filterBy(arr, "a", 1), [{a: 1, b: 2}, {a: 1, b: 5}], "Filter an array of objects by a given property value.");
+	});
+
 	test("changeKeys", function() {
 		// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
 		var oldObject = { fname: "Raine", lname: "Lourie", specialty: "Javascript" };

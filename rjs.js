@@ -578,6 +578,24 @@ RJS.filterObject = function(obj, f) {
 	return result;
 };
 
+/** Returns a new array that only includes items for which f(item, i) is truthy. */
+RJS.filter = function(arr, f) {
+	var result = [];
+	for(var i=0, len=arr.length; i<len; i++) {
+		if(f(arr[i], i)) {
+			result.push(arr[i]);
+		}
+	}
+	return result;
+};
+
+/** Returns a new array that only includes items with a specific value of a given property. */
+RJS.filterBy = function(arr, prop, value) {
+	return RJS.filter(arr, function(item) {
+		return item[prop] === value;
+	});
+};
+
 /** Changes the specified keys in an object. 
 	@example RJS.changeKeys(
 		{ fname: "Raine", lname: "Lourie", specialty: "Javascript" }, 
