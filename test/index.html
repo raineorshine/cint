@@ -14,11 +14,12 @@
 <script src="jquery-1.6.2.min.js"></script>
 <script src="qunit.js"></script>
 <script src="../rjs.js"></script>
+<script src="../rjs-proto.js"></script>
 
 <script>
 $(function() {
 
-	//module("Module A");
+	module("rjs");
 
 	test("filter", function() {
 		var arr = [1,2,3,4,5];
@@ -40,6 +41,31 @@ $(function() {
 		deepEqual(newObject, { first: "Raine", last: "Lourie", specialty: "Javascript" }, "New object contains modified keys.");
 
 	});
+
+	test("new", function() {
+		var Person = function(name, age) {
+			this.name = name;
+			this.age = age;
+		};
+		var p = RJS.new(Person "Raine", 26);
+		ok(p instanceof Person);
+		equal(p.name, "Raine");
+		equal(p.age, 26);
+	});
+
+	module("rjs-proto");
+
+	test("new", function() {
+		var Person = function(name, age) {
+			this.name = name;
+			this.age = age;
+		};
+		var p = Person.new("Raine", 26);
+		ok(p instanceof Person);
+		equal(p.name, "Raine");
+		equal(p.age, 26);
+	});
+
 });
 </script>
 

@@ -509,7 +509,7 @@ RJS.I = function(x) { return x; };
 /** A very self-conscious function. */
 RJS.reflect = function() { console.log(this, arguments); }
 
-/** Returns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
+/** Geturns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
 	@param thisIndex	Forwards 'this' at the given parameter index. Default: 0.
 */
 RJS.toInstance = function(f, thisIndex) {
