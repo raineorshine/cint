@@ -520,10 +520,11 @@ RJS.toInstance = function(f, thisIndex) {
 	};
 };
 
-/** Calls the given constructor and returns the new instance. Useful for higher order programmer where the new keyword won't work. */
+/** Calls the given constructor and returns the new instance. Useful for higher order programmer where the new keyword won't work. 
+	@warning Does not support more than 10 arguments! Done this way because accessing __proto__ directly for true variable number of arguments doesn't seem to be consistent across browsers. http://lmeyerov.blogspot.com/2007/12/wrapping-javascript-new-constructor.html
+*/
 RJS.new = function(f) {
-	var args = Array.prototype.slice.apply(arguments, 1);
-	return new f(args);
+	return new f(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9], arguments[10]);
 };
 
 /** Assigns the given list of methods from the host object to the protoObj's prototype after converting them with toInstance. */
