@@ -5,6 +5,16 @@
 
 var RJS = (function() {
 
+	// PRIVATE FUNCTIONS
+	var _curry = function(/*fn, args...*/) {
+		var fn = arguments[0];
+		var args = Array.prototype.slice.call(arguments, 1);
+		return function() {
+			return fn.apply(this, args.concat(Array.prototype.slice.call(arguments, 0)));
+		};
+	};
+
+
 	/***********************************
 	 * String
 	 ***********************************/
@@ -676,7 +686,10 @@ var RJS = (function() {
 		};
 
 		eachKey(function(key) {
-			requests[key](function(result) {
+			var req = requests[key];
+
+			// RECURSION
+			(typeOf(req) == "function" ? req : _curry(callAfterDone, req))(function(result) {
 				oneDone(key, result);
 			});
 		});
