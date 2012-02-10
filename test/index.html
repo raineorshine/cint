@@ -53,6 +53,33 @@ $(function() {
 		equal(p.age, 26);
 	});
 
+	test("pluck", function() {
+		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
+		deepEqual(RJS.pluck(arr, "a"), [1, 1, 0]);
+		deepEqual(RJS.pluck(arr, "b"), [2, 5, 10]);
+	});
+
+	asyncTest("callAfterDone", 3, function() {
+		var queue1 = [
+			function(cb) { cb(1); }, 
+			function(cb) { cb(2); }
+		];
+		RJS.callAfterDone(queue1, function(results) {
+			ok(true, "Final callback called");
+			deepEqual(results, [1,2], "When the function queue is an array, results are passed to the final callback in original order");
+			start();
+		});
+
+		var queue2 = {
+			a: function(cb) { cb(1); }, 
+			b: function(cb) { cb(2); }
+		};
+		RJS.callAfterDone(queue2, function(results) {
+			deepEqual(results, { a: 1, b: 2 }, "When the function queue is an object, results are passed to the final callback with original keys");
+			start();
+		});
+	});
+
 	module("rjs-proto");
 
 	test("new", function() {
