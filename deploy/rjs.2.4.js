@@ -646,6 +646,11 @@ var RJS = (function() {
 		var len = (isArray ? requests : keys(requests)).length;
 		var completed = 0;
 
+		// if the requests is empty, call the callback immediately
+		if(len === 0) {
+			callback();
+		}
+
 		// if all requests have returned, calls the final callback with an array of responses in the order of the original requests
 		var checkAllDone = function() {
 			if(completed === len) {
@@ -660,9 +665,6 @@ var RJS = (function() {
 				}
 			}
 		};
-
-		// if the requests is empty, call the callback immediately
-		checkAllDone();
 
 		// stores the given result in the responses object and checks if we're all done
 		var oneDone = function(key, result) {
@@ -689,9 +691,7 @@ var RJS = (function() {
 			var req = requests[key];
 
 			// RECURSION
-			(typeOf(req) == "function" ? req : _curry(callAfterDone, req))(function(result) {
-				oneDone(key, result);
-			});
+			(typeOf(req) == "function" ? req : _curry(callAfterDone, req))(_curry(oneDone, key));
 		});
 	};
 	
