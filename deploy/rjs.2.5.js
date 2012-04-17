@@ -799,6 +799,6 @@ var RJS = (function() {
 })();
 
 // nodejs module
-if(module) {
+if(typeof(module) === undefined) {
 	module.exports = RJS;
 }
