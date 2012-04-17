@@ -114,6 +114,29 @@ $(function() {
 		});
 	});
 
+	test("curry", function() {
+		var subtract = function(x,y) { return x - y; };
+		var subtractFromTen = RJS.curry(subtract, [10]);
+		equal(subtractFromTen(1), 9);
+	});
+
+	test("currify", function() {
+		var subtract = function(x,y) { return x - y; };
+		var curriedSubtract = RJS.currify(subtract);
+		equal(curriedSubtract(10,1), 9, "If all arguments are specified, return the result.");
+		equal(curriedSubtract(1,10), -9, "Argument order is preserved (left curry)");
+
+		var addThree = function(x,y,z) { return x + y + z; };
+		var curriedAddThree = RJS.currify(addThree);
+		equal(curriedAddThree(1,2,4), 7, "If arguments are partially specified, return a new currified function.");
+		equal(curriedAddThree(1,2)(4), 7, "If arguments are partially specified, return a new currified function.");
+		equal(curriedAddThree(1)(2,4), 7, "If arguments are partially specified, return a new currified function.");
+		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
+	});
+
+	/******************************************************
+	 * PROTOTYPED
+	 ******************************************************/
 	module("rjs-proto");
 
 	test("new", function() {
@@ -126,7 +149,6 @@ $(function() {
 		equal(p.name, "Raine");
 		equal(p.age, 26);
 	});
-
 });
 </script>
 
