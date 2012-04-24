@@ -130,6 +130,13 @@ var RJS = (function() {
 		return results;
 	};
 
+	var each = function(arr, f) {
+		var len = arr.length;
+		for(var i=0; i<len; i++) {
+			f(arr[i], i);
+		}
+	};
+
 	var pluck = function(arr, property) {
 		return map(arr, function(item) {
 			return item[property];
