@@ -758,6 +758,7 @@ var RJS = (function() {
 		ordinal         : ordinal,
 		mapNumber       : mapNumber,
 		map             : map,
+		each             : each,
 		pluck           : pluck,
 		group           : group,
 		orderedGroup    : orderedGroup,
