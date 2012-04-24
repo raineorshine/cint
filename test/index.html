@@ -21,6 +21,16 @@ $(function() {
 
 	module("rjs");
 
+	test("each", function() {
+		var arr = [1,2,3,4,5];
+		var copyOut = [];
+		RJS.each(arr, function(x) {
+			copyOut.push(x * 2);
+		});
+		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list);
+		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+	});
+
 	test("filter", function() {
 		var arr = [1,2,3,4,5];
 		var even = function(n) { return n%2===0; };
@@ -138,6 +148,16 @@ $(function() {
 	 * PROTOTYPED
 	 ******************************************************/
 	module("rjs-proto");
+
+	test("each", function() {
+		var arr = [1,2,3,4,5];
+		var copyOut = [];
+		arr.each(function(x) {
+			copyOut.push(x * 2);
+		});
+		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list);
+		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+	});
 
 	test("new", function() {
 		var Person = function(name, age) {
