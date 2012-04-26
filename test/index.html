@@ -27,7 +27,7 @@ $(function() {
 		RJS.each(arr, function(x) {
 			copyOut.push(x * 2);
 		});
-		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list);
+		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list");
 		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
 	});
 
@@ -67,6 +67,20 @@ $(function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
 		deepEqual(RJS.pluck(arr, "a"), [1, 1, 0]);
 		deepEqual(RJS.pluck(arr, "b"), [2, 5, 10]);
+	});
+
+	test("any", function() {
+		var arr = [1,2,3,4,5];
+		equal(RJS.any(arr, function(x) { return x === 4; }), true, "If the given function returns true for any item in the array, return true.");
+		equal(RJS.any(arr, function(x) { return x > 10; }), false, "If the given function returns false for every item in the array, return false.");
+		equal(RJS.any([], function(x) { return true; }), false, "If the given array is empty, return false.");
+	});
+
+	test("all", function() {
+		var arr = [1,2,3,4,5];
+		equal(RJS.all(arr, function(x) { return x === 4; }), false, "If the given function returns true for each item in the array, return true.");
+		equal(RJS.all(arr, function(x) { return x < 10; }), true, "If the given function returns false for any item in the array, return false.");
+		equal(RJS.all([], function(x) { return false; }), true, "If the given array is empty, return true.");
 	});
 
 	asyncTest("callAfterDone", 4, function() {
@@ -155,7 +169,7 @@ $(function() {
 		arr.each(function(x) {
 			copyOut.push(x * 2);
 		});
-		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list);
+		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list");
 		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
 	});
 
@@ -169,6 +183,21 @@ $(function() {
 		equal(p.name, "Raine");
 		equal(p.age, 26);
 	});
+
+	test("any", function() {
+		var arr = [1,2,3,4,5];
+		equal(arr.any(function(x) { return x === 4; }), true, "If the given function returns true for any item in the array, return true.");
+		equal(arr.any(function(x) { return x > 10; }), false, "If the given function returns false for every item in the array, return false.");
+		equal([].any(function(x) { return true; }), false, "If the given array is empty, return false.");
+	});
+
+	test("all", function() {
+		var arr = [1,2,3,4,5];
+		equal(arr.all(function(x) { return x === 4; }), false, "If the given function returns true for each item in the array, return true.");
+		equal(arr.all(function(x) { return x < 10; }), true, "If the given function returns false for any item in the array, return false.");
+		equal([].all(function(x) { return false; }), true, "If the given array is empty, return true.");
+	});
+
 });
 </script>
 
