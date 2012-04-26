@@ -1,1 +1,1 @@
-A library of basic Javascript functions that nobody should be without.
+A library of Javascript utility functions with an emphasis on Functional Programming.
