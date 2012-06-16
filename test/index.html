@@ -158,6 +158,12 @@ $(function() {
 		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
 	});
 
+	test("range", function() {
+		deepEqual(RJS.range(2,5), [2,3,4,5], "Returns a range of numbers from start to end, inclusive.");
+		deepEqual(RJS.range(3), [1,2,3], "If one parameter is specified, returns a range of numbers from 1 to the given number, inclusive.");
+		deepEqual(RJS.range(), [], "If no parameters are specified, returns an empty array.");
+	});
+
 	/******************************************************
 	 * PROTOTYPED
 	 ******************************************************/
