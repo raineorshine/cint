@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "open test/index.html"
+    "test": "echo To run RJS unit tests, open test/index.html in a browser."
   },
   "repository": {
     "type": "git",
