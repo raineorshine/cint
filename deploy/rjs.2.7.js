@@ -1,5 +1,6 @@
 /** 
  * Raine's Javascript Extensions 
+ * v2.7
  * A library of basic Javascript functions that nobody should be without.
  */
 
@@ -91,6 +92,10 @@ var RJS = (function() {
 	var toTitleCase = function(str) {
 		var capitalizeFirst = function(s) { return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase(); };
 		return map(str.split(" "), capitalizeFirst).join(" ");
+	};
+
+	var strContains = function(str, look) {
+		return str.indexOf(look) !== -1;
 	};
 
 	/***********************************

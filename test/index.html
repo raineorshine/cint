@@ -164,6 +164,17 @@ $(function() {
 		deepEqual(RJS.range(), [], "If no parameters are specified, returns an empty array.");
 	});
 
+	test("stringContains", function() {
+		equal(RJS.strContains("abigail", "a"), true, "Returns true if the string contains the given substring at the beginning.");
+		equal(RJS.strContains("abigail", "big"), true, "Returns true if the string contains the given substring in the middle.");
+		equal(RJS.strContains("abigail", "gail"), true, "Returns true if the string contains the given substring at the end.");
+		equal(RJS.strContains("abigail", "z"), false, "Returns false if the string doesn't contain the given substring.");
+		equal(RJS.strContains("abigail", "bigger"), false, "Returns false if the string doesn't contain the given substring.");
+	});
+
+
+
+
 	/******************************************************
 	 * PROTOTYPED
 	 ******************************************************/
@@ -204,6 +215,13 @@ $(function() {
 		equal([].all(function(x) { return false; }), true, "If the given array is empty, return true.");
 	});
 
+	test("contains (string)", function() {
+		equal("abigail".contains("a"), true, "Returns true if the string contains the given substring at the beginning.");
+		equal("abigail".contains("big"), true, "Returns true if the string contains the given substring in the middle.");
+		equal("abigail".contains("gail"), true, "Returns true if the string contains the given substring at the end.");
+		equal("abigail".contains("z"), false, "Returns false if the string doesn't contain the given substring.");
+		equal("abigail".contains("bigger"), false, "Returns false if the string doesn't contain the given substring.");
+	});
 });
 </script>
 
