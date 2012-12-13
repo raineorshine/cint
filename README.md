@@ -7,13 +7,31 @@ A library of Javascript utility functions with an emphasis on Functional Program
 	<!-- Include RJS library -->
 	<script type="text/javascript" src="rjs.js"></script>
 
-	<!-- Prototypes the functions onto the appropriate native objects (OPTIONAL) -->
-	<script type="text/javascript" src="rjs-proto.js"></script>
-
 ## Node Land
 
 	RJS = require("./rjs");
-	require("./rjs-proto"); // optional
+
+# Prototyping Onto Native Objects
+While controversial, prototyping functions onto native objects can result in far more elegant code than doing otherwise.
+
+The majority of the functions in RJS center around native types like String, Number, Array, and Function, making them 
+perfect candidates for prototyping. Nothing is prototyped onto Object.
+
+Adding RJS functions to native objects is off by default. To opt-in, call RJS.installPrototypes:
+
+	RJS.installPrototypes();
+
+Now instead of writing awkward code like this:
+
+	RJS.map(people, function(person) {
+		return RJS.supplant("Hello {0}!", [person.name]);
+	});
+
+We can write elegant, intuitive code like this:
+
+	people.map(function() {
+		return "Hello {0}!".supplant([person.name]);
+	});
 
 # Unit Tests
 test/index.html
