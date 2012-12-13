@@ -1,7 +1,7 @@
 /** 
  * Raine's Javascript Extensions 
  * v2.7.1
- * A library of basic Javascript functions that nobody should be without.
+ * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
 var RJS = (function() {
@@ -343,7 +343,7 @@ var RJS = (function() {
 		return output;
 	};
 
-	/* Creates an object with a property for each element of the given array, determined by a function that returns the property as a { key: value }. */
+	/** Creates an object with a property for each element of the given array, determined by a function that returns the property as a { key: value }. */
 	var toObject = function(arr, f) {
 		var keyValues = [];
 		var len = arr.length;
@@ -490,7 +490,7 @@ var RJS = (function() {
 	};
 
 	/** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. */
-	var merge = function(/*arguments*/) {
+	var merge = function(/*obj1, obj2, obj3, ...*/) {
 
 		var mothership = {};
 		
