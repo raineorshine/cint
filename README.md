@@ -2,11 +2,18 @@ A library of Javascript utility functions with an emphasis on Functional Program
 
 # Usage
 
+## Browser Land
+
 	<!-- Include RJS library -->
 	<script type="text/javascript" src="rjs.js"></script>
 
 	<!-- Prototypes the functions onto the appropriate native objects (OPTIONAL) -->
 	<script type="text/javascript" src="rjs-proto.js"></script>
+
+## Node Land
+
+	RJS = require("./rjs");
+	require("./rjs-proto"); // optional
 
 # Unit Tests
 test/index.html
