@@ -52,7 +52,14 @@ test/index.html
 	// Returns true if the given function evaluates to true for all items in the given array. Returns true for [].
 	all(arr, f)
 
+	// Returns a new function that always passes the given curried arguments to the inner function before normal arguments.
 	curry(f, curriedArgs)
+
+	// Returns a new function that always passes the given curried arguments to the inner function after normal arguments.
+	rcurry(f, curriedArgs)
+
+	// Returns a new function that calls the given function with a limit on the number of arguments.
+	arritize(f, n)
 
 	// Returns a new function that automatically curries its arguments if not saturated.
 	currify(f, numArgs)

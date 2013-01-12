@@ -143,6 +143,21 @@ $(function() {
 		equal(subtractFromTen(1), 9);
 	});
 
+	test("rcurry", function() {
+		var subtract = function(x,y) { return x - y; };
+		var subtractTen = RJS.rcurry(subtract, [10]);
+		equal(subtractTen(100), 90);
+	});
+
+	test('arritize', function() {
+		var joinEm = function() { 
+			var givenArgs = Array.prototype.slice.call(arguments, 0);
+			return givenArgs.join('');
+		};
+		var joinTwo = RJS.arritize(joinEm, 2);
+		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
+	});
+
 	test("currify", function() {
 		var subtract = function(x,y) { return x - y; };
 		var curriedSubtract = RJS.currify(subtract);
@@ -221,6 +236,27 @@ $(function() {
 		equal("abigail".contains("gail"), true, "Returns true if the string contains the given substring at the end.");
 		equal("abigail".contains("z"), false, "Returns false if the string doesn't contain the given substring.");
 		equal("abigail".contains("bigger"), false, "Returns false if the string doesn't contain the given substring.");
+	});
+
+	test("curry", function() {
+		var subtract = function(x,y) { return x - y; };
+		var subtractFromTen = subtract.curry([10]);
+		equal(subtractFromTen(1), 9);
+	});
+
+	test("rcurry", function() {
+		var subtract = function(x,y) { return x - y; };
+		var subtractTen = subtract.rcurry([10]);
+		equal(subtractTen(100), 90);
+	});
+
+	test('arritize', function() {
+		var joinEm = function() { 
+			var givenArgs = Array.prototype.slice.call(arguments, 0);
+			return givenArgs.join('');
+		};
+		var joinTwo = joinEm.arritize(2);
+		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 	});
 });
 </script>
