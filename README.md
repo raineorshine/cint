@@ -68,7 +68,6 @@ test/index.html
 	callTillValue(value)
 
 	// Returns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
-		@param thisIndex	Forwards 'this' at the given parameter index. Default: 0.
 	toInstance(f, thisIndex)
 
 	// Assigns the given list of methods from the host object to the protoObj's prototype after converting them with toInstance.
@@ -77,11 +76,9 @@ test/index.html
 ## String functions
 
 	// Performs variable substitution on the string, replacing items in {curly braces}.
-	@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	supplant(str, o)
 
 	// Removes whitespace from both ends of a string.
-		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	trim(str)
 
 	// Returns true if the string starts with the given substring.
@@ -181,7 +178,6 @@ test/index.html
 	joinObj(obj, propSeparator, valueSeparator)
 
 	// Returns true if the object has no non-undefined properties.
-		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	isEmpty(o)
 
 	// Returns the number of properties on the given object.
@@ -200,7 +196,7 @@ test/index.html
 	filterObject(obj, f)
 
 	// Changes the specified keys in an object. 
-	@example { fname: "Raine", lname: "Lourie", specialty: "Javascript" }, 
+	// @example { fname: "Raine", lname: "Lourie", specialty: "Javascript" }, 
 	changeKeys(obj, changedKeys)
 
 ## Utility functions
@@ -227,11 +223,9 @@ test/index.html
 	guid()
 
 	// Returns a string representing the type of the object, with special handling for null and arrays.
-		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	typeOf(value)
 
 	// Calls the given constructor and returns the new instance. Useful for higher order programmer where the new keyword won't work. 
-		@warning Does not support more than 10 arguments! Done this way because accessing __proto__ directly for true variable number of arguments doesn't seem to be consistent across browsers. http://lmeyerov.blogspot.com/2007/12/wrapping-javascript-new-constructor.html
 	createNew(f)
 
 	// Invokes a callback after all the given asynchronous functions have completed. All asynchronous functions must accept a single callback argument.
