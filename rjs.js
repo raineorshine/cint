@@ -529,11 +529,14 @@ var RJS = (function() {
 		return mothership;
 	};
 
-	/** Returns a new object with f(key, value) applied for each property in the given object. */
+	/** Returns a new object where f(key, value) returns a new key-value pair for each property. */
 	var mapObject = function(obj, f) {
 		var result = {};
 		for(var key in obj) {
-			result[key] = f(key, obj[key]);
+			pair = f(key, obj[key]);
+			for(var prop in pair) {
+				result[prop] = pair[prop];
+			}
 		}
 		return result;
 	};

@@ -100,7 +100,7 @@ test/index.html
 
 	strContains(str, look)
 
-	## Number functions
+## Number functions
 
 	// Returns the ordinal value (like "1st" or "2nd") of the given integer.
 	ordinal(n)
@@ -186,7 +186,7 @@ test/index.html
 	// Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments.
 	merge(/*obj1, obj2, obj3, ...*/)
 
-	// Returns a new object with f(key, value) applied for each property in the given object.
+	// Returns a new object where f(key, value) returns a new key-value pair for each property.
 	mapObject(obj, f)
 
 	// Returns an array whose items are the result of calling f(key, value) on each property of the given object.
