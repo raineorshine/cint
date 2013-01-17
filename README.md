@@ -1,15 +1,37 @@
 A library of Javascript utility functions with an emphasis on Functional Programming.
 
-# Usage
+# Installation
 
 ## Browser Land
 
-	<!-- Include RJS library -->
+Download rjs.js from the repository, or get it with curl:
+
+	curl https://raw.github.com/RaineOrShine/rjs/master/rjs.js > rjs.js	
+
+Include it:
+
 	<script type="text/javascript" src="rjs.js"></script>
 
 ## Node Land
 
-	RJS = require("./rjs");
+From the command line:
+
+	npm install rjs
+
+Or add it as a dependency:
+
+	npm view rjs version	# find out the latest published version
+
+	# add to package.json
+	"dependencies": {
+	    "rjs":            "{VERSION}",
+	    ...
+
+	npm update
+
+Require it:
+
+	RJS = require("rjs");
 
 # Prototyping Onto Native Objects
 While controversial, prototyping functions onto native objects can result in far more elegant code than doing otherwise.
@@ -20,6 +42,10 @@ perfect candidates for prototyping. Nothing is prototyped onto Object.
 Adding RJS functions to native objects is off by default. To opt-in, call RJS.installPrototypes:
 
 	RJS.installPrototypes();
+
+Require and install prototypes in one line:
+
+	RJS = require(".rjs").installPrototypes();
 
 Now instead of writing awkward code like this:
 
