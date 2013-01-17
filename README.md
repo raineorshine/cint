@@ -34,10 +34,24 @@ Require it:
 	RJS = require("rjs");
 
 # Prototyping Onto Native Objects
-While controversial, prototyping functions onto native objects can result in far more elegant code than doing otherwise.
+While controversial, prototyping functions onto some native objects can result in especially elegant code.
 
 The majority of the functions in RJS center around native types like String, Number, Array, and Function, making them 
 perfect candidates for prototyping. Nothing is prototyped onto Object.
+
+Instead of this:
+
+	RJS.map(people, function(person) {
+		return RJS.supplant("Hello {0}!", [person.name]);
+	});
+
+Consider the following: 
+
+	people.map(function() {
+		return "Hello {0}!".supplant([person.name]);
+	});
+
+Beautiful! It's more intuitive because it conforms to the subject-verb-object structure of the English language.
 
 Adding RJS functions to native objects is off by default. To opt-in, call RJS.installPrototypes:
 
@@ -46,18 +60,6 @@ Adding RJS functions to native objects is off by default. To opt-in, call RJS.in
 Require and install prototypes in one line:
 
 	RJS = require(".rjs").installPrototypes();
-
-Now instead of writing awkward code like this:
-
-	RJS.map(people, function(person) {
-		return RJS.supplant("Hello {0}!", [person.name]);
-	});
-
-We can write elegant, intuitive code like this:
-
-	people.map(function() {
-		return "Hello {0}!".supplant([person.name]);
-	});
 
 # Unit Tests
 test/index.html
