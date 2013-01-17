@@ -57,6 +57,12 @@ $(function() {
 
 	});
 
+	test("index", function() {
+		var arr = [1,2,3,4,5];
+		equal(RJS.index(arr, 2), 3, 'Index into an array as normal');
+		equal(RJS.index(arr, -1), 5, 'Negative index');
+		equal(RJS.index(arr, 16), 2, 'Out of bounds index');
+	});
 
 	test("new", function() {
 		var Person = function(name, age) {
@@ -89,59 +95,16 @@ $(function() {
 		equal(RJS.all([], function(x) { return false; }), true, "If the given array is empty, return true.");
 	});
 
-	asyncTest("callAfterDone", 4, function() {
-		var queue1 = [
-			function(cb) { cb(1); }, 
-			function(cb) { cb(2); }
-		];
-		RJS.callAfterDone(queue1, function(results) {
-			ok(true, "Final callback called");
-			deepEqual(results, [1,2], "When the function queue is an array, results are passed to the final callback in original order");
-			start();
-		});
+	test("curryAt", function() {
+		var subtract = function(x,y) { return x - y; };
+		var subtractFromTen = RJS.curryAt(subtract, 0, [10]);
+		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
 
-		var queue2 = {
-			a: function(cb) { cb(1); }, 
-			b: function(cb) { cb(2); }
-		};
-		RJS.callAfterDone(queue2, function(results) {
-			deepEqual(results, { a: 1, b: 2 }, "When the function queue is an object, results are passed to the final callback with original keys");
-			start();
-		});
+		var subtractTen = RJS.curryAt(subtract, 1, [10]);
+		equal(subtractTen(100), 90, 'Inject arguments in the middle.');
 
-		var queue3 = {
-			a: [
-				function(cb) { cb("a.a1"); },
-				function(cb) { cb("a.a2"); },
-			], 
-			b: {
-				b1: function(cb) { cb("b.b1"); },
-				b2: {
-					c: {
-						d: function(cb) { cb("b.b2.c.d"); }
-					}
-				}
-			}
-		};
-
-		RJS.callAfterDone(queue3, function(results) {
-			var recursiveResult = {
-				a: [
-					"a.a1",
-					"a.a2",
-				], 
-				b: {
-					b1: "b.b1",
-					b2: {
-						c: {
-							d: "b.b2.c.d"
-						}
-					}
-				}
-			};
-			deepEqual(results, recursiveResult, "When the function queue is an object, results are passed to the final callback with original keys");
-			start();
-		});
+		var subtractTwenty = RJS.curryAt(subtract, -1, [20])
+		equal(subtractTwenty(100), 80, 'Handles negative indexes');
 	});
 
 	test("curry", function() {
@@ -177,6 +140,12 @@ $(function() {
 		equal(curriedAddThree(1,2)(4), 7, "If arguments are partially specified, return a new currified function.");
 		equal(curriedAddThree(1)(2,4), 7, "If arguments are partially specified, return a new currified function.");
 		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
+	});
+
+	test("spliced", function() {
+		var arr = [1,2,3,4,5];
+		deepEqual(RJS.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
+		deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
 	});
 
 	test("range", function() {
@@ -245,6 +214,18 @@ $(function() {
 		equal("abigail".contains("bigger"), false, "Returns false if the string doesn't contain the given substring.");
 	});
 
+	test("curryAt", function() {
+		var subtract = function(x,y) { return x - y; };
+		var subtractFromTen = subtract.curryAt(0, [10]);
+		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
+
+		var subtractTen = subtract.curryAt(1, [10]);
+		equal(subtractTen(100), 90, 'Inject arguments in the middle.');
+
+		var subtractTwenty = subtract.curryAt(-1, [20])
+		equal(subtractTwenty(100), 80, 'Handles negative indexes');
+	});
+
 	test("curry", function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractFromTen = subtract.curry([10]);
@@ -265,6 +246,13 @@ $(function() {
 		var joinTwo = joinEm.arritize(2);
 		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 	});
+
+	test("spliced", function() {
+		var arr = [1,2,3,4,5];
+		deepEqual(arr.spliced(2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
+		deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
+	});
+
 });
 </script>
 

@@ -80,6 +80,11 @@ test/index.html
 	// Returns true if the given function evaluates to true for all items in the given array. Returns true for [].
 	all(arr, f)
 
+	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
+		i.e. A normal curry is equivalent to f.curryAt(0, args) and an rcurry is equivalent to f.curryAt(n, args) where n is the arrity of the function.
+	*/
+	curryAt(f, index, curriedArgs)
+
 	// Returns a new function that always passes the given curried arguments to the inner function before normal arguments.
 	curry(f, curriedArgs)
 
@@ -255,6 +260,3 @@ test/index.html
 
 	// Calls the given constructor and returns the new instance. Useful for higher order programmer where the new keyword won't work. 
 	createNew(f)
-
-	// Invokes a callback after all the given asynchronous functions have completed. All asynchronous functions must accept a single callback argument.
-	callAfterDone(requests, callback)
