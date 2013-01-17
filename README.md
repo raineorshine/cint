@@ -47,7 +47,7 @@ Instead of this:
 
 Consider the following: 
 
-	people.map(function() {
+	people.map(function(person) {
 		return "Hello {0}!".supplant([person.name]);
 	});
 
