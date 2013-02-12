@@ -57,11 +57,18 @@ $(function() {
 
 	});
 
-	test("index", function() {
+	test("index (array)", function() {
 		var arr = [1,2,3,4,5];
 		equal(RJS.index(arr, 2), 3, 'Index into an array as normal');
 		equal(RJS.index(arr, -1), 5, 'Negative index');
 		equal(RJS.index(arr, 16), 2, 'Out of bounds index');
+	});
+
+	test("index (string)", function() {
+		var str = "abcde";
+		equal(RJS.index(str, 2), 'c', 'Index into an array as normal');
+		equal(RJS.index(str, -1), 'e', 'Negative index');
+		equal(RJS.index(str, 16), 'b', 'Out of bounds index');
 	});
 
 	test("new", function() {
@@ -190,6 +197,20 @@ $(function() {
 		ok(p instanceof Person);
 		equal(p.name, "Raine");
 		equal(p.age, 26);
+	});
+
+	test("index (array)", function() {
+		var arr = [1,2,3,4,5];
+		equal(arr.index(2), 3, 'Index into an array as normal');
+		equal(arr.index(-1), 5, 'Negative index');
+		equal(arr.index(16), 2, 'Out of bounds index');
+	});
+
+	test("index (string)", function() {
+		var str = "abcde";
+		equal(str.index(2), 'c', 'Index into an array as normal');
+		equal(str.index(-1), 'e', 'Negative index');
+		equal(str.index(16), 'b', 'Out of bounds index');
 	});
 
 	test("any", function() {
