@@ -475,24 +475,17 @@ var RJS = (function() {
 		return output;
 	}
 
-	/** Breaks up the array into n evenly-sized chunks. */
-	var chunk = function(arr, n) {
-		var output = [];
-		var len = arr.length;
-		var bigSize = Math.ceil(len/n);
-		var smallSize = bigSize - 1;
-		var rem = len % n;
-
-		var size = bigSize;
-		for(var i=0; i<len; i+=size) {
-			if(rem > 0 && i >= rem * bigSize) {
-				size = smallSize;
+	/** Breaks up the array into n evenly-sized chunks. 
+		  Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
+	*/
+	function chunk(a, n) {
+			var len = a.length,out = [], i = 0;
+			while (i < len) {
+					var size = Math.ceil((len - i) / n--);
+					out.push(a.slice(i, i += size));
 			}
-			output.push(arr.slice(i, i+size));
-		}
-
-		return output;
-	}
+			return out;
+	}	
 
 
 	/***********************************
