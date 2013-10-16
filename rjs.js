@@ -1,6 +1,6 @@
 /** 
  * Raine's Javascript Extensions 
- * v2.9.0
+ * v2.11.0
  * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
@@ -458,6 +458,43 @@ var RJS = (function() {
 		});
 	};
 
+	/** Returns a new array with the array's items in random order. */
+	var randomize = function(arr) {
+		var output = arr.slice();
+		function swap(i,j) {
+			var temp = output[i];
+			output[i] = output[j];
+			output[j] = temp;
+		}
+
+		for(var i=0, len=output.length; i<len; i++) {
+			var r = Math.floor(Math.random() * len);
+			swap(i, r);
+		}
+
+		return output;
+	}
+
+	/** Breaks up the array into n evenly-sized chunks. */
+	var chunk = function(arr, n) {
+		var output = [];
+		var len = arr.length;
+		var bigSize = Math.ceil(len/n);
+		var smallSize = bigSize - 1;
+		var rem = len % n;
+
+		var size = bigSize;
+		for(var i=0; i<len; i+=size) {
+			if(rem > 0 && i >= rem * bigSize) {
+				size = smallSize;
+			}
+			output.push(arr.slice(i, i+size));
+		}
+
+		return output;
+	}
+
+
 	/***********************************
 	 * Object
 	 ***********************************/
@@ -771,7 +808,7 @@ var RJS = (function() {
 		var rjs = rjs || RJS;
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
-		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced' ]);
+		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
 		install(Function, rjs, ['curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new']);
 		return rjs;
 	};
@@ -832,6 +869,8 @@ var RJS = (function() {
 		range			: range,
 		filter          : filter,
 		filterBy        : filterBy,
+		randomize				: randomize,
+		chunk						: chunk,
 
 		// object
 		keys            : keys,

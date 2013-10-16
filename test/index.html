@@ -42,6 +42,32 @@ $(function() {
 		deepEqual(RJS.filterBy(arr, "a", 1), [{a: 1, b: 2}, {a: 1, b: 5}], "Filter an array of objects by a given property value.");
 	});
 
+	test('randomize', function() {
+		var students = ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'];
+
+		equal(students.length, RJS.randomize(students).length, 'same length as original');
+
+		// this is a really sketchy way to test randomization
+		notDeepEqual(students, RJS.randomize(students));
+		notDeepEqual(students, RJS.randomize(students));
+		notDeepEqual(students, RJS.randomize(students));
+		notDeepEqual(students, RJS.randomize(students));
+		notDeepEqual(students, RJS.randomize(students));
+
+		deepEqual(students, ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'], 'Original array is unchanged');
+	})
+
+	test('chunk', function() {
+		var arr = [1,2,3,4,5,6,7,8,9,10];
+		deepEqual(RJS.chunk(arr, 1), [[1,2,3,4,5,6,7,8,9,10]]);
+		deepEqual(RJS.chunk(arr, 2), [[1,2,3,4,5], [6,7,8,9,10]]);
+		deepEqual(RJS.chunk(arr, 3), [[1,2,3,4], [5,6,7], [8,9,10]]);
+		deepEqual(RJS.chunk(arr, 7), [[1,2], [3,4], [5,6], [7], [8], [9], [10]]);
+		deepEqual(RJS.chunk(arr, 10), [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]);
+		deepEqual(arr, [1,2,3,4,5,6,7,8,9,10], 'Original array is unchanged');
+	})
+
+
 	test("mapObject", function() {
 		var o = { a: 1, b: 2, c: 3 };
 		var swap = function(k,v) { return RJS.keyValue(v,k); };
@@ -169,6 +195,30 @@ $(function() {
 		equal(RJS.strContains("abigail", "bigger"), false, "Returns false if the string doesn't contain the given substring.");
 	});
 
+	test('randomize', function() {
+		var students = ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'];
+
+		equal(students.length, students.randomize().length, 'same length as original');
+
+		// this is a really sketchy way to test randomization
+		notDeepEqual(students, students.randomize());
+		notDeepEqual(students, students.randomize());
+		notDeepEqual(students, students.randomize());
+		notDeepEqual(students, students.randomize());
+		notDeepEqual(students, students.randomize());
+
+		deepEqual(students, ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'], 'Original array is unchanged');
+	})
+
+	test('chunk', function() {
+		var arr = [1,2,3,4,5,6,7,8,9,10];
+		deepEqual(arr.chunk(1), [[1,2,3,4,5,6,7,8,9,10]]);
+		deepEqual(arr.chunk(2), [[1,2,3,4,5], [6,7,8,9,10]]);
+		deepEqual(arr.chunk(3), [[1,2,3,4], [5,6,7], [8,9,10]]);
+		deepEqual(arr.chunk(7), [[1,2], [3,4], [5,6], [7], [8], [9], [10]]);
+		deepEqual(arr.chunk(10), [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]);
+		deepEqual(arr, [1,2,3,4,5,6,7,8,9,10], 'Original array is unchanged');
+	})
 
 
 
