@@ -1,8 +1,5 @@
 /** 
  * Raine's Javascript Extensions 
- * TODO: Use Handlebars to insert version number from Cakefile
- *		supplantFile(filename, { version: 'test' });
- * {version}
  * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
