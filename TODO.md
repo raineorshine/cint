@@ -8,3 +8,5 @@
 	};
 
 * currify everything!
+* dynamically insert version number into cake file
+* add minified version

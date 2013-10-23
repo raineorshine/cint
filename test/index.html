@@ -20,6 +20,30 @@ $(function() {
 
 	module("rjs");
 
+	test("map", function() {
+		var arr = [1,2,3,4,5];
+		var copyOut = [];
+		function double(x) {
+			return x * 2;
+		}
+		deepEqual(RJS.map(arr, double), [2,4,6,8,10]);
+		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+
+		var abc = [
+			function() { return 'a'; },
+			function() { return 'b'; },
+			function() { return 'c'; }
+		];
+		deepEqual(RJS.map(abc), ['a', 'b', 'c']);
+
+		var abcIndices = [
+			function(i) { return 'a' + i; },
+			function(i) { return 'b' + i; },
+			function(i) { return 'c' + i; }
+		];
+		deepEqual(RJS.map(abcIndices), ['a0', 'b1', 'c2']);
+	});
+
 	test("each", function() {
 		var arr = [1,2,3,4,5];
 		var copyOut = [];

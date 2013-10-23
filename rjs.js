@@ -222,12 +222,12 @@ var RJS = (function() {
 	 * Array
 	 ***********************************/
 
-	/** Calls a function on each item in an array and returns a new array of the results. */
+	/** Calls a function on each item in an array and returns a new array of the results. If f is not defined, attempts to call each item in the array as a function. */
 	var map = function(arr, f) {
 		var results = [];
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
-			results.push(f(arr[i], i));
+			results.push(f ? f(arr[i], i) : arr[i](i));
 		}
 		return results;
 	};
@@ -704,7 +704,7 @@ var RJS = (function() {
 				}
 			}
 		}
-		// compare scalars
+		// compare primitives
 		else if(typeof(a) === 'number' || typeof(a) === 'string' || typeof(a) === 'boolean' || typeof(a) === 'undefined') {
 			if(a !== b) {
 				return false;
@@ -719,7 +719,7 @@ var RJS = (function() {
 			}
 		}
 		else {
-			return false;
+			return a === b;
 		}
 
 		return true;
