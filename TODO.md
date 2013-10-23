@@ -10,3 +10,6 @@
 * currify everything!
 * dynamically insert version number into cake file
 * add minified version
+* split into two libraries:
+	- utility functions not included in underscore
+	- installPrototypes
