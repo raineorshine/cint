@@ -67,6 +67,13 @@ var RJS = (function() {
 	/** Returns a new function that always passes the given curried arguments to the inner function after normal arguments. */
 	var rcurry = curryAt(curryAt, 1, -1);
 
+	/** Returns a new function that calls a function within a given scope. */
+	var bind = function(f, context) {
+		return function() {
+			return f.apply(context, arguments);
+		}
+	}
+
 	/** Returns a new function that calls the given function with a limit on the number of arguments. */
 	var arritize = function(f, n) {
 		return function() {
@@ -135,7 +142,7 @@ var RJS = (function() {
 	 ***********************************/
 
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
-		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+		Based on supplant by Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
 	var supplant = function(str, o) {
 
@@ -239,9 +246,12 @@ var RJS = (function() {
 		}
 	};
 
+	/** Returns a list of values plucked from the property from the given array. If the values are functions,
+	they wll be bound to the array item. */
 	var pluck = function(arr, property) {
 		return map(arr, function(item) {
-			return item[property];
+			var val = item[property];
+			return typeof val === 'function' ? val.bind(item) : val;
 		});
 	};
 
@@ -804,7 +814,7 @@ var RJS = (function() {
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
-		install(Function, rjs, ['curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new']);
+		install(Function, rjs, ['any', 'all', 'bind', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new']);
 		return rjs;
 	};
 
@@ -820,6 +830,7 @@ var RJS = (function() {
 		not             : not,
 		any				: any,
 		all				: all,
+		bind				: bind,
 		curryAt			: curryAt,
 		curry			: curry,
 		rcurry			: rcurry,

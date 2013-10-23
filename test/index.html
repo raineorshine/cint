@@ -136,6 +136,16 @@ $(function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
 		deepEqual(RJS.pluck(arr, "a"), [1, 1, 0]);
 		deepEqual(RJS.pluck(arr, "b"), [2, 5, 10]);
+
+		var arr = [
+			{a: 'x', f: function() { return this.a; }}, 
+			{a: 'y', f: function() { return this.a; }}, 
+			{a: 'z', f: function() { return this.a; }}, 
+		];
+		var plucked = RJS.pluck(arr, 'f');
+		deepEqual(plucked[0](), 'x');
+		deepEqual(plucked[1](), 'y');
+		deepEqual(plucked[2](), 'z');
 	});
 
 	test("any", function() {
@@ -151,6 +161,20 @@ $(function() {
 		equal(RJS.all(arr, function(x) { return x < 10; }), true, "If the given function returns false for any item in the array, return false.");
 		equal(RJS.all([], function(x) { return false; }), true, "If the given array is empty, return true.");
 	});
+
+	test('bind', function() {
+		var a = {
+			_someval: 100,
+			f: function() { return this._someval; }
+		}
+		var b = {
+			_someval: 200
+		};
+		var bound = RJS.bind(a.f, b);
+
+		equal(bound(), 200);
+		equal(bound.call(null), 200);
+	})
 
 	test("curryAt", function() {
 		var subtract = function(x,y) { return x - y; };
@@ -199,6 +223,38 @@ $(function() {
 		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
 	});
 
+	// string
+	test('supplant', function() {
+
+		equal(RJS.supplant('{0} walks his {1} in the {2}.', 
+			['Jim', 'dinosaur', 'park']), 
+			'Jim walks his dinosaur in the park.', 
+			'Supplant with array by index');
+
+		equal(RJS.supplant('{owner} walks his {pet} in the {place}.', 
+			{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
+			'Jim walks his dinosaur in the park.', 
+			'Supplant with object by key');
+
+		equal(RJS.supplant('{owner} walks his {pet} in the {place}.', 
+			{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
+			'Jim walks his dinosaur in the park.', 
+			'Supplant with object by key');
+
+		equal(RJS.supplant('{owner} walks his {pet} in the {place}.', 
+			{ owner: 'Jim', pet: 'dinosaur' }), 
+			'Jim walks his dinosaur in the {place}.', 
+			'Ignores non-existant keys');
+
+		var Dino = function() {};
+		Dino.prototype.toString = function() { return 'dinosaur'; };
+		equal(RJS.supplant('{owner} walks his {pet}.', 
+			{ owner: 'Jim', pet: new Dino() }), 
+			'Jim walks his dinosaur.', 
+			'toStrings all values to be interpolated');
+	})
+
+	// array
 	test("spliced", function() {
 		var arr = [1,2,3,4,5];
 		deepEqual(RJS.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
