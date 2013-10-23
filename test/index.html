@@ -254,6 +254,12 @@ $(function() {
 			'toStrings all values to be interpolated');
 	})
 
+	test('bookend', function() {
+		equal(RJS.bookend('b', 'a', 'c'), 'abc', 'Add a string to the beginning and a string to the end of a string.')
+		equal(RJS.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
+		equal(RJS.bookend('b'), 'b', 'Ignores falsey begin and end values')
+	})
+
 	// array
 	test("spliced", function() {
 		var arr = [1,2,3,4,5];

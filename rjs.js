@@ -13,39 +13,39 @@ var RJS = (function() {
 	 ***********************************/
 
 	/** Identity function. */
-	var I = function(x) { return x; };
+	function I(x) { return x; }
 
 	/** Returns a function that returns the inverse of the given boolean function. */
-	var not = function(f) { 
+	function not(f) { 
 		return function() { 
 			return !f.apply(this, arguments); 
 		} 
-	};
+	}
 
 	/** Returns true if the given function evaluates to true for any item in the given array. Returns false for []. */
-	var any = function(arr, f) {
+	function any(arr, f) {
 		for(var i=0, len=arr.length; i<len; i++) {
 			if(f(arr[i])) {
 				return true;
 			}
 		}
 		return false;
-	};
+	}
 
 	/** Returns true if the given function evaluates to true for all items in the given array. Returns true for []. */
-	var all = function(arr, f) {
+	function all(arr, f) {
 		for(var i=0, len=arr.length; i<len; i++) {
 			if(!f(arr[i])) {
 				return false;
 			}
 		}
 		return true;
-	};
+	}
 
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
 		i.e. A normal curry is equivalent to f.curryAt(0, args) and an rcurry is equivalent to f.curryAt(n, args) where n is the arrity of the function.
 	*/
-	var curryAt = function(f, index, curriedArgs) {
+	function curryAt(f, index, curriedArgs) {
 		return function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0);
 
@@ -59,7 +59,7 @@ var RJS = (function() {
 			var newArgs = spliced.apply(this, spliceArgs);
 			return f.apply(this, newArgs);
 		};
-	};
+	}
 
 	/** Returns a new function that always passes the given curried arguments to the inner function before normal arguments. */
 	var curry = curryAt(curryAt, 1, 0);
@@ -68,14 +68,14 @@ var RJS = (function() {
 	var rcurry = curryAt(curryAt, 1, -1);
 
 	/** Returns a new function that calls a function within a given scope. */
-	var bind = function(f, context) {
+	function bind(f, context) {
 		return function() {
 			return f.apply(context, arguments);
 		}
 	}
 
 	/** Returns a new function that calls the given function with a limit on the number of arguments. */
-	var arritize = function(f, n) {
+	function arritize(f, n) {
 		return function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0, n);
 			return f.apply(this, givenArgs);
@@ -83,7 +83,7 @@ var RJS = (function() {
 	};
 
 	/** Returns a new function that automatically curries its arguments if not saturated. */
-	var currify = function(f, numArgs) {
+	function currify(f, numArgs) {
 
 		if(numArgs === undefined) {
 			numArgs = f.length;
@@ -96,26 +96,26 @@ var RJS = (function() {
 				f.apply(this, arguments) :
 				currify(curry(f, givenArgs), argsDiff)
 		};
-	};
+	}
 
 	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
-	var callTillValue = function(value) {
+	function callTillValue(value) {
 		return typeof(value) == 'function' ? callTillValue(value()) : value;
-	};
+	}
 
 	/** Returns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
 		@param thisIndex	Forwards 'this' at the given parameter index. Default: 0.
 	*/
-	var toInstance = function(f, thisIndex) {
+	function toInstance(f, thisIndex) {
 		thisIndex = thisIndex || 0;
 		return function() {
 			var args = Array.prototype.slice.apply(arguments);
 			return f.apply(this, rotate([].concat([this], args), -thisIndex));
 		};
-	};
+	}
 
 	/** Assigns the given list of methods from the host object to the protoObj's prototype after converting them with toInstance. */
-	var install = function(protoObj, host, methods, thisIndex) {
+	function install(protoObj, host, methods, thisIndex) {
 		var len = methods.length;
 		for(var i=0; i<len; i++) {
 
@@ -135,7 +135,7 @@ var RJS = (function() {
 
 			protoObj.prototype[protoKey] = toInstance(host[hostKey], thisIndex);
 		}
-	};
+	}
 
 	/***********************************
 	 * String
@@ -144,7 +144,7 @@ var RJS = (function() {
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
 		Based on supplant by Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
-	var supplant = function(str, o) {
+	function supplant(str, o) {
 
 		if(arguments.length > 2) {
 			o = [].slice.apply(arguments, [1]);
@@ -155,57 +155,62 @@ var RJS = (function() {
 				return b in o ? o[b] : a;
 			}
 		);
-	};
+	}
 
 	/** Removes whitespace from both ends of a string.
 		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
-	var trim = function(str) {
+	function trim(str) {
 		return str.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, '$1');
-	};
+	}
 
 	/** Returns true if the string starts with the given substring. */
-	var startsWith = function(str, sub){
+	function startsWith(str, sub){
 		return (str.indexOf(sub) === 0);
-	};
+	}
 
 	/** Returns the substring before the first instance of the given delimiter. */
-	var before = function(str, delim) { 
+	function before(str, delim) { 
 		return str.split(delim)[0]; 
-	};
+	}
 
 	/** Returns the substring after the first instance of the given delimiter. Returns the whole string if the delimiter is not found. */
-	var after = function(str, delim) {
+	function after(str, delim) {
 		var delimIndex = str.indexOf(delim);
 		return delimIndex >= 0 ?
 			str.substring(delimIndex+delim.length) : str;
-	};
+	}
 
 	/** Returns the substring between the given delimiters. */
-	var between = function(str, left, right) { 
+	function between(str, left, right) { 
 		return before(after(str, left), right); 
-	};
+	}
+
+	/** Wraps a string with a beginning & end. */
+	function bookend(middle, beg, end) {
+		return (beg || '') + middle + (end || beg || '');
+	}
 
 	/** Returns a single string that repeats the string n times. */
-	var repeatString = function(str, n, delim) {
+	function repeatString(str, n, delim) {
 		delim = delim || '';
 		return mapNumber(n, function(i) { return str; }).join(delim);
-	};
+	}
 
-	var toTitleCase = function(str) {
+	function toTitleCase(str) {
 		var capitalizeFirst = function(s) { return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase(); };
 		return map(str.split(' '), capitalizeFirst).join(' ');
-	};
+	}
 
-	var strContains = function(str, look) {
+	function strContains(str, look) {
 		return str.indexOf(look) !== -1;
-	};
+	}
 
 	/***********************************
 	 * Number
 	 ***********************************/
 	/** Returns the ordinal value (like '1st' or '2nd') of the given integer. */
-	var ordinal = function(n) {
+	function ordinal(n) {
 		var lastDigit = n%10;
 		return n + (
 			n >= 11 && n <= 13 ? 'th' :
@@ -213,16 +218,16 @@ var RJS = (function() {
 			lastDigit === 2 ? 'nd' :
 			lastDigit === 3 ? 'rd' : 
 			'th');
-	};
+	}
 
 	/** Invokes the given function n times, passing the index for each invocation, and returns an array of the results. */
-	var mapNumber = function(n, f) {
+	function mapNumber(n, f) {
 		var results = [];
 		for(var i=0; i<n; i++) {
 			results.push(f(i));
 		}
 		return results;
-	};
+	}
 
 
 	/***********************************
@@ -230,33 +235,33 @@ var RJS = (function() {
 	 ***********************************/
 
 	/** Calls a function on each item in an array and returns a new array of the results. If f is not defined, attempts to call each item in the array as a function. */
-	var map = function(arr, f) {
+	function map(arr, f) {
 		var results = [];
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			results.push(f ? f(arr[i], i) : arr[i](i));
 		}
 		return results;
-	};
+	}
 
-	var each = function(arr, f) {
+	function each(arr, f) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			f(arr[i], i);
 		}
-	};
+	}
 
 	/** Returns a list of values plucked from the property from the given array. If the values are functions,
 	they wll be bound to the array item. */
-	var pluck = function(arr, property) {
+	function pluck(arr, property) {
 		return map(arr, function(item) {
 			var val = item[property];
 			return typeof val === 'function' ? val.bind(item) : val;
 		});
-	};
+	}
 
 	/** Group the array of objects by one of the object's properties or mappable function. Returns a dictionary containing the original array's items indexed by the property value. */
-	var group = function(arr, propOrFunc) {
+	function group(arr, propOrFunc) {
 
 		if(propOrFunc === undefined) {
 			throw new Error('You must specify a property name or mappable function.');
@@ -277,9 +282,9 @@ var RJS = (function() {
 		};
 
 		return dict;
-	};
+	}
 
-	var orderedGroup = function(arr, propOrFunc) {
+	function orderedGroup(arr, propOrFunc) {
 
 		if(!propOrFunc) {
 			throw new Error('You must specific a property name or mappable function.');
@@ -302,10 +307,10 @@ var RJS = (function() {
 		};
 
 		return results;
-	};
+	}
 
 	/** Returns a dictionary whose keys are the values of the array and values are the number of instances of that value within the array. */
-	var tally = function(arr) {
+	function tally(arr) {
 		var dict = {};
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
@@ -313,10 +318,10 @@ var RJS = (function() {
 			dict[arr[i]] = count + 1;
 		};
 		return dict;
-	};
+	}
 
 	/** Returns true if the array contains the given value (==). */
-	var contains = function(arr, value) {
+	function contains(arr, value) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			if(arr[i] == value) {
@@ -324,10 +329,10 @@ var RJS = (function() {
 			}
 		}
 		return false;
-	};
+	}
 
 	/** Returns true if the array contains the given value (===). */
-	var strictContains = function(arr, value) {
+	function strictContains(arr, value) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			if(arr[i] === value) {
@@ -335,10 +340,10 @@ var RJS = (function() {
 			}
 		}
 		return false;
-	};
+	}
 
 	/** Returns the unique values in the array. */
-	var unique = function(arr) {
+	function unique(arr) {
 		var output = [];
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
@@ -347,21 +352,22 @@ var RJS = (function() {
 			}
 		}
 		return output;
-	};
+	}
 
 	/** Returns the reverse of the given array. Unlike the native reverse, does not modify the original array. */
-	var reversed = function(arr) {
+	function reversed(arr) {
 		var output = [];
 		for(var i=arr.length-1; i>=0; i--) {
 			output.push(arr[i]);
 		}
 		return output;
 	}
+	
 
 	/** Returns the in-bounds index of the given index for the array, supports negative and out-of-bounds indices. 
 		@private
 	*/
-	var circ = function(arr, i) {
+	function circ(arr, i) {
 
 		// return first index if i is null or undefined
 		if(i === undefined || i === null) {
@@ -370,35 +376,35 @@ var RJS = (function() {
 
 		// one modulus to get in range, another to eliminate negative
 		return (i % arr.length + arr.length) % arr.length;
-	};
+	}
 
 	/** Indexes into an array, supports negative indices. */
-	var index = function(arr, i) {
+	function index(arr, i) {
 		return arr[circ(arr, i)];
-	};
+	}
 
 	/** Returns a new array containing the elements of the given array shifted n spaces to the left, wrapping around the end. */
-	var rotate = function(arr, n) {
+	function rotate(arr, n) {
 		var output = [];
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			output.push(index(arr, i+n));
 		}
 		return output;
-	};
+	}
 
 	/** Creates an object with a property for each element of the given array, determined by a function that returns the property as a { key: value }. */
-	var toObject = function(arr, f) {
+	function toObject(arr, f) {
 		var keyValues = [];
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			keyValues.push(f(arr[i], i));
 		}
 		return merge.apply(arr, keyValues);
-	};
+	}
 
 	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns false. */
-	var find = function(arr, f) {
+	function find(arr, f) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
 			if(f(arr[i], i)) {
@@ -406,17 +412,17 @@ var RJS = (function() {
 			}
 		}
 		return null;
-	};
+	}
 
 	/** Returns the first item in the given array whose specified property matches the given value. */
-	var findByProperty = function(arr, prop, value) {
+	function findByProperty(arr, prop, value) {
 		return find(arr, function(item) {
 			return item[prop] === value;
 		});
-	};
+	}
 
 	/** Functional, nondestructive version of Array.prototype.splice. */
-	var spliced = function(arr, index, howMany/*, elements*/) {
+	function spliced(arr, index, howMany/*, elements*/) {
 		var elements = Array.prototype.slice.apply(arguments, [3]);
 		var results = [];
 		var len = arr.length;
@@ -437,10 +443,10 @@ var RJS = (function() {
 		}
 
 		return results;
-	};
+	}
 
 	/** Returns an array of sequential integers from start to end. If only one parameter is specified, start is 1. */
-	var range = function(start, end) {
+	function range(start, end) {
 		if(arguments.length === 1) {
 			end = start;
 			start = 1;
@@ -450,10 +456,10 @@ var RJS = (function() {
 			results.push(i);
 		}
 		return results;
-	};
+	}
 
 	/** Returns a new array that only includes items for which f(item, i) is truthy. */
-	var filter = function(arr, f) {
+	function filter(arr, f) {
 		var result = [];
 		for(var i=0, len=arr.length; i<len; i++) {
 			if(f(arr[i], i)) {
@@ -461,17 +467,17 @@ var RJS = (function() {
 			}
 		}
 		return result;
-	};
+	}
 
 	/** Returns a new array that only includes items with a specific value of a given property. */
-	var filterBy = function(arr, prop, value) {
+	function filterBy(arr, prop, value) {
 		return filter(arr, function(item) {
 			return item[prop] === value;
 		});
-	};
+	}
 
 	/** Returns a new array with the array's items in random order. */
-	var randomize = function(arr) {
+	function randomize(arr) {
 		var output = arr.slice();
 		function swap(i,j) {
 			var temp = output[i];
@@ -486,6 +492,7 @@ var RJS = (function() {
 
 		return output;
 	}
+	
 
 	/** Breaks up the array into n evenly-sized chunks. 
 		  Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
@@ -505,43 +512,43 @@ var RJS = (function() {
 	 ***********************************/
 
 	/** Returns an array of the object's keys (converted to strings). */
-	var keys = function(o) {
+	function keys(o) {
 		var output = [];
 		for(var key in o) {
 			output.push(key);
 		}
 		return output;
-	};
+	}
 
 	/** Returns an array of the object's values. */
-	var values = function(o) {
+	function values(o) {
 		var output = [];
 		for(var key in o) {
 			output.push(o[key]);
 		}
 		return output;
-	};
+	}
 
 	/** Returns a new object with the given key and value. */
-	var keyValue = function(key, value) {
+	function keyValue(key, value) {
 		var o = {};
 		o[key] = value;
 		return o;
-	};
+	}
 
 	/** Join the object into a single string with the given separators separating properties from each other as well as values. */
-	var joinObj = function(obj, propSeparator, valueSeparator) {
+	function joinObj(obj, propSeparator, valueSeparator) {
 		var keyValuePairs = [];
 		for(var prop in obj) {
 			keyValuePairs.push(prop + valueSeparator + obj[prop]);
 		}
 		return keyValuePairs.join(propSeparator);
-	};
+	}
 
 	/** Returns true if the object has no non-undefined properties.
 		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
-	var isEmpty = function(o) {
+	function isEmpty(o) {
 		var i, v;
 		if (typeOf(o) === 'object') {
 			for (i in o) {
@@ -555,16 +562,16 @@ var RJS = (function() {
 	}
 
 	/** Returns the number of properties on the given object. */
-	var numProperties = function(o) {
+	function numProperties(o) {
 		var n = 0;
 		for(property in o) {
 			n++;
 		}
 		return n;
-	};
+	}
 
 	/** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. */
-	var merge = function(/*obj1, obj2, obj3, ...*/) {
+	function merge(/*obj1, obj2, obj3, ...*/) {
 
 		var mothership = {};
 		
@@ -585,10 +592,10 @@ var RJS = (function() {
 		}
 		
 		return mothership;
-	};
+	}
 
 	/** Returns a new object where f(key, value) returns a new key-value pair for each property. */
-	var mapObject = function(obj, f) {
+	function mapObject(obj, f) {
 		var result = {};
 		for(var key in obj) {
 			pair = f(key, obj[key]);
@@ -597,20 +604,20 @@ var RJS = (function() {
 			}
 		}
 		return result;
-	};
+	}
 
 	/** Returns an array whose items are the result of calling f(key, value) on each property of the given object. */
-	var toArray = function(obj, f) {
+	function toArray(obj, f) {
 		var f = f || function(key, value) { return { key: key, value: value }; };
 		var result = [];
 		for(var key in obj) {
 			result.push(f(key, obj[key]));
 		}
 		return result;
-	};
+	}
 
 	/** Returns a new object that only includes the properties of the given obj for which f(key, value) is true. */
-	var filterObject = function(obj, f) {
+	function filterObject(obj, f) {
 		var result = {};
 		for(var key in obj) {
 			if(f(key, obj[key])) {
@@ -618,7 +625,7 @@ var RJS = (function() {
 			}
 		}
 		return result;
-	};
+	}
 
 	/** Changes the specified keys in an object. 
 		@example RJS.changeKeys(
@@ -626,36 +633,36 @@ var RJS = (function() {
 			{ fname: 'first', lname: 'last' }
 		)
 	*/
-	var changeKeys = function(obj, changedKeys) {
+	function changeKeys(obj, changedKeys) {
 		var result = {};
 		for(var key in obj) {
 			result[key in changedKeys ? changedKeys[key] : key] = obj[key];
 		}
 		return result;
-	};
+	}
 
 	/***********************************
 	 * Utility
 	 ***********************************/
 
 	/** Compares two items lexigraphically.  Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
-	var compare = function(a,b) {
+	function compare(a,b) {
 		return a > b ? 1 :
 			a < b ? -1 :
 			0;
-	};
+	}
 
 	/** Returns a function that compares the given property of two items. */
-	var compareProperty = function(property) {
+	function compareProperty(property) {
 		return function(a,b) {
 			return compare(a[property], b[property]);
 		};
-	};
+	}
 
 	/** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties.
 	 * A property can also be appended with ' ASC' or ' DESC' to control the sort order.
 	 * */
-	var dynamicCompare = function(props) {
+	function dynamicCompare(props) {
 
 		if(!props || !(props instanceof Array)) {
 			console.error('Invalid props');
@@ -693,7 +700,7 @@ var RJS = (function() {
 	}
 
 	/** Returns true if all the items in a are equal to all the items in b, recursively. */
-	var equals = function(a,b) {
+	function equals(a,b) {
 
 		if(typeof(a) !== typeof(b)) {
 			return false;
@@ -733,15 +740,15 @@ var RJS = (function() {
 		}
 
 		return true;
-	};
+	}
 
 	/** Returns true if the given value is not undefined, null, or an empty string. */
-	var hasValue = function(x) { 
+	function hasValue(x) { 
 		return x !== undefined && x !== null && x !== ''; 
-	};
+	}
 
 	/** Returns a string representation of the given scalar, array, or dictionary. */
-	var hash = function(o) {
+	function hash(o) {
 		if(o === undefined) {
 			return 'undefined';
 		}
@@ -764,7 +771,7 @@ var RJS = (function() {
 		else {
 			throw new Error('Unhashable value: ' + o);
 		}
-	};
+	}
 
 	/** Generates a pseudo-random string that can be assumed to be unique.
 		@remarks	untestable
@@ -781,7 +788,7 @@ var RJS = (function() {
 	/** Returns a string representing the type of the object, with special handling for null and arrays.
 		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
-	var typeOf = function(value) {
+	function typeOf(value) {
 		var s = typeof value;
 		if (s === 'object') {
 			if (value) {
@@ -795,28 +802,28 @@ var RJS = (function() {
 			}
 		}
 		return s;
-	};
+	}
 
 	/** Calls the given constructor and returns the new instance. Useful for higher order programmer where the new keyword won't work. 
 		@warning Does not support more than 10 arguments! Done this way because accessing __proto__ directly for true variable number of arguments doesn't seem to be consistent across browsers. http://lmeyerov.blogspot.com/2007/12/wrapping-javascript-new-constructor.html
 	*/
-	var createNew = function(f) {
+	function createNew(f) {
 		return new f(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9], arguments[10]);
-	};
+	}
 
 
 	/***********************************
 	 * Prototype Installation
 	 ***********************************/
 
-	var installPrototypes = function(rjs) {
+	function installPrototypes(rjs) {
 		var rjs = rjs || RJS;
-		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
+		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
 		install(Function, rjs, ['any', 'all', 'bind', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new']);
 		return rjs;
-	};
+	}
 
 
 	/***********************************
@@ -847,6 +854,7 @@ var RJS = (function() {
 		before          : before,
 		after           : after,
 		between         : between,
+		bookend					: bookend,
 		repeatString    : repeatString,
 		toTitleCase     : toTitleCase,
 		strContains  	: strContains,

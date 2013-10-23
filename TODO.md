@@ -13,3 +13,5 @@
 * split into two libraries:
 	- utility functions not included in underscore
 	- installPrototypes
+* remove proto tests and just have a single test of install
+* switch to Chai testing
