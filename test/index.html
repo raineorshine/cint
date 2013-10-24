@@ -223,6 +223,30 @@ $(function() {
 		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
 	});
 
+	test('spy', function() {
+		
+		function add(x, y) { return x + y; }
+
+		equal(RJS.spy(add)(1, 2), 3, 'multiple parameters');
+
+		var f;
+		var args;
+		var out;
+
+		function customLog(fArg, argsParam, outParam) { 
+			f = fArg;
+			args = argsParam;
+			out = outParam;
+		}
+
+		equal(RJS.spy(add, customLog)(1,2), 3, 'custom spier');
+		equal(f, add);
+		deepEqual(args, [1,2]);
+		equal(out, 3);
+	})
+
+
+
 	// string
 	test('supplant', function() {
 

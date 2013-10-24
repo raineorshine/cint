@@ -137,6 +137,24 @@ var RJS = (function() {
 		}
 	}
 
+	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
+	function spy(f, spier) {
+		var that = this;
+
+		return function() {
+			var args = Array.prototype.slice.call(arguments);
+			var out = f.apply(that, args);
+			if(spier) {
+				spier.call(that, f, args, out);
+			}
+			else {
+				console.log('spy!', f, args, out);
+			}
+			return out;
+		}
+	}
+
+
 	/***********************************
 	 * String
 	 ***********************************/
@@ -186,9 +204,9 @@ var RJS = (function() {
 		return before(after(str, left), right); 
 	}
 
-	/** Wraps a string with a beginning & end. */
-	function bookend(middle, beg, end) {
-		return (beg || '') + middle + (end || beg || '');
+	/** Wraps a string with a left and right */
+	function bookend(middle, left, right) {
+		return (left || '') + middle + (right || left || '');
 	}
 
 	/** Returns a single string that repeats the string n times. */
@@ -821,7 +839,7 @@ var RJS = (function() {
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
-		install(Function, rjs, ['any', 'all', 'bind', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new']);
+		install(Function, rjs, ['any', 'all', 'bind', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
 		return rjs;
 	}
 
@@ -846,6 +864,7 @@ var RJS = (function() {
 		callTillValue   : callTillValue,
 		toInstance      : toInstance,
 		install         : install,
+		spy 						: spy,
 
 		// string
 		supplant        : supplant,
