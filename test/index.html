@@ -176,6 +176,26 @@ $(function() {
 		equal(bound.call(null), 200);
 	})
 
+	test('compose', function() {
+		function add1(x) { return x + 1; }
+		function times2(x) { return x * 2; }
+
+		equal(RJS.compose(times2)(2), 4, 'single function');
+		equal(RJS.compose(times2, add1)(1), 4, 'f of g');
+		equal(RJS.compose(add1, times2)(1), 3, 'g of f');
+		equal(RJS.compose(times2, add1, add1, add1)(1), 8, 'multiple functions');
+	})
+
+	test('sequence', function() {
+		function add1(x) { return x + 1; }
+		function times2(x) { return x * 2; }
+
+		equal(RJS.sequence(times2)(2), 4, 'single function');
+		equal(RJS.sequence(times2, add1)(1), 3, 'g of f');
+		equal(RJS.sequence(add1, times2)(1), 4, 'f of g');
+		equal(RJS.sequence(times2, add1, add1, add1)(2), 7, 'multiple functions');
+	})
+
 	test("curryAt", function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractFromTen = RJS.curryAt(subtract, 0, [10]);
@@ -223,26 +243,32 @@ $(function() {
 		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
 	});
 
-	test('spy', function() {
+	test('spy', 6, function() {
 		
 		function add(x, y) { return x + y; }
 
-		equal(RJS.spy(add)(1, 2), 3, 'multiple parameters');
+		// save native console.log and temporarily override with mock console
+		var oldConsole = window.console;
+		window.console = { 
+			log: function(f, args, out) {
+				equal(f, add, 'first argument is the function');
+				deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
+				equal(out, 3, 'third argument is the return value of the function');
+			}
+		};
 
-		var f;
-		var args;
-		var out;
+		RJS.spy(add)(1,2);
 
-		function customLog(fArg, argsParam, outParam) { 
-			f = fArg;
-			args = argsParam;
-			out = outParam;
+		// restore console.log
+		window.console = oldConsole;
+
+		function customLog(f, args, out) { 
+			equal(f, add, 'first argument is the function');
+			deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
+			equal(out, 3, 'third argument is the return value of the function');
 		}
 
-		equal(RJS.spy(add, customLog)(1,2), 3, 'custom spier');
-		equal(f, add);
-		deepEqual(args, [1,2]);
-		equal(out, 3);
+		RJS.spy(add, customLog)(1,2);
 	})
 
 

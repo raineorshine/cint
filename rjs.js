@@ -42,12 +42,31 @@ var RJS = (function() {
 		return true;
 	}
 
+	/** Returns the composition of the given functions, e.g. f(g(h(i(...)))) */
+	function compose(f/*, rest*/) {
+		var rest = Array.prototype.slice.call(arguments, 1);
+		if(arguments.length === 1) {
+			return f;
+		}
+		else {
+			return function() {
+				var r = compose.apply(this, rest);
+				return f(r.apply(this, arguments));
+			}
+		}
+	}
+
+	/** Returns a reverse composition of the given functions (i.e. executed in order) e.g. i(h(g(f(...)))) */
+	function sequence(/*first, f*/) {
+		return compose.apply(this, reversed(arguments));
+	}
+
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
 		i.e. A normal curry is equivalent to f.curryAt(0, args) and an rcurry is equivalent to f.curryAt(n, args) where n is the arrity of the function.
 	*/
 	function curryAt(f, index, curriedArgs) {
 		return function() {
-			var givenArgs = Array.prototype.slice.call(arguments, 0);
+			var givenArgs = Array.prototype.slice.call(arguments);
 
 			// handle negative indices
 			// Note that we add 1 so that -1 points to the slot AFTER the last element, not before the last element (which is what the last index points to).
@@ -148,7 +167,7 @@ var RJS = (function() {
 				spier.call(that, f, args, out);
 			}
 			else {
-				console.log('spy!', f, args, out);
+				console.log(f, args, out);
 			}
 			return out;
 		}
@@ -513,7 +532,7 @@ var RJS = (function() {
 	
 
 	/** Breaks up the array into n evenly-sized chunks. 
-		  Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
+			Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
 	*/
 	function chunk(a, n) {
 			var len = a.length,out = [], i = 0;
@@ -663,7 +682,7 @@ var RJS = (function() {
 	 * Utility
 	 ***********************************/
 
-	/** Compares two items lexigraphically.  Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
+	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
 	function compare(a,b) {
 		return a > b ? 1 :
 			a < b ? -1 :
@@ -796,7 +815,7 @@ var RJS = (function() {
 	*/
 	var guid = (function() {
 		var S4 = function() {
-		   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+			 return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		}
 		return function() {
 			return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
@@ -839,7 +858,7 @@ var RJS = (function() {
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
-		install(Function, rjs, ['any', 'all', 'bind', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
+		install(Function, rjs, ['any', 'all', 'bind', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
 		return rjs;
 	}
 
@@ -851,83 +870,85 @@ var RJS = (function() {
 	return {
 
 		// function
-		I               : I,
-		not             : not,
-		any				: any,
-		all				: all,
-		bind				: bind,
-		curryAt			: curryAt,
-		curry			: curry,
-		rcurry			: rcurry,
-		arritize		: arritize,
-		currify			: currify,
-		callTillValue   : callTillValue,
-		toInstance      : toInstance,
-		install         : install,
+		I								: I,
+		not 						: not,
+		any							: any,
+		all							: all,
+		bind						: bind,
+		compose					: compose,
+		sequence				: sequence,
+		curryAt					: curryAt,
+		curry						: curry,
+		rcurry					: rcurry,
+		arritize				: arritize,
+		currify					: currify,
+		callTillValue	 	: callTillValue,
+		toInstance			: toInstance,
+		install				 	: install,
 		spy 						: spy,
 
 		// string
-		supplant        : supplant,
-		trim            : trim,
-		startsWith      : startsWith,
-		before          : before,
-		after           : after,
-		between         : between,
+		supplant				: supplant,
+		trim						: trim,
+		startsWith			: startsWith,
+		before					: before,
+		after						: after,
+		between					: between,
 		bookend					: bookend,
-		repeatString    : repeatString,
-		toTitleCase     : toTitleCase,
-		strContains  	: strContains,
+		repeatString		: repeatString,
+		toTitleCase		 	: toTitleCase,
+		strContains			: strContains,
 
 		// number
-		ordinal         : ordinal,
-		mapNumber       : mapNumber,
+		ordinal				 	: ordinal,
+		mapNumber			 	: mapNumber,
 
 		// array
-		map             : map,
-		each 			: each,
-		pluck           : pluck,
-		group           : group,
-		orderedGroup    : orderedGroup,
-		tally           : tally,
-		contains        : contains,
-		strictContains  : strictContains,
-		unique          : unique,
-		reversed        : reversed,
-		index           : index,
-		rotate          : rotate,
-		toObject        : toObject,
-		find            : find,
-		findByProperty  : findByProperty,
-		spliced			: spliced,
-		range			: range,
-		filter          : filter,
-		filterBy        : filterBy,
+		map						 	: map,
+		each 						: each,
+		pluck						: pluck,
+		group						: group,
+		orderedGroup		: orderedGroup,
+		tally						: tally,
+		contains				: contains,
+		strictContains	: strictContains,
+		unique					: unique,
+		reversed				: reversed,
+		index						: index,
+		rotate					: rotate,
+		toObject				: toObject,
+		find						: find,
+		findByProperty	: findByProperty,
+		spliced					: spliced,
+		range						: range,
+		filter					: filter,
+		filterBy				: filterBy,
 		randomize				: randomize,
 		chunk						: chunk,
 
 		// object
-		keys            : keys,
-		values          : values,
-		keyValue        : keyValue,
-		joinObj         : joinObj,
-		isEmpty         : isEmpty,
-		numProperties   : numProperties,
-		merge           : merge,
-		mapObject       : mapObject,
-		toArray         : toArray,
-		filterObject    : filterObject,
-		changeKeys      : changeKeys,
+		keys						: keys,
+		values					: values,
+		keyValue				: keyValue,
+		joinObj					: joinObj,
+		isEmpty					: isEmpty,
+		numProperties	 	: numProperties,
+		merge					 	: merge,
+		mapObject			 	: mapObject,
+		toArray				 	: toArray,
+		filterObject		: filterObject,
+		changeKeys			: changeKeys,
 
 		// utility
-		compare         : compare,
-		compareProperty : compareProperty,
-		dynamicCompare  : dynamicCompare,
-		equals          : equals,
-		hasValue        : hasValue,
-		hash            : hash,
-		guid            : guid,
-		typeOf          : typeOf,
-		'new'           : createNew,
+		compare					: compare,
+		compareProperty	: compareProperty,
+		dynamicCompare	: dynamicCompare,
+		equals					: equals,
+		hasValue				: hasValue,
+		hash						: hash,
+		guid						: guid,
+		typeOf					: typeOf,
+		'new'						: createNew,
 
 		// prototype installation
 		installPrototypes : installPrototypes
