@@ -151,11 +151,6 @@ var RJS = (function() {
 		Based on supplant by Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
 	function supplant(str, o) {
-
-		if(arguments.length > 2) {
-			o = [].slice.apply(arguments, [1]);
-		}
-
 		return str.replace(/{([^{}]*)}/g,
 			function (a, b) {
 				return b in o ? o[b] : a;
@@ -730,6 +725,11 @@ var RJS = (function() {
 		return true;
 	}
 
+	/** in operator as a function. */
+	function hasKey(creamFilling, donut) {
+		return creamFilling in donut;
+	}
+
 	/** Returns true if the given value is not undefined, null, or an empty string. */
 	function hasValue(x) { 
 		return x !== undefined && x !== null && x !== ''; 
@@ -890,6 +890,7 @@ var RJS = (function() {
 		compareProperty	: compareProperty,
 		dynamicCompare	: dynamicCompare,
 		equals					: equals,
+		hasKey					: hasKey,
 		hasValue				: hasValue,
 		hash						: hash,
 		guid						: guid,

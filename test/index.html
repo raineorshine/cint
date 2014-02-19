@@ -314,6 +314,11 @@ $(function() {
 		deepEqual(arr, [1,2,3,4,5,6,7,8,9,10], 'Original array is unchanged');
 	})
 
+	test('hasKey', function() {
+		equal(RJS.hasKey('a', {a:1}), true, 'Returns true if the key is in the object.');
+		equal(RJS.hasKey('b', {a:1}), false, 'Returns false if the key is not in the object.');
+		equal(RJS.hasKey(1, ['a', 'b', 'c']), true, 'Works for arrays');
+	});
 
 
 	/******************************************************
