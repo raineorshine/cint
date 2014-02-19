@@ -92,7 +92,7 @@ var RJS = (function() {
 
 	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
 	function callTillValue(value) {
-		return typeof(value) == 'function' ? callTillValue(value()) : value;
+		return typeof value === 'function' ? callTillValue(value()) : value;
 	}
 
 	/** Returns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
@@ -113,7 +113,7 @@ var RJS = (function() {
 
 			// the method can be a string if the hostKey and protoKey are the same ('contains') or an object that maps the host key to the proto key ({repeatString: 'repeat'})
 			var hostKey, protoKey;
-			if(typeof(methods[i]) === 'string') {
+			if(typeof methods[i] === 'string') {
 				hostKey = methods[i];
 				protoKey = methods[i];
 			}
@@ -248,7 +248,7 @@ var RJS = (function() {
 			throw new Error('You must specify a property name or mappable function.');
 		}
 
-		var getGroupKey = typeof(propOrFunc) == 'function' ? 
+		var getGroupKey = typeof propOrFunc === 'function' ? 
 			propOrFunc :
 			function(item) { return item[propOrFunc]; };
 
@@ -271,7 +271,7 @@ var RJS = (function() {
 			throw new Error('You must specific a property name or mappable function.');
 		}
 
-		var getGroupKey = typeof(propOrFunc) == 'function' ? 
+		var getGroupKey = typeof propOrFunc === 'function' ? 
 			propOrFunc :
 			function(item) { return item[propOrFunc]; };
 
@@ -495,7 +495,7 @@ var RJS = (function() {
 	*/
 	function isEmpty(o) {
 		var i, v;
-		if (typeOf(o) === 'object') {
+		if(typeOf(o) === 'object') {
 			for (i in o) {
 				v = o[i];
 				if (v !== undefined && typeOf(v) !== 'function') {
@@ -647,7 +647,7 @@ var RJS = (function() {
 	/** Returns true if all the items in a are equal to all the items in b, recursively. */
 	function equals(a,b) {
 
-		if(typeof(a) !== typeof(b)) {
+		if(typeof a !== typeof b) {
 			return false;
 		}
 
@@ -667,7 +667,7 @@ var RJS = (function() {
 			}
 		}
 		// compare primitives
-		else if(typeof(a) === 'number' || typeof(a) === 'string' || typeof(a) === 'boolean' || typeof(a) === 'undefined') {
+		else if(typeof a === 'number' || typeof a === 'string' || typeof a === 'boolean' || typeof a === 'undefined') {
 			if(a !== b) {
 				return false;
 			}
@@ -705,7 +705,7 @@ var RJS = (function() {
 		else if(o === null) {
 			return 'null';
 		}
-		else if(typeof(o) === 'string' || typeof(o) === 'number') {
+		else if(typeof o === 'string' || typeof o === 'number') {
 			return '' + o;
 		}
 		else if(typeOf(o) === 'array') {
