@@ -198,9 +198,10 @@ var RJS = (function() {
 		return mapNumber(n, function(i) { return str; }).join(delim);
 	}
 
+	/** Capitalizes the first letter of each word in the given string. */
 	function toTitleCase(str) {
 		var capitalizeFirst = function(s) { 
-			return s[0].toUpperCase() + s.substring(1).toLowerCase(); 
+			return s.length ? s[0].toUpperCase() + s.substring(1).toLowerCase() : ''; 
 		};
 		return str.split(' ').map(capitalizeFirst).join(' ');
 	}
@@ -314,26 +315,10 @@ var RJS = (function() {
 		return dict;
 	}
 
-	/** Returns true if the array contains the given value (==). */
-	function contains(arr, value) {
-		var len = arr.length;
-		for(var i=0; i<len; i++) {
-			if(arr[i] == value) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/** Returns true if the array contains the given value (===). */
-	function strictContains(arr, value) {
-		var len = arr.length;
-		for(var i=0; i<len; i++) {
-			if(arr[i] === value) {
-				return true;
-			}
-		}
-		return false;
+	/** Returns true if the array contains the given value. */
+	function contains(arr) {
+		var args = Array.prototype.slice.call(arguments, 1);
+		return Array.prototype.indexOf.apply(arr, args) !== -1;
 	}
 
 	/** Returns the unique values in the array. */
@@ -341,7 +326,7 @@ var RJS = (function() {
 		var output = [];
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
-			if(!strictContains(output, arr[i])) {
+			if(!contains(output, arr[i])) {
 				output.push(arr[i]);
 			}
 		}
@@ -808,7 +793,7 @@ var RJS = (function() {
 		var rjs = rjs || RJS;
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
-		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
+		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
 		install(Function, rjs, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
 		return rjs;
 	}
@@ -858,7 +843,6 @@ var RJS = (function() {
 		orderedGroup		: orderedGroup,
 		tally						: tally,
 		contains				: contains,
-		strictContains	: strictContains,
 		unique					: unique,
 		reversed				: reversed,
 		index						: index,
