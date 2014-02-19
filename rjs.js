@@ -231,12 +231,15 @@ var RJS = (function() {
 	}
 
 	function toTitleCase(str) {
-		var capitalizeFirst = function(s) { return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase(); };
+		var capitalizeFirst = function(s) { 
+			return s[0].toUpperCase() + s.substring(1).toLowerCase(); 
+		};
 		return map(str.split(' '), capitalizeFirst).join(' ');
 	}
 
-	function strContains(str, look) {
-		return str.indexOf(look) !== -1;
+	function strContains(str) {
+		var args = Array.prototype.slice.call(arguments, 1);
+		return String.prototype.indexOf.apply(str, args) !== -1;
 	}
 
 	/***********************************
