@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<link rel="Stylesheet" type="text/css" href="qunit.css" />
+	<meta charset='utf-8' />
+	<link rel='Stylesheet' type='text/css' href='qunit.css' />
 	<title>Unit Test</title>
 </head>
 <body>
 
-<h1 id="qunit-header">Unit Test</h1>
-<h2 id="qunit-banner"></h2>
-<ol id="qunit-tests"></ol>
+<h1 id='qunit-header'>Unit Test</h1>
+<h2 id='qunit-banner'></h2>
+<ol id='qunit-tests'></ol>
 
-<script src="jquery-1.6.2.min.js"></script>
-<script src="qunit.js"></script>
-<script src="../rjs.js"></script>
+<script src='jquery-1.6.2.min.js'></script>
+<script src='qunit.js'></script>
+<script src='../rjs.js'></script>
 
 <script>
 $(function() {
 
-	module("rjs");
+	module('rjs');
 
-	test("map", function() {
+	test('I', function() {
+		equal(RJS.I(10), 10, 'Identity function returns the value that was passed in.');
+		equal(RJS.I(), undefined, 'Identity of no arguments is undefined.');
+		equal(RJS.I(1,2,3), 1, 'Identity function only returns the first argument.');
+	});
+
+	test('not', function() {
+		var yes = function() { return true; }
+		var no = function() { return false; }
+		equal(RJS.not(yes)(), false, 'Reverses true to false.');
+		equal(RJS.not(no)(), true, 'Reverses false to true.');
+		equal(RJS.not(RJS.I)(true), false, 'Works with arguments.');
+		equal(RJS.not(RJS.I)(false), true, 'Works with arguments.');
+		equal(RJS.not(RJS.I)('a'), false, 'Works with non-booleans.');
+		equal(RJS.not(RJS.I)(undefined), true, 'Works with non-booleans');
+	});
+
+	test('map', function() {
 		var arr = [1,2,3,4,5];
 		var copyOut = [];
 		function double(x) {
 			return x * 2;
 		}
 		deepEqual(RJS.map(arr, double), [2,4,6,8,10]);
-		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
 
 		var abc = [
 			function() { return 'a'; },
@@ -44,26 +61,26 @@ $(function() {
 		deepEqual(RJS.map(abcIndices), ['a0', 'b1', 'c2']);
 	});
 
-	test("each", function() {
+	test('each', function() {
 		var arr = [1,2,3,4,5];
 		var copyOut = [];
 		RJS.each(arr, function(x) {
 			copyOut.push(x * 2);
 		});
-		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list");
-		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+		deepEqual(copyOut, [2,4,6,8,10], 'Iterate through each item in a list');
+		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
 	});
 
-	test("filter", function() {
+	test('filter', function() {
 		var arr = [1,2,3,4,5];
 		var even = function(n) { return n%2===0; };
-		deepEqual(RJS.filter(arr, even), [2,4], "Filters out falsey results.");
-		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+		deepEqual(RJS.filter(arr, even), [2,4], 'Filters out falsey results.');
+		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
 	});
 
-	test("filterBy", function() {
+	test('filterBy', function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
-		deepEqual(RJS.filterBy(arr, "a", 1), [{a: 1, b: 2}, {a: 1, b: 5}], "Filter an array of objects by a given property value.");
+		deepEqual(RJS.filterBy(arr, 'a', 1), [{a: 1, b: 2}, {a: 1, b: 5}], 'Filter an array of objects by a given property value.');
 	});
 
 	test('randomize', function() {
@@ -92,50 +109,50 @@ $(function() {
 	})
 
 
-	test("mapObject", function() {
+	test('mapObject', function() {
 		var o = { a: 1, b: 2, c: 3 };
 		var swap = function(k,v) { return RJS.keyValue(v,k); };
 		deepEqual(RJS.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' });
 	});
 
-	test("changeKeys", function() {
+	test('changeKeys', function() {
 		// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
-		var oldObject = { fname: "Raine", lname: "Lourie", specialty: "Javascript" };
-		var newObject = RJS.changeKeys( oldObject, { fname: "first", lname: "last" });
-		deepEqual(oldObject, { fname: "Raine", lname: "Lourie", specialty: "Javascript" }, "Old object is unmodified.");
-		deepEqual(newObject, { first: "Raine", last: "Lourie", specialty: "Javascript" }, "New object contains modified keys.");
+		var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' };
+		var newObject = RJS.changeKeys( oldObject, { fname: 'first', lname: 'last' });
+		deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 'Old object is unmodified.');
+		deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' }, 'New object contains modified keys.');
 
 	});
 
-	test("index (array)", function() {
+	test('index (array)', function() {
 		var arr = [1,2,3,4,5];
 		equal(RJS.index(arr, 2), 3, 'Index into an array as normal');
 		equal(RJS.index(arr, -1), 5, 'Negative index');
 		equal(RJS.index(arr, 16), 2, 'Out of bounds index');
 	});
 
-	test("index (string)", function() {
-		var str = "abcde";
+	test('index (string)', function() {
+		var str = 'abcde';
 		equal(RJS.index(str, 2), 'c', 'Index into an array as normal');
 		equal(RJS.index(str, -1), 'e', 'Negative index');
 		equal(RJS.index(str, 16), 'b', 'Out of bounds index');
 	});
 
-	test("new", function() {
+	test('new', function() {
 		var Person = function(name, age) {
 			this.name = name;
 			this.age = age;
 		};
-		var p = RJS.new(Person, ["Raine", 26]);
+		var p = RJS.new(Person, ['Raine', 26]);
 		ok(p instanceof Person);
-		equal(p.name, "Raine");
+		equal(p.name, 'Raine');
 		equal(p.age, 26);
 	});
 
-	test("pluck", function() {
+	test('pluck', function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
-		deepEqual(RJS.pluck(arr, "a"), [1, 1, 0]);
-		deepEqual(RJS.pluck(arr, "b"), [2, 5, 10]);
+		deepEqual(RJS.pluck(arr, 'a'), [1, 1, 0]);
+		deepEqual(RJS.pluck(arr, 'b'), [2, 5, 10]);
 
 		var arr = [
 			{a: 'x', f: function() { return this.a; }}, 
@@ -148,18 +165,18 @@ $(function() {
 		deepEqual(plucked[2](), 'z');
 	});
 
-	test("any", function() {
+	test('any', function() {
 		var arr = [1,2,3,4,5];
-		equal(RJS.any(arr, function(x) { return x === 4; }), true, "If the given function returns true for any item in the array, return true.");
-		equal(RJS.any(arr, function(x) { return x > 10; }), false, "If the given function returns false for every item in the array, return false.");
-		equal(RJS.any([], function(x) { return true; }), false, "If the given array is empty, return false.");
+		equal(RJS.any(arr, function(x) { return x === 4; }), true, 'If the given function returns true for any item in the array, return true.');
+		equal(RJS.any(arr, function(x) { return x > 10; }), false, 'If the given function returns false for every item in the array, return false.');
+		equal(RJS.any([], function(x) { return true; }), false, 'If the given array is empty, return false.');
 	});
 
-	test("all", function() {
+	test('all', function() {
 		var arr = [1,2,3,4,5];
-		equal(RJS.all(arr, function(x) { return x === 4; }), false, "If the given function returns true for each item in the array, return true.");
-		equal(RJS.all(arr, function(x) { return x < 10; }), true, "If the given function returns false for any item in the array, return false.");
-		equal(RJS.all([], function(x) { return false; }), true, "If the given array is empty, return true.");
+		equal(RJS.all(arr, function(x) { return x === 4; }), false, 'If the given function returns true for each item in the array, return true.');
+		equal(RJS.all(arr, function(x) { return x < 10; }), true, 'If the given function returns false for any item in the array, return false.');
+		equal(RJS.all([], function(x) { return false; }), true, 'If the given array is empty, return true.');
 	});
 
 	test('bind', function() {
@@ -196,7 +213,7 @@ $(function() {
 		equal(RJS.sequence(times2, add1, add1, add1)(2), 7, 'multiple functions');
 	})
 
-	test("curryAt", function() {
+	test('curryAt', function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractFromTen = RJS.curryAt(subtract, 0, [10]);
 		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
@@ -208,13 +225,13 @@ $(function() {
 		equal(subtractTwenty(100), 80, 'Handles negative indexes');
 	});
 
-	test("curry", function() {
+	test('curry', function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractFromTen = RJS.curry(subtract, [10]);
 		equal(subtractFromTen(1), 9);
 	});
 
-	test("rcurry", function() {
+	test('rcurry', function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractTen = RJS.rcurry(subtract, [10]);
 		equal(subtractTen(100), 90);
@@ -229,18 +246,18 @@ $(function() {
 		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 	});
 
-	test("currify", function() {
+	test('currify', function() {
 		var subtract = function(x,y) { return x - y; };
 		var curriedSubtract = RJS.currify(subtract);
-		equal(curriedSubtract(10,1), 9, "If all arguments are specified, return the result.");
-		equal(curriedSubtract(1,10), -9, "Argument order is preserved (left curry)");
+		equal(curriedSubtract(10,1), 9, 'If all arguments are specified, return the result.');
+		equal(curriedSubtract(1,10), -9, 'Argument order is preserved (left curry)');
 
 		var addThree = function(x,y,z) { return x + y + z; };
 		var curriedAddThree = RJS.currify(addThree);
-		equal(curriedAddThree(1,2,4), 7, "If arguments are partially specified, return a new currified function.");
-		equal(curriedAddThree(1,2)(4), 7, "If arguments are partially specified, return a new currified function.");
-		equal(curriedAddThree(1)(2,4), 7, "If arguments are partially specified, return a new currified function.");
-		equal(curriedAddThree(1)(2)(4), 7, "If arguments are partially specified, return a new currified function.");
+		equal(curriedAddThree(1,2,4), 7, 'If arguments are partially specified, return a new currified function.');
+		equal(curriedAddThree(1,2)(4), 7, 'If arguments are partially specified, return a new currified function.');
+		equal(curriedAddThree(1)(2,4), 7, 'If arguments are partially specified, return a new currified function.');
+		equal(curriedAddThree(1)(2)(4), 7, 'If arguments are partially specified, return a new currified function.');
 	});
 
 	test('spy', 6, function() {
@@ -310,25 +327,25 @@ $(function() {
 		equal(RJS.bookend('b'), 'b', 'Ignores falsey begin and end values')
 	})
 
+	test('strContains', function() {
+		equal(RJS.strContains('abigail', 'a'), true, 'Returns true if the string contains the given substring at the beginning.');
+		equal(RJS.strContains('abigail', 'big'), true, 'Returns true if the string contains the given substring in the middle.');
+		equal(RJS.strContains('abigail', 'gail'), true, 'Returns true if the string contains the given substring at the end.');
+		equal(RJS.strContains('abigail', 'z'), false, 'Returns false if the string doesn\'t contain the given substring.');
+		equal(RJS.strContains('abigail', 'bigger'), false, 'Returns false if the string doesn\'t contain the given substring.');
+	});
+
 	// array
-	test("spliced", function() {
+	test('spliced', function() {
 		var arr = [1,2,3,4,5];
 		deepEqual(RJS.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
 		deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
 	});
 
-	test("range", function() {
-		deepEqual(RJS.range(2,5), [2,3,4,5], "Returns a range of numbers from start to end, inclusive.");
-		deepEqual(RJS.range(3), [1,2,3], "If one parameter is specified, returns a range of numbers from 1 to the given number, inclusive.");
-		deepEqual(RJS.range(), [], "If no parameters are specified, returns an empty array.");
-	});
-
-	test("strContains", function() {
-		equal(RJS.strContains("abigail", "a"), true, "Returns true if the string contains the given substring at the beginning.");
-		equal(RJS.strContains("abigail", "big"), true, "Returns true if the string contains the given substring in the middle.");
-		equal(RJS.strContains("abigail", "gail"), true, "Returns true if the string contains the given substring at the end.");
-		equal(RJS.strContains("abigail", "z"), false, "Returns false if the string doesn't contain the given substring.");
-		equal(RJS.strContains("abigail", "bigger"), false, "Returns false if the string doesn't contain the given substring.");
+	test('range', function() {
+		deepEqual(RJS.range(2,5), [2,3,4,5], 'Returns a range of numbers from start to end, inclusive.');
+		deepEqual(RJS.range(3), [1,2,3], 'If one parameter is specified, returns a range of numbers from 1 to the given number, inclusive.');
+		deepEqual(RJS.range(), [], 'If no parameters are specified, returns an empty array.');
 	});
 
 	test('randomize', function() {
@@ -361,67 +378,67 @@ $(function() {
 	/******************************************************
 	 * PROTOTYPED
 	 ******************************************************/
-	module("rjs-proto");
+	module('rjs-proto');
 	RJS.installPrototypes();
 
-	test("each", function() {
+	test('each', function() {
 		var arr = [1,2,3,4,5];
 		var copyOut = [];
 		arr.each(function(x) {
 			copyOut.push(x * 2);
 		});
-		deepEqual(copyOut, [2,4,6,8,10], "Iterate through each item in a list");
-		deepEqual(arr, [1,2,3,4,5], "Original array intact.");
+		deepEqual(copyOut, [2,4,6,8,10], 'Iterate through each item in a list');
+		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
 	});
 
-	test("new", function() {
+	test('new', function() {
 		var Person = function(name, age) {
 			this.name = name;
 			this.age = age;
 		};
-		var p = Person.new(["Raine", 26]);
+		var p = Person.new(['Raine', 26]);
 		ok(p instanceof Person);
-		equal(p.name, "Raine");
+		equal(p.name, 'Raine');
 		equal(p.age, 26);
 	});
 
-	test("index (array)", function() {
+	test('index (array)', function() {
 		var arr = [1,2,3,4,5];
 		equal(arr.index(2), 3, 'Index into an array as normal');
 		equal(arr.index(-1), 5, 'Negative index');
 		equal(arr.index(16), 2, 'Out of bounds index');
 	});
 
-	test("index (string)", function() {
-		var str = "abcde";
+	test('index (string)', function() {
+		var str = 'abcde';
 		equal(str.index(2), 'c', 'Index into an array as normal');
 		equal(str.index(-1), 'e', 'Negative index');
 		equal(str.index(16), 'b', 'Out of bounds index');
 	});
 
-	test("any", function() {
+	test('any', function() {
 		var arr = [1,2,3,4,5];
-		equal(arr.any(function(x) { return x === 4; }), true, "If the given function returns true for any item in the array, return true.");
-		equal(arr.any(function(x) { return x > 10; }), false, "If the given function returns false for every item in the array, return false.");
-		equal([].any(function(x) { return true; }), false, "If the given array is empty, return false.");
+		equal(arr.any(function(x) { return x === 4; }), true, 'If the given function returns true for any item in the array, return true.');
+		equal(arr.any(function(x) { return x > 10; }), false, 'If the given function returns false for every item in the array, return false.');
+		equal([].any(function(x) { return true; }), false, 'If the given array is empty, return false.');
 	});
 
-	test("all", function() {
+	test('all', function() {
 		var arr = [1,2,3,4,5];
-		equal(arr.all(function(x) { return x === 4; }), false, "If the given function returns true for each item in the array, return true.");
-		equal(arr.all(function(x) { return x < 10; }), true, "If the given function returns false for any item in the array, return false.");
-		equal([].all(function(x) { return false; }), true, "If the given array is empty, return true.");
+		equal(arr.all(function(x) { return x === 4; }), false, 'If the given function returns true for each item in the array, return true.');
+		equal(arr.all(function(x) { return x < 10; }), true, 'If the given function returns false for any item in the array, return false.');
+		equal([].all(function(x) { return false; }), true, 'If the given array is empty, return true.');
 	});
 
-	test("contains (string)", function() {
-		equal("abigail".contains("a"), true, "Returns true if the string contains the given substring at the beginning.");
-		equal("abigail".contains("big"), true, "Returns true if the string contains the given substring in the middle.");
-		equal("abigail".contains("gail"), true, "Returns true if the string contains the given substring at the end.");
-		equal("abigail".contains("z"), false, "Returns false if the string doesn't contain the given substring.");
-		equal("abigail".contains("bigger"), false, "Returns false if the string doesn't contain the given substring.");
+	test('contains (string)', function() {
+		equal('abigail'.contains('a'), true, 'Returns true if the string contains the given substring at the beginning.');
+		equal('abigail'.contains('big'), true, 'Returns true if the string contains the given substring in the middle.');
+		equal('abigail'.contains('gail'), true, 'Returns true if the string contains the given substring at the end.');
+		equal('abigail'.contains('z'), false, 'Returns false if the string doesn\'t contain the given substring.');
+		equal('abigail'.contains('bigger'), false, 'Returns false if the string doesn\'t contain the given substring.');
 	});
 
-	test("curryAt", function() {
+	test('curryAt', function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractFromTen = subtract.curryAt(0, [10]);
 		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
@@ -433,13 +450,13 @@ $(function() {
 		equal(subtractTwenty(100), 80, 'Handles negative indexes');
 	});
 
-	test("curry", function() {
+	test('curry', function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractFromTen = subtract.curry([10]);
 		equal(subtractFromTen(1), 9);
 	});
 
-	test("rcurry", function() {
+	test('rcurry', function() {
 		var subtract = function(x,y) { return x - y; };
 		var subtractTen = subtract.rcurry([10]);
 		equal(subtractTen(100), 90);
@@ -454,7 +471,7 @@ $(function() {
 		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 	});
 
-	test("spliced", function() {
+	test('spliced', function() {
 		var arr = [1,2,3,4,5];
 		deepEqual(arr.spliced(2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
 		deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
