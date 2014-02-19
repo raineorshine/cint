@@ -565,7 +565,7 @@ var RJS = (function() {
 		return result;
 	}
 
-	/** Returns an array whose items are the result of calling f(key, value) on each property of the given object. */
+	/** Returns an array whose items are the result of calling f(key, value) on each property of the given object. If f is undefined, returns a list of { key: ___, value: ___ } objects. */
 	function toArray(obj, f) {
 		var f = f || function(key, value) { return { key: key, value: value }; };
 		var result = [];
@@ -878,6 +878,6 @@ var RJS = (function() {
 })();
 
 // nodejs module
-if(typeof(module) != 'undefined') {
+if(typeof module !== 'undefined') {
 	module.exports = RJS;
 }
