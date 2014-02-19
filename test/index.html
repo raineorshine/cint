@@ -37,16 +37,6 @@ $(function() {
 		equal(RJS.not(RJS.I)(undefined), true, 'Works with non-booleans');
 	});
 
-	test('each', function() {
-		var arr = [1,2,3,4,5];
-		var copyOut = [];
-		RJS.each(arr, function(x) {
-			copyOut.push(x * 2);
-		});
-		deepEqual(copyOut, [2,4,6,8,10], 'Iterate through each item in a list');
-		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
-	});
-
 	test('filterBy', function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
 		deepEqual(RJS.filterBy(arr, 'a', 1), [{a: 1, b: 2}, {a: 1, b: 5}], 'Filter an array of objects by a given property value.');
@@ -326,16 +316,6 @@ $(function() {
 	 ******************************************************/
 	module('rjs-proto');
 	RJS.installPrototypes();
-
-	test('each', function() {
-		var arr = [1,2,3,4,5];
-		var copyOut = [];
-		arr.each(function(x) {
-			copyOut.push(x * 2);
-		});
-		deepEqual(copyOut, [2,4,6,8,10], 'Iterate through each item in a list');
-		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
-	});
 
 	test('new', function() {
 		var Person = function(name, age) {

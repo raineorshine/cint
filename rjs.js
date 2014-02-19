@@ -158,13 +158,6 @@ var RJS = (function() {
 		);
 	}
 
-	/** Removes whitespace from both ends of a string.
-		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
-	*/
-	function trim(str) {
-		return str.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, '$1');
-	}
-
 	/** Returns true if the string starts with the given substring. */
 	function startsWith(str, sub){
 		return (str.indexOf(sub) === 0);
@@ -238,13 +231,6 @@ var RJS = (function() {
 	/***********************************
 	 * Array
 	 ***********************************/
-
-	function each(arr, f) {
-		var len = arr.length;
-		for(var i=0; i<len; i++) {
-			f(arr[i], i, arr);
-		}
-	}
 
 	/** Returns a list of values plucked from the property from the given array. If the values are functions,
 	they wll be bound to the array item. */
@@ -782,7 +768,7 @@ var RJS = (function() {
 
 	function installPrototypes(rjs) {
 		var rjs = rjs || RJS;
-		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
+		install(String, rjs, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
 		install(Function, rjs, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
@@ -813,7 +799,6 @@ var RJS = (function() {
 
 		// string
 		supplant				: supplant,
-		trim						: trim,
 		startsWith			: startsWith,
 		before					: before,
 		after						: after,
@@ -828,7 +813,6 @@ var RJS = (function() {
 		mapNumber			 	: mapNumber,
 
 		// array
-		each 						: each,
 		pluck						: pluck,
 		group						: group,
 		orderedGroup		: orderedGroup,
