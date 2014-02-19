@@ -445,7 +445,7 @@ var RJS = (function() {
 	}
 
 	/** Returns a new array with the array's items in random order. */
-	function randomize(arr) {
+	function shuffle(arr) {
 		var output = arr.slice();
 		function swap(i,j) {
 			var temp = output[i];
@@ -793,7 +793,7 @@ var RJS = (function() {
 		var rjs = rjs || RJS;
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
-		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
+		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
 		install(Function, rjs, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
 		return rjs;
 	}
@@ -853,7 +853,7 @@ var RJS = (function() {
 		spliced					: spliced,
 		range						: range,
 		filterBy				: filterBy,
-		randomize				: randomize,
+		shuffle				: shuffle,
 		chunk						: chunk,
 
 		// object
