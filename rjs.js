@@ -466,27 +466,18 @@ var RJS = (function() {
 			Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
 	*/
 	function chunk(a, n) {
-			var len = a.length,out = [], i = 0;
-			while (i < len) {
-					var size = Math.ceil((len - i) / n--);
-					out.push(a.slice(i, i += size));
-			}
-			return out;
+		var len = a.length,out = [], i = 0;
+		while (i < len) {
+			var size = Math.ceil((len - i) / n--);
+			out.push(a.slice(i, i += size));
+		}
+		return out;
 	}	
 
 
 	/***********************************
 	 * Object
 	 ***********************************/
-
-	/** Returns an array of the object's keys (converted to strings). */
-	function keys(o) {
-		var output = [];
-		for(var key in o) {
-			output.push(key);
-		}
-		return output;
-	}
 
 	/** Returns an array of the object's values. */
 	function values(o) {
@@ -857,7 +848,6 @@ var RJS = (function() {
 		chunk						: chunk,
 
 		// object
-		keys						: keys,
 		values					: values,
 		keyValue				: keyValue,
 		joinObj					: joinObj,
