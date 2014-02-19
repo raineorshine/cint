@@ -126,7 +126,7 @@ $(function() {
 			this.name = name;
 			this.age = age;
 		};
-		var p = RJS.new(Person, "Raine", 26);
+		var p = RJS.new(Person, ["Raine", 26]);
 		ok(p instanceof Person);
 		equal(p.name, "Raine");
 		equal(p.age, 26);
@@ -379,7 +379,7 @@ $(function() {
 			this.name = name;
 			this.age = age;
 		};
-		var p = Person.new("Raine", 26);
+		var p = Person.new(["Raine", 26]);
 		ok(p instanceof Person);
 		equal(p.name, "Raine");
 		equal(p.age, 26);

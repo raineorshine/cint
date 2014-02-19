@@ -841,11 +841,11 @@ var RJS = (function() {
 		return s;
 	}
 
-	/** Calls the given constructor and returns the new instance. Useful for higher order programmer where the new keyword won't work. 
-		@warning Does not support more than 10 arguments! Done this way because accessing __proto__ directly for true variable number of arguments doesn't seem to be consistent across browsers. http://lmeyerov.blogspot.com/2007/12/wrapping-javascript-new-constructor.html
-	*/
-	function createNew(f) {
-		return new f(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9], arguments[10]);
+	/** Create a new instance of the given constructor with the given constructor arguments. Useful for higher order programmer where the new keyword won't work. */
+	function createNew(C, args) {
+		var o = new C();
+		C.apply(o, args);
+		return o;
 	}
 
 
