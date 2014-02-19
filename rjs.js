@@ -159,16 +159,12 @@ var RJS = (function() {
 	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
 	function spy(f, spier) {
 		var that = this;
+		spier = spier || console.log.bind(console);
 
 		return function() {
 			var args = Array.prototype.slice.call(arguments);
 			var out = f.apply(that, args);
-			if(spier) {
-				spier.call(that, f, args, out);
-			}
-			else {
-				console.log(f, args, out);
-			}
+			spier.call(that, f, args, out);
 			return out;
 		}
 	}
