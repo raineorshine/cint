@@ -107,25 +107,28 @@ var RJS = (function() {
 	}
 
 	/** Assigns the given list of methods from the host object to the protoObj's prototype after converting them with toInstance. */
-	function install(protoObj, host, methods, thisIndex) {
+	function install(protoObj, host, methods, safe) {
+
+		if(safe === undefined) {
+			safe = true;
+		}
+
 		var len = methods.length;
 		for(var i=0; i<len; i++) {
 
 			// the method can be a string if the hostKey and protoKey are the same ('contains') or an object that maps the host key to the proto key ({repeatString: 'repeat'})
-			var hostKey, protoKey;
 			if(typeof methods[i] === 'string') {
-				hostKey = methods[i];
-				protoKey = methods[i];
+				if(safe && !(methods[i] in protoObj.prototype)) {
+					protoObj.prototype[methods[i]] = toInstance(host[methods[i]]);
+				}
 			}
 			else {
 				for(var name in methods[i]) {
-					hostKey = name;
-					protoKey = methods[i][name];
-					break;
+					if(safe && !(methods[i][name] in protoObj.prototype)) {
+						protoObj.prototype[methods[i][name]] = toInstance(host[name]);
+					}
 				}
 			}
-
-			protoObj.prototype[protoKey] = toInstance(host[hostKey], thisIndex);
 		}
 	}
 
