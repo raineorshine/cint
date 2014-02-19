@@ -424,7 +424,7 @@ var RJS = (function() {
 		return results;
 	}
 
-	/** Returns an array of sequential integers from start to end. If only one parameter is specified, start is 1. */
+	/** Returns an array of sequential integers from start to end (inclusive). If only one parameter is specified, start is 1. */
 	function range(start, end) {
 		if(arguments.length === 1) {
 			end = start;
