@@ -22,26 +22,6 @@ var RJS = (function() {
 		} 
 	}
 
-	/** Returns true if the given function evaluates to true for any item in the given array. Returns false for []. */
-	function any(arr, f) {
-		for(var i=0, len=arr.length; i<len; i++) {
-			if(f(arr[i])) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/** Returns true if the given function evaluates to true for all items in the given array. Returns true for []. */
-	function all(arr, f) {
-		for(var i=0, len=arr.length; i<len; i++) {
-			if(!f(arr[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	/** Returns the composition of the given functions, e.g. f(g(h(i(...)))) */
 	function compose(f/*, rest*/) {
 		var rest = Array.prototype.slice.call(arguments, 1);
@@ -85,13 +65,6 @@ var RJS = (function() {
 
 	/** Returns a new function that always passes the given curried arguments to the inner function after normal arguments. */
 	var rcurry = curryAt(curryAt, 1, -1);
-
-	/** Returns a new function that calls a function within a given scope. */
-	function bind(f, context) {
-		return function() {
-			return f.apply(context, arguments);
-		}
-	}
 
 	/** Returns a new function that calls the given function with a limit on the number of arguments. */
 	function arritize(f, n) {
@@ -234,7 +207,7 @@ var RJS = (function() {
 		var capitalizeFirst = function(s) { 
 			return s[0].toUpperCase() + s.substring(1).toLowerCase(); 
 		};
-		return map(str.split(' '), capitalizeFirst).join(' ');
+		return str.split(' ').map(capitalizeFirst).join(' ');
 	}
 
 	function strContains(str) {
@@ -270,27 +243,17 @@ var RJS = (function() {
 	 * Array
 	 ***********************************/
 
-	/** Calls a function on each item in an array and returns a new array of the results. If f is not defined, attempts to call each item in the array as a function. */
-	function map(arr, f) {
-		var results = [];
-		var len = arr.length;
-		for(var i=0; i<len; i++) {
-			results.push(f ? f(arr[i], i) : arr[i](i));
-		}
-		return results;
-	}
-
 	function each(arr, f) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
-			f(arr[i], i);
+			f(arr[i], i, arr);
 		}
 	}
 
 	/** Returns a list of values plucked from the property from the given array. If the values are functions,
 	they wll be bound to the array item. */
 	function pluck(arr, property) {
-		return map(arr, function(item) {
+		return arr.map(function(item) {
 			var val = item[property];
 			return typeof val === 'function' ? val.bind(item) : val;
 		});
@@ -494,20 +457,9 @@ var RJS = (function() {
 		return results;
 	}
 
-	/** Returns a new array that only includes items for which f(item, i) is truthy. */
-	function filter(arr, f) {
-		var result = [];
-		for(var i=0, len=arr.length; i<len; i++) {
-			if(f(arr[i], i)) {
-				result.push(arr[i]);
-			}
-		}
-		return result;
-	}
-
 	/** Returns a new array that only includes items with a specific value of a given property. */
 	function filterBy(arr, prop, value) {
-		return filter(arr, function(item) {
+		return arr.filter(function(item) {
 			return item[prop] === value;
 		});
 	}
@@ -856,8 +808,8 @@ var RJS = (function() {
 		var rjs = rjs || RJS;
 		install(String, rjs, ['supplant', 'trim', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
-		install(Array, rjs, ['map', 'each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
-		install(Function, rjs, ['any', 'all', 'bind', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
+		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'strictContains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'randomize', 'chunk' ]);
+		install(Function, rjs, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
 		return rjs;
 	}
 
@@ -871,9 +823,6 @@ var RJS = (function() {
 		// function
 		I								: I,
 		not 						: not,
-		any							: any,
-		all							: all,
-		bind						: bind,
 		compose					: compose,
 		sequence				: sequence,
 		curryAt					: curryAt,
@@ -903,7 +852,6 @@ var RJS = (function() {
 		mapNumber			 	: mapNumber,
 
 		// array
-		map						 	: map,
 		each 						: each,
 		pluck						: pluck,
 		group						: group,
@@ -920,7 +868,6 @@ var RJS = (function() {
 		findByProperty	: findByProperty,
 		spliced					: spliced,
 		range						: range,
-		filter					: filter,
 		filterBy				: filterBy,
 		randomize				: randomize,
 		chunk						: chunk,

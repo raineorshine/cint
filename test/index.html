@@ -37,30 +37,6 @@ $(function() {
 		equal(RJS.not(RJS.I)(undefined), true, 'Works with non-booleans');
 	});
 
-	test('map', function() {
-		var arr = [1,2,3,4,5];
-		var copyOut = [];
-		function double(x) {
-			return x * 2;
-		}
-		deepEqual(RJS.map(arr, double), [2,4,6,8,10]);
-		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
-
-		var abc = [
-			function() { return 'a'; },
-			function() { return 'b'; },
-			function() { return 'c'; }
-		];
-		deepEqual(RJS.map(abc), ['a', 'b', 'c']);
-
-		var abcIndices = [
-			function(i) { return 'a' + i; },
-			function(i) { return 'b' + i; },
-			function(i) { return 'c' + i; }
-		];
-		deepEqual(RJS.map(abcIndices), ['a0', 'b1', 'c2']);
-	});
-
 	test('each', function() {
 		var arr = [1,2,3,4,5];
 		var copyOut = [];
@@ -68,13 +44,6 @@ $(function() {
 			copyOut.push(x * 2);
 		});
 		deepEqual(copyOut, [2,4,6,8,10], 'Iterate through each item in a list');
-		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
-	});
-
-	test('filter', function() {
-		var arr = [1,2,3,4,5];
-		var even = function(n) { return n%2===0; };
-		deepEqual(RJS.filter(arr, even), [2,4], 'Filters out falsey results.');
 		deepEqual(arr, [1,2,3,4,5], 'Original array intact.');
 	});
 
@@ -164,34 +133,6 @@ $(function() {
 		deepEqual(plucked[1](), 'y');
 		deepEqual(plucked[2](), 'z');
 	});
-
-	test('any', function() {
-		var arr = [1,2,3,4,5];
-		equal(RJS.any(arr, function(x) { return x === 4; }), true, 'If the given function returns true for any item in the array, return true.');
-		equal(RJS.any(arr, function(x) { return x > 10; }), false, 'If the given function returns false for every item in the array, return false.');
-		equal(RJS.any([], function(x) { return true; }), false, 'If the given array is empty, return false.');
-	});
-
-	test('all', function() {
-		var arr = [1,2,3,4,5];
-		equal(RJS.all(arr, function(x) { return x === 4; }), false, 'If the given function returns true for each item in the array, return true.');
-		equal(RJS.all(arr, function(x) { return x < 10; }), true, 'If the given function returns false for any item in the array, return false.');
-		equal(RJS.all([], function(x) { return false; }), true, 'If the given array is empty, return true.');
-	});
-
-	test('bind', function() {
-		var a = {
-			_someval: 100,
-			f: function() { return this._someval; }
-		}
-		var b = {
-			_someval: 200
-		};
-		var bound = RJS.bind(a.f, b);
-
-		equal(bound(), 200);
-		equal(bound.call(null), 200);
-	})
 
 	test('compose', function() {
 		function add1(x) { return x + 1; }
@@ -414,20 +355,6 @@ $(function() {
 		equal(str.index(2), 'c', 'Index into an array as normal');
 		equal(str.index(-1), 'e', 'Negative index');
 		equal(str.index(16), 'b', 'Out of bounds index');
-	});
-
-	test('any', function() {
-		var arr = [1,2,3,4,5];
-		equal(arr.any(function(x) { return x === 4; }), true, 'If the given function returns true for any item in the array, return true.');
-		equal(arr.any(function(x) { return x > 10; }), false, 'If the given function returns false for every item in the array, return false.');
-		equal([].any(function(x) { return true; }), false, 'If the given array is empty, return false.');
-	});
-
-	test('all', function() {
-		var arr = [1,2,3,4,5];
-		equal(arr.all(function(x) { return x === 4; }), false, 'If the given function returns true for each item in the array, return true.');
-		equal(arr.all(function(x) { return x < 10; }), true, 'If the given function returns false for any item in the array, return false.');
-		equal([].all(function(x) { return false; }), true, 'If the given array is empty, return true.');
 	});
 
 	test('contains (string)', function() {
