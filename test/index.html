@@ -52,17 +52,17 @@ $(function() {
 		deepEqual(RJS.filterBy(arr, 'a', 1), [{a: 1, b: 2}, {a: 1, b: 5}], 'Filter an array of objects by a given property value.');
 	});
 
-	test('randomize', function() {
+	test('shuffle', function() {
 		var students = ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'];
 
-		equal(students.length, RJS.randomize(students).length, 'same length as original');
+		equal(students.length, RJS.shuffle(students).length, 'same length as original');
 
 		// this is a really sketchy way to test randomization
-		notDeepEqual(students, RJS.randomize(students));
-		notDeepEqual(students, RJS.randomize(students));
-		notDeepEqual(students, RJS.randomize(students));
-		notDeepEqual(students, RJS.randomize(students));
-		notDeepEqual(students, RJS.randomize(students));
+		notDeepEqual(students, RJS.shuffle(students));
+		notDeepEqual(students, RJS.shuffle(students));
+		notDeepEqual(students, RJS.shuffle(students));
+		notDeepEqual(students, RJS.shuffle(students));
+		notDeepEqual(students, RJS.shuffle(students));
 
 		deepEqual(students, ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'], 'Original array is unchanged');
 	})
@@ -289,17 +289,17 @@ $(function() {
 		deepEqual(RJS.range(), [], 'If no parameters are specified, returns an empty array.');
 	});
 
-	test('randomize', function() {
+	test('shuffle', function() {
 		var students = ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'];
 
-		equal(students.length, students.randomize().length, 'same length as original');
+		equal(students.length, students.shuffle().length, 'same length as original');
 
 		// this is a really sketchy way to test randomization
-		notDeepEqual(students, students.randomize());
-		notDeepEqual(students, students.randomize());
-		notDeepEqual(students, students.randomize());
-		notDeepEqual(students, students.randomize());
-		notDeepEqual(students, students.randomize());
+		notDeepEqual(students, students.shuffle());
+		notDeepEqual(students, students.shuffle());
+		notDeepEqual(students, students.shuffle());
+		notDeepEqual(students, students.shuffle());
+		notDeepEqual(students, students.shuffle());
 
 		deepEqual(students, ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'], 'Original array is unchanged');
 	})
