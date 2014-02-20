@@ -2,7 +2,7 @@
   "name": "rjs",
   "version": "4.0.0",
   "description": "A library of Javascript utility functions with an emphasis on Functional Programming.",
-  "main": "rjs.js",
+  "main": "dist/latest.js",
   "directories": {
     "test": "test"
   },

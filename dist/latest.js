@@ -1,6 +1,6 @@
 /** 
  * Raine's Javascript Extensions 
- * v4.0.0
+ * v4.0.0 (Thu, 20 Feb 2014 09:00:07 GMT)
  * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
@@ -200,6 +200,7 @@ var RJS = (function() {
 		return str.split(' ').map(capitalizeFirst).join(' ');
 	}
 
+	/* Returns true if the string contains the given substring. */
 	function strContains(str) {
 		var args = Array.prototype.slice.call(arguments, 1);
 		return String.prototype.indexOf.apply(str, args) !== -1;
@@ -266,6 +267,7 @@ var RJS = (function() {
 		return dict;
 	}
 
+	/** Group the array of objects by one of the object's properties or mappable function. Returns an array of { key: ___, items: ___ } objects which represent all the items in the original array grouped by the value of the specified grouping key. */
 	function orderedGroup(arr, propOrFunc) {
 
 		if(!propOrFunc) {
@@ -369,11 +371,11 @@ var RJS = (function() {
 		return merge.apply(arr, keyValues);
 	}
 
-	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns false. */
+	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns null. */
 	function find(arr, f) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
-			if(f(arr[i], i)) {
+			if(f(arr[i], i, arr)) {
 				return arr[i];
 			}
 		}
@@ -717,7 +719,7 @@ var RJS = (function() {
 			for(prop in o) {
 				objString += supplant('{0}_:_{1}', [prop, hash(o[prop])]);
 			}
-			return supplant('_{{0}}_', [objString]);
+			return supplant('_{{0}}_', [objString]); // escape for handlebars
 		}
 		else {
 			throw new Error('Unhashable value: ' + o);
@@ -767,6 +769,7 @@ var RJS = (function() {
 	 * Prototype Installation
 	 ***********************************/
 
+	/** Installs all RJS methods onto their respective built-in prototypes: String, Number, Array, and Function. */
 	function installPrototypes(rjs) {
 		var rjs = rjs || RJS;
 		install(String, rjs, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
@@ -829,7 +832,7 @@ var RJS = (function() {
 		spliced					: spliced,
 		range						: range,
 		filterBy				: filterBy,
-		shuffle				: shuffle,
+		shuffle					: shuffle,
 		chunk						: chunk,
 
 		// object

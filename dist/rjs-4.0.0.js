@@ -1,6 +1,6 @@
 /** 
  * Raine's Javascript Extensions 
- * v4.0.0 (Thu, 20 Feb 2014 08:58:37 GMT)
+ * v4.0.0 (Thu, 20 Feb 2014 09:00:07 GMT)
  * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
