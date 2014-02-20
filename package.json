@@ -20,5 +20,8 @@
   "author": "Raine Lourie",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "ba9f4a85fd605fdad2bde942d59b57c7415bd709"
+  "gitHead": "ba9f4a85fd605fdad2bde942d59b57c7415bd709",
+  "devDependencies": {
+    "handlebars": "^2.0.0-alpha.1"
+  }
 }

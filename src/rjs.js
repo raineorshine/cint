@@ -1,6 +1,6 @@
 /** 
  * Raine's Javascript Extensions 
- * v4.0.0 (Thu, 20 Feb 2014 08:42:57 GMT)
+ * v{{version}} ({{date}})
  * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
@@ -719,7 +719,7 @@ var RJS = (function() {
 			for(prop in o) {
 				objString += supplant('{0}_:_{1}', [prop, hash(o[prop])]);
 			}
-			return supplant('_{{0}}_', [objString]); // escape for handlebars
+			return supplant('_\{{0}}_', [objString]); // escape for handlebars
 		}
 		else {
 			throw new Error('Unhashable value: ' + o);
