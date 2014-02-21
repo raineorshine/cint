@@ -1,0 +1,24 @@
+{
+  "name": "cinturon",
+  "version": "5.0.1",
+  "homepage": "https://github.com/metaraine/cinturon",
+  "authors": [
+    "metaraine <raineorshine@gmail.com>"
+  ],
+  "description": "A Javascript utility belt with a focus on Functional Programming.",
+  "main": "dist/latest.js",
+  "keywords": [
+    "functional",
+    "utility",
+    "underscore",
+    "lodash"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
