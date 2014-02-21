@@ -1,4 +1,4 @@
-A library of Javascript utility functions with an emphasis on Functional Programming.
+A Javascript utility belt with an emphasis on Functional Programming.
 
 # Usage
 
