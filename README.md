@@ -10,7 +10,7 @@ Read the API (below) or see usage via the [unit tests](https://github.com/metara
 
 Download the latest version of rjs.js from the repository, or get it with curl:
 
-	curl https://raw.github.com/RaineOrShine/rjs/master/rjs.js > rjs.js
+	curl https://raw.github.com/RaineOrShine/rjs/master/dist/latest.js > rjs.js
 
 Include it:
 

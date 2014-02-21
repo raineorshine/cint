@@ -1,10 +1,11 @@
 /** 
  * Raine's Javascript Extensions 
- * v4.0.1 (Thu, 20 Feb 2014 09:02:19 GMT)
+ * v4.0.1 (Fri, 21 Feb 2014 06:48:21 GMT)
  * A library of Javascript utility functions with an emphasis on Functional Programming.
  */
 
 var RJS = (function() {
+	'use strict';
 
 	/***********************************
 	 * Function
@@ -14,10 +15,10 @@ var RJS = (function() {
 	function I(x) { return x; }
 
 	/** Returns a function that returns the inverse of the given boolean function. */
-	function not(f) { 
-		return function() { 
-			return !f.apply(this, arguments); 
-		} 
+	function not(f) {
+		return function() {
+			return !f.apply(this, arguments);
+		};
 	}
 
 	/** Returns the composition of the given functions, e.g. f(g(h(i(...)))) */
@@ -30,7 +31,7 @@ var RJS = (function() {
 			return function() {
 				var r = compose.apply(this, rest);
 				return f(r.apply(this, arguments));
-			}
+			};
 		}
 	}
 
@@ -70,7 +71,7 @@ var RJS = (function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0, n);
 			return f.apply(this, givenArgs);
 		};
-	};
+	}
 
 	/** Returns a new function that automatically curries its arguments if not saturated. */
 	function currify(f, numArgs) {
@@ -84,7 +85,7 @@ var RJS = (function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0);
 			return argsDiff <= 0 ?
 				f.apply(this, arguments) :
-				currify(curry(f, givenArgs), argsDiff)
+				currify(curry(f, givenArgs), argsDiff);
 		};
 	}
 
@@ -133,14 +134,16 @@ var RJS = (function() {
 	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
 	function spy(f, spier) {
 		var that = this;
+		/* jshint ignore:start */
 		spier = spier || console.log.bind(console);
+		/* jshint ignore:end */
 
 		return function() {
 			var args = Array.prototype.slice.call(arguments);
 			var out = f.apply(that, args);
 			spier.call(that, f, args, out);
 			return out;
-		}
+		};
 	}
 
 
@@ -165,8 +168,8 @@ var RJS = (function() {
 	}
 
 	/** Returns the substring before the first instance of the given delimiter. */
-	function before(str, delim) { 
-		return str.split(delim)[0]; 
+	function before(str, delim) {
+		return str.split(delim)[0];
 	}
 
 	/** Returns the substring after the first instance of the given delimiter. Returns the whole string if the delimiter is not found. */
@@ -177,8 +180,8 @@ var RJS = (function() {
 	}
 
 	/** Returns the substring between the given delimiters. */
-	function between(str, left, right) { 
-		return before(after(str, left), right); 
+	function between(str, left, right) {
+		return before(after(str, left), right);
 	}
 
 	/** Wraps a string with a left and right */
@@ -189,13 +192,13 @@ var RJS = (function() {
 	/** Returns a single string that repeats the string n times. */
 	function repeatString(str, n, delim) {
 		delim = delim || '';
-		return mapNumber(n, function(i) { return str; }).join(delim);
+		return mapNumber(n, function() { return str; }).join(delim);
 	}
 
 	/** Capitalizes the first letter of each word in the given string. */
 	function toTitleCase(str) {
-		var capitalizeFirst = function(s) { 
-			return s.length ? s[0].toUpperCase() + s.substring(1).toLowerCase() : ''; 
+		var capitalizeFirst = function(s) {
+			return s.length ? s[0].toUpperCase() + s.substring(1).toLowerCase() : '';
 		};
 		return str.split(' ').map(capitalizeFirst).join(' ');
 	}
@@ -216,7 +219,7 @@ var RJS = (function() {
 			n >= 11 && n <= 13 ? 'th' :
 			lastDigit === 1 ? 'st' :
 			lastDigit === 2 ? 'nd' :
-			lastDigit === 3 ? 'rd' : 
+			lastDigit === 3 ? 'rd' :
 			'th');
 	}
 
@@ -250,7 +253,7 @@ var RJS = (function() {
 			throw new Error('You must specify a property name or mappable function.');
 		}
 
-		var getGroupKey = typeof propOrFunc === 'function' ? 
+		var getGroupKey = typeof propOrFunc === 'function' ?
 			propOrFunc :
 			function(item) { return item[propOrFunc]; };
 
@@ -262,7 +265,7 @@ var RJS = (function() {
 				dict[key] = [];
 			}
 			dict[key].push(arr[i]);
-		};
+		}
 
 		return dict;
 	}
@@ -274,7 +277,7 @@ var RJS = (function() {
 			throw new Error('You must specific a property name or mappable function.');
 		}
 
-		var getGroupKey = typeof propOrFunc === 'function' ? 
+		var getGroupKey = typeof propOrFunc === 'function' ?
 			propOrFunc :
 			function(item) { return item[propOrFunc]; };
 
@@ -288,7 +291,7 @@ var RJS = (function() {
 				results.push({key: key, items: dict[key]});
 			}
 			dict[key].push(arr[i]);
-		};
+		}
 
 		return results;
 	}
@@ -300,7 +303,7 @@ var RJS = (function() {
 		for(var i=0; i<len; i++) {
 			var count = dict[arr[i]] || 0;
 			dict[arr[i]] = count + 1;
-		};
+		}
 		return dict;
 	}
 
@@ -392,6 +395,7 @@ var RJS = (function() {
 	/** Functional, nondestructive version of Array.prototype.splice. */
 	function spliced(arr, index, howMany/*, elements*/) {
 		var elements = Array.prototype.slice.apply(arguments, [3]);
+		var elementsLen = elements.length;
 		var results = [];
 		var len = arr.length;
 
@@ -401,12 +405,12 @@ var RJS = (function() {
 		}
 
 		// add inserted elements
-		for(i=0, elementsLen=elements.length; i<elementsLen; i++) {
+		for(i=0; i<elementsLen; i++) {
 			results.push(elements[i]);
 		}
 
 		// add ending elements
-		for(var i=index+howMany; i<len; i++) {
+		for(i=index+howMany; i<len; i++) {
 			results.push(arr[i]);
 		}
 
@@ -461,7 +465,7 @@ var RJS = (function() {
 			out.push(a.slice(i, i += size));
 		}
 		return out;
-	}	
+	}
 
 
 	/***********************************
@@ -509,15 +513,6 @@ var RJS = (function() {
 		return true;
 	}
 
-	/** Returns the number of properties on the given object. */
-	function numProperties(o) {
-		var n = 0;
-		for(property in o) {
-			n++;
-		}
-		return n;
-	}
-
 	/** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. */
 	function merge(/*obj1, obj2, obj3, ...*/) {
 
@@ -529,7 +524,7 @@ var RJS = (function() {
 			var outlier = arguments[i];
 			
 			// add each property to the mothership
-			for(prop in outlier) {
+			for(var prop in outlier) {
 				if(typeOf(outlier[prop]) === 'object' && outlier[prop].constructor === Object && outlier[prop] !== null && !(outlier[prop] instanceof Array)) {
 					mothership[prop] = merge(mothership[prop], outlier[prop]); // RECURSION
 				}
@@ -546,7 +541,7 @@ var RJS = (function() {
 	function mapObject(obj, f) {
 		var result = {};
 		for(var key in obj) {
-			pair = f(key, obj[key]);
+			var pair = f(key, obj[key]);
 			for(var prop in pair) {
 				result[prop] = pair[prop];
 			}
@@ -556,7 +551,7 @@ var RJS = (function() {
 
 	/** Returns an array whose items are the result of calling f(key, value) on each property of the given object. If f is undefined, returns a list of { key: ___, value: ___ } objects. */
 	function toArray(obj, f) {
-		var f = f || function(key, value) { return { key: key, value: value }; };
+		f = f || function(key, value) { return { key: key, value: value }; };
 		var result = [];
 		for(var key in obj) {
 			result.push(f(key, obj[key]));
@@ -613,7 +608,7 @@ var RJS = (function() {
 	function dynamicCompare(props) {
 
 		if(!props || !(props instanceof Array)) {
-			console.error('Invalid props');
+			throw new Error('props is falsey or not an Array');
 		}
 
 		return function(a,b) {
@@ -676,8 +671,8 @@ var RJS = (function() {
 			}
 		}
 		// compare objects
-		else if(numProperties(a) === numProperties(b)) {
-			for(property in a) {
+		else if(Object.keys(a).length === Object.keys(b)) {
+			for(var property in a) {
 				if(!(property in b && b[property] === a[property])) {
 					return false;
 				}
@@ -696,8 +691,8 @@ var RJS = (function() {
 	}
 
 	/** Returns true if the given value is not undefined, null, or an empty string. */
-	function hasValue(x) { 
-		return x !== undefined && x !== null && x !== ''; 
+	function hasValue(x) {
+		return x !== undefined && x !== null && x !== '';
 	}
 
 	/** Returns a string representation of the given scalar, array, or dictionary. */
@@ -716,10 +711,11 @@ var RJS = (function() {
 		}
 		else if(typeOf(o) === 'object') {
 			var objString = '';
-			for(prop in o) {
+			for(var prop in o) {
 				objString += supplant('{0}_:_{1}', [prop, hash(o[prop])]);
 			}
-			return supplant('_{{0}}_', [objString]); // escape for handlebars
+			// escape for handlebars
+			return supplant('_{{0}}_', [objString]); // jshint ignore:line
 		}
 		else {
 			throw new Error('Unhashable value: ' + o);
@@ -731,11 +727,11 @@ var RJS = (function() {
 	*/
 	var guid = (function() {
 		var S4 = function() {
-			 return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-		}
+			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+		};
 		return function() {
-			return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
-		}
+			return S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4();
+		};
 	})();
 
 	/** Returns a string representing the type of the object, with special handling for null and arrays.
@@ -771,7 +767,7 @@ var RJS = (function() {
 
 	/** Installs all RJS methods onto their respective built-in prototypes: String, Number, Array, and Function. */
 	function installPrototypes(rjs) {
-		var rjs = rjs || RJS;
+		rjs = rjs || RJS;
 		install(String, rjs, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
@@ -788,7 +784,7 @@ var RJS = (function() {
 
 		// function
 		I								: I,
-		not 						: not,
+		not							: not,
 		compose					: compose,
 		sequence				: sequence,
 		curryAt					: curryAt,
@@ -796,10 +792,10 @@ var RJS = (function() {
 		rcurry					: rcurry,
 		arritize				: arritize,
 		currify					: currify,
-		callTillValue	 	: callTillValue,
+		callTillValue		: callTillValue,
 		toInstance			: toInstance,
-		install				 	: install,
-		spy 						: spy,
+		install					: install,
+		spy							: spy,
 
 		// string
 		supplant				: supplant,
@@ -809,12 +805,12 @@ var RJS = (function() {
 		between					: between,
 		bookend					: bookend,
 		repeatString		: repeatString,
-		toTitleCase		 	: toTitleCase,
+		toTitleCase			: toTitleCase,
 		strContains			: strContains,
 
 		// number
-		ordinal				 	: ordinal,
-		mapNumber			 	: mapNumber,
+		ordinal					: ordinal,
+		mapNumber				: mapNumber,
 
 		// array
 		pluck						: pluck,
@@ -840,10 +836,9 @@ var RJS = (function() {
 		keyValue				: keyValue,
 		joinObj					: joinObj,
 		isEmpty					: isEmpty,
-		numProperties	 	: numProperties,
-		merge					 	: merge,
-		mapObject			 	: mapObject,
-		toArray				 	: toArray,
+		merged					: merge,
+		mapObject				: mapObject,
+		toArray					: toArray,
 		filterObject		: filterObject,
 		changeKeys			: changeKeys,
 

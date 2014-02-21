@@ -9,6 +9,7 @@
 			jsdoc =		require('gulp-jsdoc');
 
 	gulp.task('default', function() {
+
 		gulp.src('./src/*.js')
 			.pipe(jshint('.jshintrc'))
 			.pipe(jshint.reporter('jshint-stylish'))
