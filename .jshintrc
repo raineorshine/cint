@@ -1,0 +1,8 @@
+{
+	"validthis": true,
+	"smarttabs": true,
+	"globals": [
+		"module",
+		"require"
+	]
+}

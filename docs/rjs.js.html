@@ -1,4 +1,31 @@
-/** 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: rjs.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: rjs.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
  * Raine's Javascript Extensions 
  * v{{version}} ({{date}})
  * A library of Javascript utility functions with an emphasis on Functional Programming.
@@ -49,7 +76,7 @@ var RJS = (function() {
 
 			// handle negative indices
 			// Note that we add 1 so that -1 points to the slot AFTER the last element, not before the last element (which is what the last index points to).
-			if(index < 0) {
+			if(index &lt; 0) {
 				index = circ(givenArgs, index) + 1;
 			}
 
@@ -83,7 +110,7 @@ var RJS = (function() {
 		return function() {
 			var argsDiff = numArgs - arguments.length;
 			var givenArgs = Array.prototype.slice.call(arguments, 0);
-			return argsDiff <= 0 ?
+			return argsDiff &lt;= 0 ?
 				f.apply(this, arguments) :
 				currify(curry(f, givenArgs), argsDiff);
 		};
@@ -113,17 +140,17 @@ var RJS = (function() {
 		}
 
 		var len = methods.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 
 			// the method can be a string if the hostKey and protoKey are the same ('contains') or an object that maps the host key to the proto key ({repeatString: 'repeat'})
 			if(typeof methods[i] === 'string') {
-				if(safe && !(methods[i] in protoObj.prototype)) {
+				if(safe &amp;&amp; !(methods[i] in protoObj.prototype)) {
 					protoObj.prototype[methods[i]] = toInstance(host[methods[i]]);
 				}
 			}
 			else {
 				for(var name in methods[i]) {
-					if(safe && !(methods[i][name] in protoObj.prototype)) {
+					if(safe &amp;&amp; !(methods[i][name] in protoObj.prototype)) {
 						protoObj.prototype[methods[i][name]] = toInstance(host[name]);
 					}
 				}
@@ -216,7 +243,7 @@ var RJS = (function() {
 	function ordinal(n) {
 		var lastDigit = n%10;
 		return n + (
-			n >= 11 && n <= 13 ? 'th' :
+			n >= 11 &amp;&amp; n &lt;= 13 ? 'th' :
 			lastDigit === 1 ? 'st' :
 			lastDigit === 2 ? 'nd' :
 			lastDigit === 3 ? 'rd' :
@@ -226,7 +253,7 @@ var RJS = (function() {
 	/** Invokes the given function n times, passing the index for each invocation, and returns an array of the results. */
 	function mapNumber(n, f) {
 		var results = [];
-		for(var i=0; i<n; i++) {
+		for(var i=0; i&lt;n; i++) {
 			results.push(f(i));
 		}
 		return results;
@@ -259,7 +286,7 @@ var RJS = (function() {
 
 		var dict = {};
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			var key = getGroupKey(arr[i]);
 			if(!(key in dict)) {
 				dict[key] = [];
@@ -284,7 +311,7 @@ var RJS = (function() {
 		var results = [];
 		var dict = {};
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			var key = getGroupKey(arr[i]);
 			if(!(key in dict)) {
 				dict[key] = [];
@@ -300,7 +327,7 @@ var RJS = (function() {
 	function tally(arr) {
 		var dict = {};
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			var count = dict[arr[i]] || 0;
 			dict[arr[i]] = count + 1;
 		}
@@ -317,7 +344,7 @@ var RJS = (function() {
 	function unique(arr) {
 		var output = [];
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			if(!contains(output, arr[i])) {
 				output.push(arr[i]);
 			}
@@ -358,7 +385,7 @@ var RJS = (function() {
 	function rotate(arr, n) {
 		var output = [];
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			output.push(index(arr, i+n));
 		}
 		return output;
@@ -368,7 +395,7 @@ var RJS = (function() {
 	function toObject(arr, f) {
 		var keyValues = [];
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			keyValues.push(f(arr[i], i));
 		}
 		return merge.apply(arr, keyValues);
@@ -377,7 +404,7 @@ var RJS = (function() {
 	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns null. */
 	function find(arr, f) {
 		var len = arr.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			if(f(arr[i], i, arr)) {
 				return arr[i];
 			}
@@ -400,17 +427,17 @@ var RJS = (function() {
 		var len = arr.length;
 
 		// add starting elements
-		for(var i=0; i<index && i<len; i++) {
+		for(var i=0; i&lt;index &amp;&amp; i&lt;len; i++) {
 			results.push(arr[i]);
 		}
 
 		// add inserted elements
-		for(i=0; i<elementsLen; i++) {
+		for(i=0; i&lt;elementsLen; i++) {
 			results.push(elements[i]);
 		}
 
 		// add ending elements
-		for(i=index+howMany; i<len; i++) {
+		for(i=index+howMany; i&lt;len; i++) {
 			results.push(arr[i]);
 		}
 
@@ -424,7 +451,7 @@ var RJS = (function() {
 			start = 1;
 		}
 		var results = [];
-		for(var i=start; i<=end; i++) {
+		for(var i=start; i&lt;=end; i++) {
 			results.push(i);
 		}
 		return results;
@@ -446,7 +473,7 @@ var RJS = (function() {
 			output[j] = temp;
 		}
 
-		for(var i=0, len=output.length; i<len; i++) {
+		for(var i=0, len=output.length; i&lt;len; i++) {
 			var r = Math.floor(Math.random() * len);
 			swap(i, r);
 		}
@@ -460,7 +487,7 @@ var RJS = (function() {
 	*/
 	function chunk(a, n) {
 		var len = a.length,out = [], i = 0;
-		while (i < len) {
+		while (i &lt; len) {
 			var size = Math.ceil((len - i) / n--);
 			out.push(a.slice(i, i += size));
 		}
@@ -505,7 +532,7 @@ var RJS = (function() {
 		if(typeOf(o) === 'object') {
 			for (i in o) {
 				v = o[i];
-				if (v !== undefined && typeOf(v) !== 'function') {
+				if (v !== undefined &amp;&amp; typeOf(v) !== 'function') {
 					return false;
 				}
 			}
@@ -520,12 +547,12 @@ var RJS = (function() {
 		
 		// iterate through each given object
 		var len = arguments.length;
-		for(var i=0; i<len; i++) {
+		for(var i=0; i&lt;len; i++) {
 			var outlier = arguments[i];
 			
 			// add each property to the mothership
 			for(var prop in outlier) {
-				if(typeOf(outlier[prop]) === 'object' && outlier[prop].constructor === Object && outlier[prop] !== null && !(outlier[prop] instanceof Array)) {
+				if(typeOf(outlier[prop]) === 'object' &amp;&amp; outlier[prop].constructor === Object &amp;&amp; outlier[prop] !== null &amp;&amp; !(outlier[prop] instanceof Array)) {
 					mothership[prop] = merge(mothership[prop], outlier[prop]); // RECURSION
 				}
 				else if(outlier[prop] !== undefined) {
@@ -588,10 +615,10 @@ var RJS = (function() {
 	 * Utility
 	 ***********************************/
 
-	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
+	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a&lt;b. */
 	function compare(a,b) {
 		return a > b ? 1 :
-			a < b ? -1 :
+			a &lt; b ? -1 :
 			0;
 	}
 
@@ -613,7 +640,7 @@ var RJS = (function() {
 
 		return function(a,b) {
 			var len = props.length;
-			for(var i=0; i<len; i++) {
+			for(var i=0; i&lt;len; i++) {
 				var aVal, bVal, sortDir;
 				if(typeof props[i] == 'function') {
 					aVal = props[i](a);
@@ -658,7 +685,7 @@ var RJS = (function() {
 			}
 
 			// check the equality of each item
-			for(var i=0, l=a.length; i<l; i++) {
+			for(var i=0, l=a.length; i&lt;l; i++) {
 				if(!b || !b[i] || !equals(a[i], b[i])) { // RECURSION
 					return false;
 				}
@@ -673,7 +700,7 @@ var RJS = (function() {
 		// compare objects
 		else if(Object.keys(a).length === Object.keys(b)) {
 			for(var property in a) {
-				if(!(property in b && b[property] === a[property])) {
+				if(!(property in b &amp;&amp; b[property] === a[property])) {
 					return false;
 				}
 			}
@@ -692,7 +719,7 @@ var RJS = (function() {
 
 	/** Returns true if the given value is not undefined, null, or an empty string. */
 	function hasValue(x) {
-		return x !== undefined && x !== null && x !== '';
+		return x !== undefined &amp;&amp; x !== null &amp;&amp; x !== '';
 	}
 
 	/** Returns a string representation of the given scalar, array, or dictionary. */
@@ -741,8 +768,8 @@ var RJS = (function() {
 		var s = typeof value;
 		if (s === 'object') {
 			if (value) {
-				if (typeof value.length === 'number' &&
-						!(value.propertyIsEnumerable('length')) &&
+				if (typeof value.length === 'number' &amp;&amp;
+						!(value.propertyIsEnumerable('length')) &amp;&amp;
 						typeof value.splice === 'function') {
 					s = 'array';
 				}
@@ -864,3 +891,26 @@ var RJS = (function() {
 if(typeof module !== 'undefined') {
 	module.exports = RJS;
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Thu Feb 20 2014 23:27:32 GMT-0700 (MST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
