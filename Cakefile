@@ -4,14 +4,14 @@ fs =         require 'fs'
 pkg =        require './package.json'
 handlebars = require 'handlebars'
 
-source = fs.readFileSync('src/rjs.js').toString()
+source = fs.readFileSync('src/cinturon.js').toString()
 template = handlebars.compile(source)
 
 deploy = ->
 	compiled = template
 		version: pkg.version 
 		date:    (new Date()).toUTCString()
-	fs.writeFileSync("dist/rjs-#{pkg.version}.js", compiled)
+	fs.writeFileSync("dist/cinturon-#{pkg.version}.js", compiled)
 	fs.writeFileSync("dist/latest.js", compiled)
 
 ###
@@ -23,4 +23,4 @@ task 'publish', 'Add, commit (with message Deploy vX.X.X), push, and publish on 
 	spawn 'npm', ['publish']
 ###
 
-task 'deploy', 'Copy /src/rjs.js to /dist with version number from package.json.', deploy
+task 'deploy', 'Copy /src/cinturon.js to /dist with version number from package.json.', deploy

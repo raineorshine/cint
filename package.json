@@ -1,5 +1,5 @@
 {
-  "name": "rjs",
+  "name": "cinturon",
   "version": "4.0.2",
   "description": "A library of Javascript utility functions with an emphasis on Functional Programming.",
   "main": "dist/latest.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/metaraine/rjs.git"
+    "url": "git://github.com/metaraine/cinturon.git"
   },
   "keywords": [
     "functional",

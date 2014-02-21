@@ -1,10 +1,10 @@
 /** 
- * Raine's Javascript Extensions 
+ * cinturon
  * v{{version}} ({{date}})
- * A library of Javascript utility functions with an emphasis on Functional Programming.
+ * A Javascript utility belt with an emphasis on Functional Programming.
  */
 
-var RJS = (function() {
+var cin = (function() {
 	'use strict';
 
 	/***********************************
@@ -571,7 +571,7 @@ var RJS = (function() {
 	}
 
 	/** Changes the specified keys in an object. 
-		@example RJS.changeKeys(
+		@example cin.changeKeys(
 			{ fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 
 			{ fname: 'first', lname: 'last' }
 		)
@@ -765,14 +765,14 @@ var RJS = (function() {
 	 * Prototype Installation
 	 ***********************************/
 
-	/** Installs all RJS methods onto their respective built-in prototypes: String, Number, Array, and Function. */
-	function installPrototypes(rjs) {
-		rjs = rjs || RJS;
-		install(String, rjs, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
-		install(Number, rjs, ['ordinal', { mapNumber: 'map' }]);
-		install(Array, rjs, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
-		install(Function, rjs, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
-		return rjs;
+	/** Installs all methods onto their respective built-in prototypes: String, Number, Array, and Function. */
+	function installPrototypes(host) {
+		host = host || cin;
+		install(String, host, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
+		install(Number, host, ['ordinal', { mapNumber: 'map' }]);
+		install(Array, host, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
+		install(Function, host, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
+		return host;
 	}
 
 
@@ -862,5 +862,5 @@ var RJS = (function() {
 
 // nodejs module
 if(typeof module !== 'undefined') {
-	module.exports = RJS;
+	module.exports = cin;
 }

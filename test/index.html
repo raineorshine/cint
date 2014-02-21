@@ -13,71 +13,71 @@
 
 <script src='jquery-1.6.2.min.js'></script>
 <script src='qunit.js'></script>
-<script src='../rjs.js'></script>
+<script src='../src/cinturon.js'></script>
 
 <script>
 $(function() {
 
-	module('rjs');
+	module('cinturon');
 
 	test('I', function() {
-		equal(RJS.I(10), 10, 'Identity function returns the value that was passed in.');
-		equal(RJS.I(), undefined, 'Identity of no arguments is undefined.');
-		equal(RJS.I(1,2,3), 1, 'Identity function only returns the first argument.');
+		equal(cin.I(10), 10, 'Identity function returns the value that was passed in.');
+		equal(cin.I(), undefined, 'Identity of no arguments is undefined.');
+		equal(cin.I(1,2,3), 1, 'Identity function only returns the first argument.');
 	});
 
 	test('not', function() {
 		var yes = function() { return true; }
 		var no = function() { return false; }
-		equal(RJS.not(yes)(), false, 'Reverses true to false.');
-		equal(RJS.not(no)(), true, 'Reverses false to true.');
-		equal(RJS.not(RJS.I)(true), false, 'Works with arguments.');
-		equal(RJS.not(RJS.I)(false), true, 'Works with arguments.');
-		equal(RJS.not(RJS.I)('a'), false, 'Works with non-booleans.');
-		equal(RJS.not(RJS.I)(undefined), true, 'Works with non-booleans');
+		equal(cin.not(yes)(), false, 'Reverses true to false.');
+		equal(cin.not(no)(), true, 'Reverses false to true.');
+		equal(cin.not(cin.I)(true), false, 'Works with arguments.');
+		equal(cin.not(cin.I)(false), true, 'Works with arguments.');
+		equal(cin.not(cin.I)('a'), false, 'Works with non-booleans.');
+		equal(cin.not(cin.I)(undefined), true, 'Works with non-booleans');
 	});
 
 	test('filterBy', function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
-		deepEqual(RJS.filterBy(arr, 'a', 1), [{a: 1, b: 2}, {a: 1, b: 5}], 'Filter an array of objects by a given property value.');
+		deepEqual(cin.filterBy(arr, 'a', 1), [{a: 1, b: 2}, {a: 1, b: 5}], 'Filter an array of objects by a given property value.');
 	});
 
 	test('shuffle', function() {
 		var students = ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'];
 
-		equal(students.length, RJS.shuffle(students).length, 'same length as original');
+		equal(students.length, cin.shuffle(students).length, 'same length as original');
 
 		// this is a really sketchy way to test randomization
-		notDeepEqual(students, RJS.shuffle(students));
-		notDeepEqual(students, RJS.shuffle(students));
-		notDeepEqual(students, RJS.shuffle(students));
-		notDeepEqual(students, RJS.shuffle(students));
-		notDeepEqual(students, RJS.shuffle(students));
+		notDeepEqual(students, cin.shuffle(students));
+		notDeepEqual(students, cin.shuffle(students));
+		notDeepEqual(students, cin.shuffle(students));
+		notDeepEqual(students, cin.shuffle(students));
+		notDeepEqual(students, cin.shuffle(students));
 
 		deepEqual(students, ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'], 'Original array is unchanged');
 	})
 
 	test('chunk', function() {
 		var arr = [1,2,3,4,5,6,7,8,9,10];
-		deepEqual(RJS.chunk(arr, 1), [[1,2,3,4,5,6,7,8,9,10]]);
-		deepEqual(RJS.chunk(arr, 2), [[1,2,3,4,5], [6,7,8,9,10]]);
-		deepEqual(RJS.chunk(arr, 3), [[1,2,3,4], [5,6,7], [8,9,10]]);
-		deepEqual(RJS.chunk(arr, 7), [[1,2], [3,4], [5,6], [7], [8], [9], [10]]);
-		deepEqual(RJS.chunk(arr, 10), [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]);
+		deepEqual(cin.chunk(arr, 1), [[1,2,3,4,5,6,7,8,9,10]]);
+		deepEqual(cin.chunk(arr, 2), [[1,2,3,4,5], [6,7,8,9,10]]);
+		deepEqual(cin.chunk(arr, 3), [[1,2,3,4], [5,6,7], [8,9,10]]);
+		deepEqual(cin.chunk(arr, 7), [[1,2], [3,4], [5,6], [7], [8], [9], [10]]);
+		deepEqual(cin.chunk(arr, 10), [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]);
 		deepEqual(arr, [1,2,3,4,5,6,7,8,9,10], 'Original array is unchanged');
 	})
 
 
 	test('mapObject', function() {
 		var o = { a: 1, b: 2, c: 3 };
-		var swap = function(k,v) { return RJS.keyValue(v,k); };
-		deepEqual(RJS.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' });
+		var swap = function(k,v) { return cin.keyValue(v,k); };
+		deepEqual(cin.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' });
 	});
 
 	test('changeKeys', function() {
 		// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
 		var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' };
-		var newObject = RJS.changeKeys( oldObject, { fname: 'first', lname: 'last' });
+		var newObject = cin.changeKeys( oldObject, { fname: 'first', lname: 'last' });
 		deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 'Old object is unmodified.');
 		deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' }, 'New object contains modified keys.');
 
@@ -85,16 +85,16 @@ $(function() {
 
 	test('index (array)', function() {
 		var arr = [1,2,3,4,5];
-		equal(RJS.index(arr, 2), 3, 'Index into an array as normal');
-		equal(RJS.index(arr, -1), 5, 'Negative index');
-		equal(RJS.index(arr, 16), 2, 'Out of bounds index');
+		equal(cin.index(arr, 2), 3, 'Index into an array as normal');
+		equal(cin.index(arr, -1), 5, 'Negative index');
+		equal(cin.index(arr, 16), 2, 'Out of bounds index');
 	});
 
 	test('index (string)', function() {
 		var str = 'abcde';
-		equal(RJS.index(str, 2), 'c', 'Index into an array as normal');
-		equal(RJS.index(str, -1), 'e', 'Negative index');
-		equal(RJS.index(str, 16), 'b', 'Out of bounds index');
+		equal(cin.index(str, 2), 'c', 'Index into an array as normal');
+		equal(cin.index(str, -1), 'e', 'Negative index');
+		equal(cin.index(str, 16), 'b', 'Out of bounds index');
 	});
 
 	test('new', function() {
@@ -102,7 +102,7 @@ $(function() {
 			this.name = name;
 			this.age = age;
 		};
-		var p = RJS.new(Person, ['Raine', 26]);
+		var p = cin.new(Person, ['Raine', 26]);
 		ok(p instanceof Person);
 		equal(p.name, 'Raine');
 		equal(p.age, 26);
@@ -110,15 +110,15 @@ $(function() {
 
 	test('pluck', function() {
 		var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
-		deepEqual(RJS.pluck(arr, 'a'), [1, 1, 0]);
-		deepEqual(RJS.pluck(arr, 'b'), [2, 5, 10]);
+		deepEqual(cin.pluck(arr, 'a'), [1, 1, 0]);
+		deepEqual(cin.pluck(arr, 'b'), [2, 5, 10]);
 
 		var arr = [
 			{a: 'x', f: function() { return this.a; }}, 
 			{a: 'y', f: function() { return this.a; }}, 
 			{a: 'z', f: function() { return this.a; }}, 
 		];
-		var plucked = RJS.pluck(arr, 'f');
+		var plucked = cin.pluck(arr, 'f');
 		deepEqual(plucked[0](), 'x');
 		deepEqual(plucked[1](), 'y');
 		deepEqual(plucked[2](), 'z');
@@ -128,43 +128,43 @@ $(function() {
 		function add1(x) { return x + 1; }
 		function times2(x) { return x * 2; }
 
-		equal(RJS.compose(times2)(2), 4, 'single function');
-		equal(RJS.compose(times2, add1)(1), 4, 'f of g');
-		equal(RJS.compose(add1, times2)(1), 3, 'g of f');
-		equal(RJS.compose(times2, add1, add1, add1)(1), 8, 'multiple functions');
+		equal(cin.compose(times2)(2), 4, 'single function');
+		equal(cin.compose(times2, add1)(1), 4, 'f of g');
+		equal(cin.compose(add1, times2)(1), 3, 'g of f');
+		equal(cin.compose(times2, add1, add1, add1)(1), 8, 'multiple functions');
 	})
 
 	test('sequence', function() {
 		function add1(x) { return x + 1; }
 		function times2(x) { return x * 2; }
 
-		equal(RJS.sequence(times2)(2), 4, 'single function');
-		equal(RJS.sequence(times2, add1)(1), 3, 'g of f');
-		equal(RJS.sequence(add1, times2)(1), 4, 'f of g');
-		equal(RJS.sequence(times2, add1, add1, add1)(2), 7, 'multiple functions');
+		equal(cin.sequence(times2)(2), 4, 'single function');
+		equal(cin.sequence(times2, add1)(1), 3, 'g of f');
+		equal(cin.sequence(add1, times2)(1), 4, 'f of g');
+		equal(cin.sequence(times2, add1, add1, add1)(2), 7, 'multiple functions');
 	})
 
 	test('curryAt', function() {
 		var subtract = function(x,y) { return x - y; };
-		var subtractFromTen = RJS.curryAt(subtract, 0, [10]);
+		var subtractFromTen = cin.curryAt(subtract, 0, [10]);
 		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
 
-		var subtractTen = RJS.curryAt(subtract, 1, [10]);
+		var subtractTen = cin.curryAt(subtract, 1, [10]);
 		equal(subtractTen(100), 90, 'Inject arguments in the middle.');
 
-		var subtractTwenty = RJS.curryAt(subtract, -1, [20])
+		var subtractTwenty = cin.curryAt(subtract, -1, [20])
 		equal(subtractTwenty(100), 80, 'Handles negative indexes');
 	});
 
 	test('curry', function() {
 		var subtract = function(x,y) { return x - y; };
-		var subtractFromTen = RJS.curry(subtract, [10]);
+		var subtractFromTen = cin.curry(subtract, [10]);
 		equal(subtractFromTen(1), 9);
 	});
 
 	test('rcurry', function() {
 		var subtract = function(x,y) { return x - y; };
-		var subtractTen = RJS.rcurry(subtract, [10]);
+		var subtractTen = cin.rcurry(subtract, [10]);
 		equal(subtractTen(100), 90);
 	});
 
@@ -173,18 +173,18 @@ $(function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0);
 			return givenArgs.join('');
 		};
-		var joinTwo = RJS.arritize(joinEm, 2);
+		var joinTwo = cin.arritize(joinEm, 2);
 		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 	});
 
 	test('currify', function() {
 		var subtract = function(x,y) { return x - y; };
-		var curriedSubtract = RJS.currify(subtract);
+		var curriedSubtract = cin.currify(subtract);
 		equal(curriedSubtract(10,1), 9, 'If all arguments are specified, return the result.');
 		equal(curriedSubtract(1,10), -9, 'Argument order is preserved (left curry)');
 
 		var addThree = function(x,y,z) { return x + y + z; };
-		var curriedAddThree = RJS.currify(addThree);
+		var curriedAddThree = cin.currify(addThree);
 		equal(curriedAddThree(1,2,4), 7, 'If arguments are partially specified, return a new currified function.');
 		equal(curriedAddThree(1,2)(4), 7, 'If arguments are partially specified, return a new currified function.');
 		equal(curriedAddThree(1)(2,4), 7, 'If arguments are partially specified, return a new currified function.');
@@ -205,7 +205,7 @@ $(function() {
 			}
 		};
 
-		RJS.spy(add)(1,2);
+		cin.spy(add)(1,2);
 
 		// restore console.log
 		window.console = oldConsole;
@@ -216,7 +216,7 @@ $(function() {
 			equal(out, 3, 'third argument is the return value of the function');
 		}
 
-		RJS.spy(add, customLog)(1,2);
+		cin.spy(add, customLog)(1,2);
 	})
 
 
@@ -224,59 +224,59 @@ $(function() {
 	// string
 	test('supplant', function() {
 
-		equal(RJS.supplant('{0} walks his {1} in the {2}.', 
+		equal(cin.supplant('{0} walks his {1} in the {2}.', 
 			['Jim', 'dinosaur', 'park']), 
 			'Jim walks his dinosaur in the park.', 
 			'Supplant with array by index');
 
-		equal(RJS.supplant('{owner} walks his {pet} in the {place}.', 
+		equal(cin.supplant('{owner} walks his {pet} in the {place}.', 
 			{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
 			'Jim walks his dinosaur in the park.', 
 			'Supplant with object by key');
 
-		equal(RJS.supplant('{owner} walks his {pet} in the {place}.', 
+		equal(cin.supplant('{owner} walks his {pet} in the {place}.', 
 			{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
 			'Jim walks his dinosaur in the park.', 
 			'Supplant with object by key');
 
-		equal(RJS.supplant('{owner} walks his {pet} in the {place}.', 
+		equal(cin.supplant('{owner} walks his {pet} in the {place}.', 
 			{ owner: 'Jim', pet: 'dinosaur' }), 
 			'Jim walks his dinosaur in the {place}.', 
 			'Ignores non-existant keys');
 
 		var Dino = function() {};
 		Dino.prototype.toString = function() { return 'dinosaur'; };
-		equal(RJS.supplant('{owner} walks his {pet}.', 
+		equal(cin.supplant('{owner} walks his {pet}.', 
 			{ owner: 'Jim', pet: new Dino() }), 
 			'Jim walks his dinosaur.', 
 			'toStrings all values to be interpolated');
 	})
 
 	test('bookend', function() {
-		equal(RJS.bookend('b', 'a', 'c'), 'abc', 'Add a string to the beginning and a string to the end of a string.')
-		equal(RJS.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
-		equal(RJS.bookend('b'), 'b', 'Ignores falsey begin and end values')
+		equal(cin.bookend('b', 'a', 'c'), 'abc', 'Add a string to the beginning and a string to the end of a string.')
+		equal(cin.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
+		equal(cin.bookend('b'), 'b', 'Ignores falsey begin and end values')
 	})
 
 	test('strContains', function() {
-		equal(RJS.strContains('abigail', 'a'), true, 'Returns true if the string contains the given substring at the beginning.');
-		equal(RJS.strContains('abigail', 'big'), true, 'Returns true if the string contains the given substring in the middle.');
-		equal(RJS.strContains('abigail', 'gail'), true, 'Returns true if the string contains the given substring at the end.');
-		equal(RJS.strContains('abigail', 'z'), false, 'Returns false if the string doesn\'t contain the given substring.');
-		equal(RJS.strContains('abigail', 'bigger'), false, 'Returns false if the string doesn\'t contain the given substring.');
+		equal(cin.strContains('abigail', 'a'), true, 'Returns true if the string contains the given substring at the beginning.');
+		equal(cin.strContains('abigail', 'big'), true, 'Returns true if the string contains the given substring in the middle.');
+		equal(cin.strContains('abigail', 'gail'), true, 'Returns true if the string contains the given substring at the end.');
+		equal(cin.strContains('abigail', 'z'), false, 'Returns false if the string doesn\'t contain the given substring.');
+		equal(cin.strContains('abigail', 'bigger'), false, 'Returns false if the string doesn\'t contain the given substring.');
 	});
 
 	// array
 	test('spliced', function() {
 		var arr = [1,2,3,4,5];
-		deepEqual(RJS.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
+		deepEqual(cin.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
 		deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
 	});
 
 	test('range', function() {
-		deepEqual(RJS.range(2,5), [2,3,4,5], 'Returns a range of numbers from start to end, inclusive.');
-		deepEqual(RJS.range(3), [1,2,3], 'If one parameter is specified, returns a range of numbers from 1 to the given number, inclusive.');
-		deepEqual(RJS.range(), [], 'If no parameters are specified, returns an empty array.');
+		deepEqual(cin.range(2,5), [2,3,4,5], 'Returns a range of numbers from start to end, inclusive.');
+		deepEqual(cin.range(3), [1,2,3], 'If one parameter is specified, returns a range of numbers from 1 to the given number, inclusive.');
+		deepEqual(cin.range(), [], 'If no parameters are specified, returns an empty array.');
 	});
 
 	test('shuffle', function() {
@@ -305,17 +305,17 @@ $(function() {
 	})
 
 	test('hasKey', function() {
-		equal(RJS.hasKey('a', {a:1}), true, 'Returns true if the key is in the object.');
-		equal(RJS.hasKey('b', {a:1}), false, 'Returns false if the key is not in the object.');
-		equal(RJS.hasKey(1, ['a', 'b', 'c']), true, 'Works for arrays');
+		equal(cin.hasKey('a', {a:1}), true, 'Returns true if the key is in the object.');
+		equal(cin.hasKey('b', {a:1}), false, 'Returns false if the key is not in the object.');
+		equal(cin.hasKey(1, ['a', 'b', 'c']), true, 'Works for arrays');
 	});
 
 
 	/******************************************************
 	 * PROTOTYPED
 	 ******************************************************/
-	module('rjs-proto');
-	RJS.installPrototypes();
+	module('cinturon-proto');
+	cin.installPrototypes();
 
 	test('new', function() {
 		var Person = function(name, age) {
