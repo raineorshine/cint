@@ -1,8 +1,8 @@
 A library of Javascript utility functions with an emphasis on Functional Programming.
 
-# How to Use
+# Usage
 
-Read the API (below) or see usage via the [unit tests](https://github.com/metaraine/rjs/blob/master/test/index.html).
+Read the API (below) or check out some examples used in the [unit tests](https://github.com/metaraine/rjs/blob/master/test/index.html).
 
 # Installation
 
