@@ -119,48 +119,16 @@ $(function() {
 		deepEqual(plucked[2](), 'z');
 	});
 
-	test('compose', function() {
-		function add1(x) { return x + 1; }
-		function times2(x) { return x * 2; }
-
-		equal(cint.compose(times2)(2), 4, 'single function');
-		equal(cint.compose(times2, add1)(1), 4, 'f of g');
-		equal(cint.compose(add1, times2)(1), 3, 'g of f');
-		equal(cint.compose(times2, add1, add1, add1)(1), 8, 'multiple functions');
-	})
-
-	test('sequence', function() {
-		function add1(x) { return x + 1; }
-		function times2(x) { return x * 2; }
-
-		equal(cint.sequence(times2)(2), 4, 'single function');
-		equal(cint.sequence(times2, add1)(1), 3, 'g of f');
-		equal(cint.sequence(add1, times2)(1), 4, 'f of g');
-		equal(cint.sequence(times2, add1, add1, add1)(2), 7, 'multiple functions');
-	})
-
-	test('curryAt', function() {
+	test('partialAt', function() {
 		var subtract = function(x,y) { return x - y; };
-		var subtractFromTen = cint.curryAt(subtract, 0, [10]);
+		var subtractFromTen = cint.partialAt(subtract, 0, [10]);
 		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
 
-		var subtractTen = cint.curryAt(subtract, 1, [10]);
+		var subtractTen = cint.partialAt(subtract, 1, [10]);
 		equal(subtractTen(100), 90, 'Inject arguments in the middle.');
 
-		var subtractTwenty = cint.curryAt(subtract, -1, [20])
+		var subtractTwenty = cint.partialAt(subtract, -1, [20])
 		equal(subtractTwenty(100), 80, 'Handles negative indexes');
-	});
-
-	test('curry', function() {
-		var subtract = function(x,y) { return x - y; };
-		var subtractFromTen = cint.curry(subtract, [10]);
-		equal(subtractFromTen(1), 9);
-	});
-
-	test('rcurry', function() {
-		var subtract = function(x,y) { return x - y; };
-		var subtractTen = cint.rcurry(subtract, [10]);
-		equal(subtractTen(100), 90);
 	});
 
 	test('arritize', function() {
@@ -170,20 +138,6 @@ $(function() {
 		};
 		var joinTwo = cint.arritize(joinEm, 2);
 		equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
-	});
-
-	test('currify', function() {
-		var subtract = function(x,y) { return x - y; };
-		var curriedSubtract = cint.currify(subtract);
-		equal(curriedSubtract(10,1), 9, 'If all arguments are specified, return the result.');
-		equal(curriedSubtract(1,10), -9, 'Argument order is preserved (left curry)');
-
-		var addThree = function(x,y,z) { return x + y + z; };
-		var curriedAddThree = cint.currify(addThree);
-		equal(curriedAddThree(1,2,4), 7, 'If arguments are partially specified, return a new currified function.');
-		equal(curriedAddThree(1,2)(4), 7, 'If arguments are partially specified, return a new currified function.');
-		equal(curriedAddThree(1)(2,4), 7, 'If arguments are partially specified, return a new currified function.');
-		equal(curriedAddThree(1)(2)(4), 7, 'If arguments are partially specified, return a new currified function.');
 	});
 
 	test('spy', 6, function() {
@@ -345,28 +299,16 @@ $(function() {
 		equal('abigail'.contains('bigger'), false, 'Returns false if the string doesn\'t contain the given substring.');
 	});
 
-	test('curryAt', function() {
+	test('partialAt', function() {
 		var subtract = function(x,y) { return x - y; };
-		var subtractFromTen = subtract.curryAt(0, [10]);
+		var subtractFromTen = subtract.partialAt(0, [10]);
 		equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
 
-		var subtractTen = subtract.curryAt(1, [10]);
+		var subtractTen = subtract.partialAt(1, [10]);
 		equal(subtractTen(100), 90, 'Inject arguments in the middle.');
 
-		var subtractTwenty = subtract.curryAt(-1, [20])
+		var subtractTwenty = subtract.partialAt(-1, [20])
 		equal(subtractTwenty(100), 80, 'Handles negative indexes');
-	});
-
-	test('curry', function() {
-		var subtract = function(x,y) { return x - y; };
-		var subtractFromTen = subtract.curry([10]);
-		equal(subtractFromTen(1), 9);
-	});
-
-	test('rcurry', function() {
-		var subtract = function(x,y) { return x - y; };
-		var subtractTen = subtract.rcurry([10]);
-		equal(subtractTen(100), 90);
 	});
 
 	test('arritize', function() {

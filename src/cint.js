@@ -18,29 +18,10 @@ var cint = (function() {
 		};
 	}
 
-	/** Returns the composition of the given functions, e.g. f(g(h(i(...)))) */
-	function compose(f/*, rest*/) {
-		var rest = Array.prototype.slice.call(arguments, 1);
-		if(arguments.length === 1) {
-			return f;
-		}
-		else {
-			return function() {
-				var r = compose.apply(this, rest);
-				return f(r.apply(this, arguments));
-			};
-		}
-	}
-
-	/** Returns a reverse composition of the given functions (i.e. executed in order) e.g. i(h(g(f(...)))) */
-	function sequence(/*first, f*/) {
-		return compose.apply(this, reversed(arguments));
-	}
-
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
-		i.e. A normal curry is equivalent to f.curryAt(0, args) and an rcurry is equivalent to f.curryAt(n, args) where n is the arrity of the function.
+		i.e. _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arrity of the function.
 	*/
-	function curryAt(f, index, curriedArgs) {
+	function partialAt(f, index, curriedArgs) {
 		return function() {
 			var givenArgs = Array.prototype.slice.call(arguments);
 
@@ -56,11 +37,6 @@ var cint = (function() {
 		};
 	}
 
-	/** Returns a new function that always passes the given curried arguments to the inner function before normal arguments. */
-	var curry = curryAt(curryAt, 1, 0);
-
-	/** Returns a new function that always passes the given curried arguments to the inner function after normal arguments. */
-	var rcurry = curryAt(curryAt, 1, -1);
 
 	/** Returns a new function that calls the given function with a limit on the number of arguments. */
 	function arritize(f, n) {
@@ -70,21 +46,6 @@ var cint = (function() {
 		};
 	}
 
-	/** Returns a new function that automatically curries its arguments if not saturated. */
-	function currify(f, numArgs) {
-
-		if(numArgs === undefined) {
-			numArgs = f.length;
-		}
-
-		return function() {
-			var argsDiff = numArgs - arguments.length;
-			var givenArgs = Array.prototype.slice.call(arguments, 0);
-			return argsDiff <= 0 ?
-				f.apply(this, arguments) :
-				currify(curry(f, givenArgs), argsDiff);
-		};
-	}
 
 	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
 	function callTillValue(value) {
@@ -768,7 +729,7 @@ var cint = (function() {
 		install(String, host, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, host, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, host, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
-		install(Function, host, ['any', 'all', 'compose', 'sequence', 'curryAt', 'curry', 'rcurry', 'arritize', 'currify', 'toInstance', 'new', 'spy']);
+		install(Function, host, ['any', 'all', 'sequence', 'partialAt', 'arritize', 'toInstance', 'new', 'spy']);
 		return host;
 	}
 
@@ -781,13 +742,8 @@ var cint = (function() {
 
 		// function
 		not							: not,
-		compose					: compose,
-		sequence				: sequence,
-		curryAt					: curryAt,
-		curry						: curry,
-		rcurry					: rcurry,
+		partialAt				: partialAt,
 		arritize				: arritize,
-		currify					: currify,
 		callTillValue		: callTillValue,
 		toInstance			: toInstance,
 		install					: install,
