@@ -11,9 +11,6 @@ var cint = (function() {
 	 * Function
 	 ***********************************/
 
-	/** Identity function. */
-	function I(x) { return x; }
-
 	/** Returns a function that returns the inverse of the given boolean function. */
 	function not(f) {
 		return function() {
