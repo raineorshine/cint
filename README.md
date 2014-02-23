@@ -55,34 +55,16 @@ to open test/index.html in a browser.
 
 ## Function
 
-	/** Identity function. */
-	cint.I(x)
-
 	/** Returns a function that returns the inverse of the given boolean function. */
 	cint.not(f)
 
-	/** Returns the composition of the given functions, e.g. f(g(h(i(...)))) */
-	cint.compose(f[, rest])
-
-	/** Returns a reverse composition of the given functions (i.e. executed in order) e.g. i(h(g(f(...)))) */
-	cint.sequence([first, f])
-
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
-		i.e. A normal curry is equivalent to f.curryAt(0, args) and an rcurry is equivalent to f.curryAt(n, args) where n is the arrity of the function.
+		i.e. _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arrity of the function.
 	*/
-	cint.curryAt(f, index, curriedArgs)
-
-	/** Returns a new function that always passes the given curried arguments to the inner function before normal arguments. */
-	cint.curry(f, args)
-
-	/** Returns a new function that always passes the given curried arguments to the inner function after normal arguments. */
-	cint.rcurry(f, args)
+	cint.partialAt(f, index, curriedArgs)
 
 	/** Returns a new function that calls the given function with a limit on the number of arguments. */
 	cint.arritize(f, n)
-
-	/** Returns a new function that automatically curries its arguments if not saturated. */
-	cint.currify(f, numArgs)
 
 	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
 	cint.callTillValue(value)
