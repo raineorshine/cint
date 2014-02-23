@@ -8,13 +8,13 @@ Read the API (below) or check out some examples used in the [unit tests](https:/
 
 ## Client-Side
 
-Download the latest version of cint.js from the repository, or get it with curl:
+Bower:
 
-	curl https://raw.github.com/metaraine/cint/master/dist/latest.js > cint.js
+  bower install --save cint
 
 Include it:
 
-	<script type="text/javascript" src="cint.js"></script>
+	<script type="text/javascript" src="bower_components/cint/dist/latest.js"></script>
 
 ## Server-Side
 
