@@ -1,10 +1,10 @@
 /** 
- * cinturon
+ * cint
  * v{{version}} ({{date}})
  * A Javascript utility belt with an emphasis on Functional Programming.
  */
 
-var cin = (function() {
+var cint = (function() {
 	'use strict';
 
 	/***********************************
@@ -571,7 +571,7 @@ var cin = (function() {
 	}
 
 	/** Changes the specified keys in an object. 
-		@example cin.changeKeys(
+		@example cint.changeKeys(
 			{ fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 
 			{ fname: 'first', lname: 'last' }
 		)
@@ -767,7 +767,7 @@ var cin = (function() {
 
 	/** Installs all methods onto their respective built-in prototypes: String, Number, Array, and Function. */
 	function installPrototypes(host) {
-		host = host || cin;
+		host = host || cint;
 		install(String, host, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
 		install(Number, host, ['ordinal', { mapNumber: 'map' }]);
 		install(Array, host, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
@@ -862,5 +862,5 @@ var cin = (function() {
 
 // nodejs module
 if(typeof module !== 'undefined') {
-	module.exports = cin;
+	module.exports = cint;
 }

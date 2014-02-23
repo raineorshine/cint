@@ -1,5 +1,5 @@
 {
-  "name": "cinturon",
+  "name": "cint",
   "version": "5.0.1",
   "description": "A library of Javascript utility functions with an emphasis on Functional Programming.",
   "main": "dist/latest.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/metaraine/cinturon.git"
+    "url": "git://github.com/metaraine/cint.git"
   },
   "keywords": [
     "functional",
     "utility"
   ],
   "author": "Raine Lourie",
-  "license": "MIT",
+  "license": "ISC",
   "readmeFilename": "README.md",
   "gitHead": "ba9f4a85fd605fdad2bde942d59b57c7415bd709",
   "devDependencies": {

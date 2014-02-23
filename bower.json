@@ -1,7 +1,7 @@
 {
-  "name": "cinturon",
+  "name": "cint",
   "version": "5.0.1",
-  "homepage": "https://github.com/metaraine/cinturon",
+  "homepage": "https://github.com/metaraine/cint",
   "authors": [
     "metaraine <raineorshine@gmail.com>"
   ],
@@ -13,7 +13,7 @@
     "underscore",
     "lodash"
   ],
-  "license": "MIT",
+  "license": "ISC",
   "ignore": [
     "**/.*",
     "node_modules",
