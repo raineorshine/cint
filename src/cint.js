@@ -780,7 +780,6 @@ var cint = (function() {
 	return {
 
 		// function
-		I								: I,
 		not							: not,
 		compose					: compose,
 		sequence				: sequence,

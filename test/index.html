@@ -20,21 +20,16 @@ $(function() {
 
 	module('cint');
 
-	test('I', function() {
-		equal(cint.I(10), 10, 'Identity function returns the value that was passed in.');
-		equal(cint.I(), undefined, 'Identity of no arguments is undefined.');
-		equal(cint.I(1,2,3), 1, 'Identity function only returns the first argument.');
-	});
-
 	test('not', function() {
-		var yes = function() { return true; }
-		var no = function() { return false; }
+		var yes = function() { return true; };
+		var no = function() { return false; };
+		var I = function(x) { return x; };
 		equal(cint.not(yes)(), false, 'Reverses true to false.');
 		equal(cint.not(no)(), true, 'Reverses false to true.');
-		equal(cint.not(cint.I)(true), false, 'Works with arguments.');
-		equal(cint.not(cint.I)(false), true, 'Works with arguments.');
-		equal(cint.not(cint.I)('a'), false, 'Works with non-booleans.');
-		equal(cint.not(cint.I)(undefined), true, 'Works with non-booleans');
+		equal(cint.not(I)(true), false, 'Works with arguments.');
+		equal(cint.not(I)(false), true, 'Works with arguments.');
+		equal(cint.not(I)('a'), false, 'Works with non-booleans.');
+		equal(cint.not(I)(undefined), true, 'Works with non-booleans');
 	});
 
 	test('filterBy', function() {
