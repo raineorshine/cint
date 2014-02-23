@@ -7,3 +7,4 @@
 * Renamed curryAt to partialAt to more closely match lodash semantics.
 * Removed curry and rcurry. Use _.partial and _.partialRight.
 * Removed currify. Use _.curry.
+* Removed toInstance, install, and installPrototypes. Use [nativity-cint](https://github.com/metaraine/nativity-cint).

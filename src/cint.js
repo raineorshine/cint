@@ -52,42 +52,6 @@ var cint = (function() {
 		return typeof value === 'function' ? callTillValue(value()) : value;
 	}
 
-	/** Returns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
-		@param thisIndex	Forwards 'this' at the given parameter index. Default: 0.
-	*/
-	function toInstance(f, thisIndex) {
-		thisIndex = thisIndex || 0;
-		return function() {
-			var args = Array.prototype.slice.apply(arguments);
-			return f.apply(this, rotate([].concat([this], args), -thisIndex));
-		};
-	}
-
-	/** Assigns the given list of methods from the host object to the protoObj's prototype after converting them with toInstance. */
-	function install(protoObj, host, methods, safe) {
-
-		if(safe === undefined) {
-			safe = true;
-		}
-
-		var len = methods.length;
-		for(var i=0; i<len; i++) {
-
-			// the method can be a string if the hostKey and protoKey are the same ('contains') or an object that maps the host key to the proto key ({repeatString: 'repeat'})
-			if(typeof methods[i] === 'string') {
-				if(safe && !(methods[i] in protoObj.prototype)) {
-					protoObj.prototype[methods[i]] = toInstance(host[methods[i]]);
-				}
-			}
-			else {
-				for(var name in methods[i]) {
-					if(safe && !(methods[i][name] in protoObj.prototype)) {
-						protoObj.prototype[methods[i][name]] = toInstance(host[name]);
-					}
-				}
-			}
-		}
-	}
 
 	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
 	function spy(f, spier) {
@@ -720,21 +684,6 @@ var cint = (function() {
 
 
 	/***********************************
-	 * Prototype Installation
-	 ***********************************/
-
-	/** Installs all methods onto their respective built-in prototypes: String, Number, Array, and Function. */
-	function installPrototypes(host) {
-		host = host || cint;
-		install(String, host, ['supplant', 'startsWith', 'before', 'after', 'between', 'bookend', { repeatString: 'repeat' }, 'toTitleCase', { strContains: 'contains' }, 'index' ]);
-		install(Number, host, ['ordinal', { mapNumber: 'map' }]);
-		install(Array, host, ['each', 'pluck', 'group', 'orderedGroup', 'tally', 'contains', 'unique', 'reversed', 'index', 'rotate', 'toObject', 'find', 'findByProperty', 'filterBy', 'any', 'all', 'spliced', 'shuffle', 'chunk' ]);
-		install(Function, host, ['any', 'all', 'sequence', 'partialAt', 'arritize', 'toInstance', 'new', 'spy']);
-		return host;
-	}
-
-
-	/***********************************
 	 * Export Public Interface
 	 ***********************************/
 
@@ -745,8 +694,6 @@ var cint = (function() {
 		partialAt				: partialAt,
 		arritize				: arritize,
 		callTillValue		: callTillValue,
-		toInstance			: toInstance,
-		install					: install,
 		spy							: spy,
 
 		// string
@@ -805,9 +752,6 @@ var cint = (function() {
 		guid						: guid,
 		typeOf					: typeOf,
 		'new'						: createNew,
-
-		// prototype installation
-		installPrototypes : installPrototypes
 	};
 
 })();

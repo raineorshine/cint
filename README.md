@@ -27,6 +27,8 @@ Require it:
 	var cint = require("cint");
 
 # Prototyping Onto Native Objects
+cint gets way better with [nativity](https://github.com/metaraine/nativity).
+
 While controversial, prototyping functions onto some native objects can result in especially elegant code.
 
 The majority of the functions in cint center around native types like String, Number, Array, and Function, making them perfect candidates for prototyping. Nothing is prototyped onto Object.
@@ -41,9 +43,9 @@ Consider the following:
 
 Much better! It's more intuitive because it conforms to the subject-verb-object structure of the English language.
 
-Adding cint functions to native objects is off by default. To opt-in, call cint.installPrototypes:
+Adding cint functions to native objects is off by default. To opt-in, use [nativity-cint](https://github.com/metaraine/nativity-cint):
 
-	cint.installPrototypes();
+	require('nativity-cint').install();
 
 # Unit Tests
 
@@ -68,14 +70,6 @@ to open test/index.html in a browser.
 
 	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
 	cint.callTillValue(value)
-
-	/** Returns a new function that forwards 'this' as the first parameter to the given function, and thus can be called as instance method (or prototype method ) of the object itself. 
-		@param thisIndex	Forwards 'this' at the given parameter index. Default: 0.
-	*/
-	cint.toInstance(f, thisIndex)
-
-	/** Assigns the given list of methods from the host object to the protoObj's prototype after converting them with toInstance. */
-	cint.install(protoObj, host, methods, safe)
 
 	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
 	cint.spy(f, spier)
@@ -249,9 +243,4 @@ to open test/index.html in a browser.
 
 	/** Create a new instance of the given constructor with the given constructor arguments. Useful for higher order programmer where the new keyword won't work. */
 	cint.createNew(C, args)
-
-## Prototype Installation
-
-	/** Installs all cint methods onto their respective built-in prototypes: String, Number, Array, and Function. */
-	cint.installPrototypes([cint])
 
