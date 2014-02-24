@@ -74,7 +74,7 @@ $(function() {
 		var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' };
 		var newObject = cint.changeKeys( oldObject, { fname: 'first', lname: 'last' });
 		deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 'Old object is unmodified.');
-		deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' }, 'New object contains modified keys.');
+		deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' }, 'New object ontains modified keys.');
 
 	});
 
@@ -206,14 +206,6 @@ $(function() {
 		equal(cint.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
 		equal(cint.bookend('b'), 'b', 'Ignores falsey begin and end values')
 	})
-
-	test('strContains', function() {
-		equal(cint.strContains('abigail', 'a'), true, 'Returns true if the string contains the given substring at the beginning.');
-		equal(cint.strContains('abigail', 'big'), true, 'Returns true if the string contains the given substring in the middle.');
-		equal(cint.strContains('abigail', 'gail'), true, 'Returns true if the string contains the given substring at the end.');
-		equal(cint.strContains('abigail', 'z'), false, 'Returns false if the string doesn\'t contain the given substring.');
-		equal(cint.strContains('abigail', 'bigger'), false, 'Returns false if the string doesn\'t contain the given substring.');
-	});
 
 	// array
 	test('spliced', function() {

@@ -74,6 +74,7 @@ var cint = (function() {
 	 ***********************************/
 
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
+		Same as Lodash's _.template(str, o, { interpolate: /{([\s\S]+?)}/g }).
 		Based on supplant by Douglas Crockford http://javascript.crockford.com/remedial.html
 	*/
 	function supplant(str, o) {
@@ -106,12 +107,12 @@ var cint = (function() {
 		return before(after(str, left), right);
 	}
 
-	/** Wraps a string with a left and right */
+	/** Wraps a string with a left and right. If right omitted, wraps both ends in left. */
 	function bookend(middle, left, right) {
 		return (left || '') + middle + (right || left || '');
 	}
 
-	/** Returns a single string that repeats the string n times. */
+	/** Returns a single string that repeats the string n times. Optionally joins it with the given delimeter */
 	function repeatString(str, n, delim) {
 		delim = delim || '';
 		return mapNumber(n, function() { return str; }).join(delim);
@@ -123,12 +124,6 @@ var cint = (function() {
 			return s.length ? s[0].toUpperCase() + s.substring(1).toLowerCase() : '';
 		};
 		return str.split(' ').map(capitalizeFirst).join(' ');
-	}
-
-	/* Returns true if the string contains the given substring. */
-	function strContains(str) {
-		var args = Array.prototype.slice.call(arguments, 1);
-		return String.prototype.indexOf.apply(str, args) !== -1;
 	}
 
 	/***********************************
@@ -705,7 +700,6 @@ var cint = (function() {
 		bookend					: bookend,
 		repeatString		: repeatString,
 		toTitleCase			: toTitleCase,
-		strContains			: strContains,
 
 		// number
 		ordinal					: ordinal,
