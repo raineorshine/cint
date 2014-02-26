@@ -1,9 +1,8 @@
-/** 
- * cint
- * v{{version}} ({{date}})
- * A Javascript utility belt with an emphasis on Functional Programming.
- */
-
+/** A Javascript utility belt with an emphasis on Functional Programming.
+	@module cint 
+	@author Raine Lourie
+	@version v{{version}} ({{date}})
+*/
 var cint = (function() {
 	'use strict';
 
@@ -11,7 +10,10 @@ var cint = (function() {
 	 * Function
 	 ***********************************/
 
-	/** Returns a function that returns the inverse of the given boolean function. */
+	/** Returns a function that returns the inverse of the given boolean function.
+		@memberOf module:cint#
+		@param {function} f The function to inverse.
+	*/
 	function not(f) {
 		return function() {
 			return !f.apply(this, arguments);
@@ -19,7 +21,11 @@ var cint = (function() {
 	}
 
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
-		i.e. _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arrity of the function.
+		@memberOf module:cint#
+		@example _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arrity of the function.
+		@param {Function} f
+		@param {Number} index
+		@param {...*} curriedArgs
 	*/
 	function partialAt(f, index, curriedArgs) {
 		return function() {
@@ -37,8 +43,11 @@ var cint = (function() {
 		};
 	}
 
-
-	/** Returns a new function that calls the given function with a limit on the number of arguments. */
+	/** Returns a new function that calls the given function with a limit on the number of arguments. 
+		@memberOf module:cint#
+		@param {Function} f
+		@param {Number} n
+	*/
 	function arritize(f, n) {
 		return function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0, n);
@@ -46,14 +55,19 @@ var cint = (function() {
 		};
 	}
 
-
-	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
+	/** Recursively invokes the given function with no parameters until it returns a non-functional value. 
+		@memberOf module:cint#
+		@param value
+	*/
 	function callTillValue(value) {
 		return typeof value === 'function' ? callTillValue(value()) : value;
 	}
 
-
-	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
+	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) 
+		@memberOf module:cint#
+		@param {Function} f
+		@param {Function} [spier=console.log]
+	*/
 	function spy(f, spier) {
 		var that = this;
 		/* jshint ignore:start */
@@ -76,6 +90,8 @@ var cint = (function() {
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
 		Same as Lodash's _.template(str, o, { interpolate: /{([\s\S]+?)}/g }).
 		Based on supplant by Douglas Crockford http://javascript.crockford.com/remedial.html
+		@param {String} str
+		@param {Object|Array} o
 	*/
 	function supplant(str, o) {
 		return str.replace(/{([^{}]*)}/g,
@@ -85,40 +101,70 @@ var cint = (function() {
 		);
 	}
 
-	/** Returns true if the string starts with the given substring. */
+	/** Returns true if the string starts with the given substring. 
+		@memberOf module:cint#
+		@param {String} str
+		@param {String} sub The substring.
+	*/
 	function startsWith(str, sub){
 		return (str.indexOf(sub) === 0);
 	}
 
-	/** Returns the substring before the first instance of the given delimiter. */
+	/** Returns the substring before the first instance of the given delimiter. 
+		@memberOf module:cint#
+		@param {String} str
+		@param {String} delim
+	*/
 	function before(str, delim) {
 		return str.split(delim)[0];
 	}
 
-	/** Returns the substring after the first instance of the given delimiter. Returns the whole string if the delimiter is not found. */
+	/** Returns the substring after the first instance of the given delimiter. Returns the whole string if the delimiter is not found. 
+		@memberOf module:cint#
+		@param {String} str
+		@param {String} delim
+	*/
 	function after(str, delim) {
 		var delimIndex = str.indexOf(delim);
 		return delimIndex >= 0 ?
 			str.substring(delimIndex+delim.length) : str;
 	}
 
-	/** Returns the substring between the given delimiters. */
+	/** Returns the substring between the given delimiters. 
+		@memberOf module:cint#
+		@param {String} str
+		@param {String} left
+		@param {String} right
+	*/
 	function between(str, left, right) {
 		return before(after(str, left), right);
 	}
 
-	/** Wraps a string with a left and right. If right omitted, wraps both ends in left. */
+	/** Wraps a string with a left and right. If right omitted, wraps both ends in left. 
+		@memberOf module:cint#
+		@param {string} middle
+		@param {string} left
+		@param {string} right
+	*/
 	function bookend(middle, left, right) {
 		return (left || '') + middle + (right || left || '');
 	}
 
-	/** Returns a single string that repeats the string n times. Optionally joins it with the given delimeter */
+	/** Returns a single string that repeats the string n times. Optionally joins it with the given delimeter 
+		@memberOf module:cint#
+		@param {String} str
+		@param {Number} n
+		@param {String} delim Default: ''
+	*/
 	function repeatString(str, n, delim) {
 		delim = delim || '';
 		return mapNumber(n, function() { return str; }).join(delim);
 	}
 
-	/** Capitalizes the first letter of each word in the given string. */
+	/** Capitalizes the first letter of each word in the given string. 
+		@memberOf module:cint#
+		@param {String} str
+	*/
 	function toTitleCase(str) {
 		var capitalizeFirst = function(s) {
 			return s.length ? s[0].toUpperCase() + s.substring(1).toLowerCase() : '';
@@ -126,10 +172,15 @@ var cint = (function() {
 		return str.split(' ').map(capitalizeFirst).join(' ');
 	}
 
+
 	/***********************************
 	 * Number
 	 ***********************************/
-	/** Returns the ordinal value (like '1st' or '2nd') of the given integer. */
+
+	/** Returns the ordinal value (like '1st' or '2nd') of the given integer. 
+		@memberOf module:cint#
+		@param {Number} n
+	*/
 	function ordinal(n) {
 		var lastDigit = n%10;
 		return n + (
@@ -140,7 +191,11 @@ var cint = (function() {
 			'th');
 	}
 
-	/** Invokes the given function n times, passing the index for each invocation, and returns an array of the results. */
+	/** Invokes the given function n times, passing the index for each invocation, and returns an array of the results. 
+		@memberOf module:cint#
+		@param {Number} n
+		@param {Function} f
+	*/
 	function mapNumber(n, f) {
 		var results = [];
 		for(var i=0; i<n; i++) {
@@ -154,8 +209,11 @@ var cint = (function() {
 	 * Array
 	 ***********************************/
 
-	/** Returns a list of values plucked from the property from the given array. If the values are functions,
-	they wll be bound to the array item. */
+	/** Returns a list of values plucked from the property from the given array. If the values are functions, they wll be bound to the array item. 
+		@memberOf module:cint#
+		@param {Object[]} arr
+		@param {String} property
+	*/
 	function pluck(arr, property) {
 		return arr.map(function(item) {
 			var val = item[property];
@@ -163,7 +221,11 @@ var cint = (function() {
 		});
 	}
 
-	/** Group the array of objects by one of the object's properties or mappable function. Returns a dictionary containing the original array's items indexed by the property value. */
+	/** Group the array of objects by one of the object's properties or mappable function. Returns a dictionary containing the original array's items indexed by the property value. 
+		@memberOf module:cint#
+		@param {Object[]} arr
+		@param {String|Function} propOrFunc
+	*/
 	function group(arr, propOrFunc) {
 
 		if(propOrFunc === undefined) {
@@ -187,7 +249,11 @@ var cint = (function() {
 		return dict;
 	}
 
-	/** Group the array of objects by one of the object's properties or mappable function. Returns an array of { key: ___, items: ___ } objects which represent all the items in the original array grouped by the value of the specified grouping key. */
+	/** Group the array of objects by one of the object's properties or mappable function. Returns an array of { key: ___, items: ___ } objects which represent all the items in the original array grouped by the value of the specified grouping key. 
+		@memberOf module:cint#
+		@param {Object[]} arr
+		@param {String|Function} propOrFunc
+	*/
 	function orderedGroup(arr, propOrFunc) {
 
 		if(!propOrFunc) {
@@ -213,7 +279,10 @@ var cint = (function() {
 		return results;
 	}
 
-	/** Returns a dictionary whose keys are the values of the array and values are the number of instances of that value within the array. */
+	/** Returns a dictionary whose keys are the values of the array and values are the number of instances of that value within the array. 
+		@memberOf module:cint#
+		@param {Array} arr
+	*/
 	function tally(arr) {
 		var dict = {};
 		var len = arr.length;
@@ -224,13 +293,19 @@ var cint = (function() {
 		return dict;
 	}
 
-	/** Returns true if the array contains the given value. */
+	/** Returns true if the array contains the given value. 
+		@memberOf module:cint#
+		@param {Array} arr
+	*/
 	function contains(arr) {
 		var args = Array.prototype.slice.call(arguments, 1);
 		return Array.prototype.indexOf.apply(arr, args) !== -1;
 	}
 
-	/** Returns the unique values in the array. */
+	/** Returns the unique values in the array. 
+		@memberOf module:cint#
+		@param {Array} arr
+	*/
 	function unique(arr) {
 		var output = [];
 		var len = arr.length;
@@ -242,7 +317,10 @@ var cint = (function() {
 		return output;
 	}
 
-	/** Returns the reverse of the given array. Unlike the native reverse, does not modify the original array. */
+	/** Returns the reverse of the given array. Unlike the native reverse, does not modify the original array. 
+		@memberOf module:cint#
+		@param {Array} arr
+	*/
 	function reversed(arr) {
 		var output = [];
 		for(var i=arr.length-1; i>=0; i--) {
@@ -251,9 +329,10 @@ var cint = (function() {
 		return output;
 	}
 	
-
 	/** Returns the in-bounds index of the given index for the array, supports negative and out-of-bounds indices. 
 		@private
+		@param {Array} arr
+		@param {Number} i
 	*/
 	function circ(arr, i) {
 
@@ -266,12 +345,20 @@ var cint = (function() {
 		return (i % arr.length + arr.length) % arr.length;
 	}
 
-	/** Indexes into an array, supports negative indices. */
+	/** Indexes into an array, supports negative indices. 
+		@memberOf module:cint#
+		@param {Array} arr
+		@param {Number} n
+	*/
 	function index(arr, i) {
 		return arr[circ(arr, i)];
 	}
 
-	/** Returns a new array containing the elements of the given array shifted n spaces to the left, wrapping around the end. */
+	/** Returns a new array containing the elements of the given array shifted n spaces to the left, wrapping around the end. 
+		@memberOf module:cint#
+		@param {Array} arr
+		@param {Number} n
+	*/
 	function rotate(arr, n) {
 		var output = [];
 		var len = arr.length;
@@ -281,7 +368,11 @@ var cint = (function() {
 		return output;
 	}
 
-	/** Creates an object with a property for each element of the given array, determined by a function that returns the property as a { key: value }. */
+	/** Creates an object with a property for each element of the given array, determined by a function that returns the property as a { key: value }. 
+		@memberOf module:cint#
+		@param {Array} arr
+		@param {Function} f
+	*/
 	function toObject(arr, f) {
 		var keyValues = [];
 		var len = arr.length;
@@ -291,7 +382,11 @@ var cint = (function() {
 		return merge.apply(arr, keyValues);
 	}
 
-	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns null. */
+	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns null. 
+		@memberOf module:cint#
+		@param {Array} arr
+		@param {Function} f
+	*/
 	function find(arr, f) {
 		var len = arr.length;
 		for(var i=0; i<len; i++) {
@@ -302,14 +397,25 @@ var cint = (function() {
 		return null;
 	}
 
-	/** Returns the first item in the given array whose specified property matches the given value. */
+	/** Returns the first item in the given array whose specified property matches the given value. 
+		@memberOf module:cint#
+		@param {Array} arr
+		@param {String} prop
+		@param value
+	*/
 	function findByProperty(arr, prop, value) {
 		return find(arr, function(item) {
 			return item[prop] === value;
 		});
 	}
 
-	/** Functional, nondestructive version of Array.prototype.splice. */
+	/** Functional, nondestructive version of Array.prototype.splice. 
+		@memberOf module:cint#
+		@param {Array} arr
+		@param {Number} index
+		@param {Number} howMany
+		@param {...*} elements
+	*/
 	function spliced(arr, index, howMany/*, elements*/) {
 		var elements = Array.prototype.slice.apply(arguments, [3]);
 		var elementsLen = elements.length;
@@ -334,7 +440,11 @@ var cint = (function() {
 		return results;
 	}
 
-	/** Returns an array of sequential integers from start to end (inclusive). If only one parameter is specified, start is 1. */
+	/** Returns an array of sequential integers from start to end (inclusive). If only one parameter is specified, start is 1. 
+		@memberOf module:cint#
+		@param {Number} start
+		@param {Number} end
+	*/
 	function range(start, end) {
 		if(arguments.length === 1) {
 			end = start;
@@ -347,14 +457,22 @@ var cint = (function() {
 		return results;
 	}
 
-	/** Returns a new array that only includes items with a specific value of a given property. */
+	/** Returns a new array that only includes items with a specific value of a given property. 
+		@memberOf module:cint#
+		@param {Object[]} arr
+		@param {String} prop
+		@param value
+	*/
 	function filterBy(arr, prop, value) {
 		return arr.filter(function(item) {
 			return item[prop] === value;
 		});
 	}
 
-	/** Returns a new array with the array's items in random order. */
+	/** Returns a new array with the array's items in random order. 
+		@memberOf module:cint#
+		@param {Array} arr
+	*/
 	function shuffle(arr) {
 		var output = arr.slice();
 		function swap(i,j) {
@@ -371,9 +489,11 @@ var cint = (function() {
 		return output;
 	}
 	
-
 	/** Breaks up the array into n evenly-sized chunks. 
 			Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
+			@memberOf module:cint#
+			@param {Array} arr
+			@param {Number} n
 	*/
 	function chunk(a, n) {
 		var len = a.length,out = [], i = 0;
@@ -389,7 +509,10 @@ var cint = (function() {
 	 * Object
 	 ***********************************/
 
-	/** Returns an array of the object's values. */
+	/** Returns an array of the object's values. 
+		@memberOf module:cint#
+		@param {Object} o
+	*/
 	function values(o) {
 		var output = [];
 		for(var key in o) {
@@ -398,14 +521,23 @@ var cint = (function() {
 		return output;
 	}
 
-	/** Returns a new object with the given key and value. */
+	/** Returns a new object with the given key and value. 
+		@memberOf module:cint#
+		@param {String} key
+		@param value
+	*/
 	function keyValue(key, value) {
 		var o = {};
 		o[key] = value;
 		return o;
 	}
 
-	/** Join the object into a single string with the given separators separating properties from each other as well as values. */
+	/** Join the object into a single string with the given separators separating properties from each other as well as values. 
+		@memberOf module:cint#
+		@param {Object} obj
+		@param {String} propSeparator
+		@param {String} valueSeparator
+	*/
 	function joinObj(obj, propSeparator, valueSeparator) {
 		var keyValuePairs = [];
 		for(var prop in obj) {
@@ -416,6 +548,8 @@ var cint = (function() {
 
 	/** Returns true if the object has no non-undefined properties.
 		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+		@memberOf module:cint#
+		@param {Object} o
 	*/
 	function isEmpty(o) {
 		var i, v;
@@ -430,7 +564,10 @@ var cint = (function() {
 		return true;
 	}
 
-	/** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. */
+	/** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. 
+		@memberOf module:cint#
+		@param {...Object} objects
+	*/
 	function merge(/*obj1, obj2, obj3, ...*/) {
 
 		var mothership = {};
@@ -454,7 +591,11 @@ var cint = (function() {
 		return mothership;
 	}
 
-	/** Returns a new object where f(key, value) returns a new key-value pair for each property. */
+	/** Returns a new object where f(key, value) returns a new key-value pair for each property. 
+		@memberOf module:cint#
+		@param {Object} obj
+		@param {Function} f
+	*/
 	function mapObject(obj, f) {
 		var result = {};
 		for(var key in obj) {
@@ -466,7 +607,11 @@ var cint = (function() {
 		return result;
 	}
 
-	/** Returns an array whose items are the result of calling f(key, value) on each property of the given object. If f is undefined, returns a list of { key: ___, value: ___ } objects. */
+	/** Returns an array whose items are the result of calling f(key, value) on each property of the given object. If f is undefined, returns a list of { key: ___, value: ___ } objects. 
+		@memberOf module:cint#
+		@param {Object} obj
+		@param {Function} f
+	*/
 	function toArray(obj, f) {
 		f = f || function(key, value) { return { key: key, value: value }; };
 		var result = [];
@@ -476,7 +621,11 @@ var cint = (function() {
 		return result;
 	}
 
-	/** Returns a new object that only includes the properties of the given obj for which f(key, value) is true. */
+	/** Returns a new object that only includes the properties of the given obj for which f(key, value) is true. 
+		@memberOf module:cint#
+		@param {Object} obj
+		@param {Function} f
+	*/
 	function filterObject(obj, f) {
 		var result = {};
 		for(var key in obj) {
@@ -488,6 +637,8 @@ var cint = (function() {
 	}
 
 	/** Changes the specified keys in an object. 
+		@param {Object} obj
+		@param {Object} changeKeys
 		@example cint.changeKeys(
 			{ fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 
 			{ fname: 'first', lname: 'last' }
@@ -501,27 +652,36 @@ var cint = (function() {
 		return result;
 	}
 
+
 	/***********************************
 	 * Utility
 	 ***********************************/
 
-	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
+	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. 
+		@memberOf module:cint#
+		@param a
+		@param b
+	*/
 	function compare(a,b) {
 		return a > b ? 1 :
 			a < b ? -1 :
 			0;
 	}
 
-	/** Returns a function that compares the given property of two items. */
+	/** Returns a function that compares the given property of two items. 
+		@memberOf module:cint#
+		@param {String} property
+	*/
 	function compareProperty(property) {
 		return function(a,b) {
 			return compare(a[property], b[property]);
 		};
 	}
 
-	/** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties.
-	 * A property can also be appended with ' ASC' or ' DESC' to control the sort order.
-	 * */
+	/** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties. A property can also be appended with ' ASC' or ' DESC' to control the sort order.
+		@memberOf module:cint#
+		@param {String[]|Object[]} props
+  */
 	function dynamicCompare(props) {
 
 		if(!props || !(props instanceof Array)) {
@@ -559,7 +719,11 @@ var cint = (function() {
 		};
 	}
 
-	/** Returns true if all the items in a are equal to all the items in b, recursively. */
+	/** Returns true if all the items in a are equal to all the items in b, recursively. 
+		@memberOf module:cint#
+		@param a
+		@param b
+	*/
 	function equals(a,b) {
 
 		if(typeof a !== typeof b) {
@@ -602,17 +766,27 @@ var cint = (function() {
 		return true;
 	}
 
-	/** in operator as a function. */
+	/** in operator as a function. 
+		@memberOf module:cint#
+		@param {String} creamFilling
+		@param {Object} donut
+	*/
 	function hasKey(creamFilling, donut) {
 		return creamFilling in donut;
 	}
 
-	/** Returns true if the given value is not undefined, null, or an empty string. */
+	/** Returns true if the given value is not undefined, null, or an empty string. 
+		@memberOf module:cint#
+		@param x
+	*/
 	function hasValue(x) {
 		return x !== undefined && x !== null && x !== '';
 	}
 
-	/** Returns a string representation of the given scalar, array, or dictionary. */
+	/** Returns a string representation of the given scalar, array, or dictionary. 
+		@memberOf module:cint#
+		@param o
+	*/
 	function hash(o) {
 		if(o === undefined) {
 			return 'undefined';
@@ -639,9 +813,7 @@ var cint = (function() {
 		}
 	}
 
-	/** Generates a pseudo-random string that can be assumed to be unique.
-		@remarks	untestable
-	*/
+	/** Generates a pseudo-random string that can be assumed to be unique. */
 	var guid = (function() {
 		var S4 = function() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -653,6 +825,7 @@ var cint = (function() {
 
 	/** Returns a string representing the type of the object, with special handling for null and arrays.
 		@author	Douglas Crockford http://javascript.crockford.com/remedial.html
+		@param value
 	*/
 	function typeOf(value) {
 		var s = typeof value;
@@ -670,7 +843,11 @@ var cint = (function() {
 		return s;
 	}
 
-	/** Create a new instance of the given constructor with the given constructor arguments. Useful for higher order programmer where the new keyword won't work. */
+	/** Create a new instance of the given constructor with the given constructor arguments. Useful for higher order programmer where the new keyword won't work. 
+		@memberOf module:cint#
+		@param {Function} C Constructor
+		@param {Array} args
+	*/
 	function createNew(C, args) {
 		var o = new C();
 		C.apply(o, args);
@@ -750,7 +927,7 @@ var cint = (function() {
 
 })();
 
-// nodejs module
+// requirejs export
 if(typeof module !== 'undefined') {
 	module.exports = cint;
 }

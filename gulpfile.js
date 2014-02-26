@@ -11,6 +11,7 @@
 	gulp.task('default', function() {
 
 		gulp.src('./src/*.js')
+			// jshint not working now?
 			.pipe(jshint('.jshintrc'))
 			.pipe(jshint.reporter('jshint-stylish'))
 			.pipe(jshint.reporter('fail'))
@@ -20,11 +21,12 @@
 	gulp.task('docs', function() {
 		gulp.src('./docs/index.html')
 			// how to access piped src?
+			// TODO: output stderr
 			.pipe(open('./docs/index.html', { app: 'Google Chrome' }));
 	});
 
 	gulp.task('clean', function() {
-	  gulp.src('./documentation-output', {read: false})
+	  gulp.src('./docs', {read: false})
 	    .pipe(clean());
 	});
 })();

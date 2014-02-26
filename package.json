@@ -29,7 +29,8 @@
     "gulp-open": "^0.2.8",
     "gulp-clean": "^0.2.4",
     "gulp-jshint": "^1.4.2",
-    "jshint-stylish": "^0.1.5"
+    "jshint-stylish": "^0.1.5",
+    "jsdoc": "^3.3.0-alpha4"
   },
   "dependencies": {}
 }
