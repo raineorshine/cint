@@ -3,7 +3,7 @@
 	@author Raine Lourie
 	@version v5.0.2 (Wed, 26 Feb 2014 20:17:33 GMT)
 */
-var cint = (function() {
+cint = (function() {
 	'use strict';
 
 	/***********************************

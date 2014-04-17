@@ -3,7 +3,7 @@
 	@author Raine Lourie
 	@version v{{version}} ({{date}})
 */
-var cint = (function() {
+cint = (function() {
 	'use strict';
 
 	/***********************************

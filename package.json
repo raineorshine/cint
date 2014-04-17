@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "open -a Google\\ Chrome test/index.html"
+    "test": "./node_modules/qunit/bin/cli.js -c dist/latest.js -t test/spec.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,8 @@
     "jsdoc": "^3.3.0-alpha4",
     "gulp-uglify": "^0.2.1",
     "gulp-rename": "^1.1.0",
-    "gulp-template": "^0.1.1"
+    "gulp-template": "^0.1.1",
+    "qunit": "^0.6.2"
   },
   "dependencies": {}
 }
