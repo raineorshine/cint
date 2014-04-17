@@ -12,26 +12,6 @@ test('not', function() {
 	equal(cint.not(I)(undefined), true, 'Works with non-booleans');
 });
 
-test('filterBy', function() {
-	var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
-	deepEqual(cint.filterBy(arr, 'a', 1), [{a: 1, b: 2}, {a: 1, b: 5}], 'Filter an array of objects by a given property value.');
-});
-
-test('shuffle', function() {
-	var students = ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'];
-
-	equal(students.length, cint.shuffle(students).length, 'same length as original');
-
-	// this is a really sketchy way to test randomization
-	notDeepEqual(students, cint.shuffle(students));
-	notDeepEqual(students, cint.shuffle(students));
-	notDeepEqual(students, cint.shuffle(students));
-	notDeepEqual(students, cint.shuffle(students));
-	notDeepEqual(students, cint.shuffle(students));
-
-	deepEqual(students, ['Allan', 'Brian K', 'Brian H', 'Caly', 'Chris', 'Dan', 'Deb', 'Jenn', 'Jessica', 'Joanne', 'Julie', 'Kerry', 'Lori', 'Mark', 'Mike', 'Raphael', 'Richard', 'Rob', 'Yalcin'], 'Original array is unchanged');
-})
-
 test('chunk', function() {
 	var arr = [1,2,3,4,5,6,7,8,9,10];
 	deepEqual(cint.chunk(arr, 1), [[1,2,3,4,5,6,7,8,9,10]]);
@@ -81,22 +61,6 @@ test('new', function() {
 	ok(p instanceof Person);
 	equal(p.name, 'Raine');
 	equal(p.age, 26);
-});
-
-test('pluck', function() {
-	var arr = [{a: 1, b: 2}, {a: 1, b: 5}, {a: 0, b: 10}];
-	deepEqual(cint.pluck(arr, 'a'), [1, 1, 0]);
-	deepEqual(cint.pluck(arr, 'b'), [2, 5, 10]);
-
-	var arr = [
-		{a: 'x', f: function() { return this.a; }}, 
-		{a: 'y', f: function() { return this.a; }}, 
-		{a: 'z', f: function() { return this.a; }}, 
-	];
-	var plucked = cint.pluck(arr, 'f');
-	deepEqual(plucked[0](), 'x');
-	deepEqual(plucked[1](), 'y');
-	deepEqual(plucked[2](), 'z');
 });
 
 test('partialAt', function() {
@@ -192,17 +156,5 @@ test('spliced', function() {
 	var arr = [1,2,3,4,5];
 	deepEqual(cint.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
 	deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
-});
-
-test('range', function() {
-	deepEqual(cint.range(2,5), [2,3,4,5], 'Returns a range of numbers from start to end, inclusive.');
-	deepEqual(cint.range(3), [1,2,3], 'If one parameter is specified, returns a range of numbers from 1 to the given number, inclusive.');
-	deepEqual(cint.range(), [], 'If no parameters are specified, returns an empty array.');
-});
-
-test('hasKey', function() {
-	equal(cint.hasKey('a', {a:1}), true, 'Returns true if the key is in the object.');
-	equal(cint.hasKey('b', {a:1}), false, 'Returns false if the key is not in the object.');
-	equal(cint.hasKey(1, ['a', 'b', 'c']), true, 'Works for arrays');
 });
 
