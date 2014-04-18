@@ -51,8 +51,6 @@ Adding cint functions to native objects is off by default. To opt-in, use [nativ
 
 	npm test
 
-to open test/index.html in a browser.
-
 # API
 
 ## Function

@@ -13,3 +13,5 @@
 - Removed toInstance, install, and installPrototypes. Use [nativity-cint](https://github.com/metaraine/nativity-cint).
 - Removed reversed. Use arr.concat().reverse().
 - Renamed hasValue to isValue
+
+- Removed distributions. Use git tags to checkout a specific version.
