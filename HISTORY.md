@@ -15,3 +15,7 @@
 - Renamed hasValue to isValue
 
 - Removed distributions. Use git tags to checkout a specific version.
+
+## 6.1.0
+- Add node-qunit
+- Remove 'var' from cint declaration to work with node-qunit
