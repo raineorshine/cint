@@ -120,32 +120,17 @@ test('arritize', function() {
 	equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 });
 
-test('spy', 6, function() {
+test('spy', 3, function() {
 	
 	function add(x, y) { return x + y; }
 
-	// save native console.log and temporarily override with mock console
-	var oldConsole = window.console;
-	window.console = { 
-		log: function(f, args, out) {
-			equal(f, add, 'first argument is the function');
-			deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
-			equal(out, 3, 'third argument is the return value of the function');
-		}
-	};
-
-	cint.spy(add)(1,2);
-
-	// restore console.log
-	window.console = oldConsole;
-
-	function customLog(f, args, out) { 
+	function log(f, args, out) { 
 		equal(f, add, 'first argument is the function');
 		deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
 		equal(out, 3, 'third argument is the return value of the function');
 	}
 
-	cint.spy(add, customLog)(1,2);
+	cint.spy(add, log)(1,2);
 })
 
 
