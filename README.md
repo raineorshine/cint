@@ -1,5 +1,7 @@
 A Javascript utility belt with an emphasis on Functional Programming.
 
+[<img src="https://travis-ci.org/metaraine/cint.svg">](https://travis-ci.org/metaraine/cint)
+
 # Usage
 
 Read the API (below) or check out some examples used in the [unit tests](https://github.com/metaraine/cint/blob/master/test/index.html).
