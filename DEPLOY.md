@@ -1,7 +1,7 @@
 # Deployment Steps
 1. 	npm version {major/minor/patch}
-2. 	cake deploy
+2. 	gulp
 3. 	git add -A
 		git commit -m "Deploy vX.X.X"
-		git push --tags
+		git push && git push --tags
 		npm publish
