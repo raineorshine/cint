@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v5.0.2 (Fri, 18 Apr 2014 00:04:16 GMT)
+	@version v6.0.0 (Fri, 18 Apr 2014 00:13:01 GMT)
 */
 cint = (function() {
 	'use strict';
