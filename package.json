@@ -23,13 +23,11 @@
   "gitHead": "ba9f4a85fd605fdad2bde942d59b57c7415bd709",
   "devDependencies": {
     "gulp": "^3.5.2",
-    "gulp-jsdoc": "0.0.2",
     "gulp-util": "^2.2.14",
     "gulp-open": "^0.2.8",
     "gulp-clean": "^0.2.4",
     "gulp-jshint": "^1.4.2",
     "jshint-stylish": "^0.1.5",
-    "jsdoc": "^3.3.0-alpha4",
     "gulp-uglify": "^0.2.1",
     "gulp-rename": "^1.1.0",
     "gulp-template": "^0.1.1",

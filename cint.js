@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v6.1.0 (Fri, 18 Apr 2014 05:44:08 GMT)
+	@version v6.1.0 (Sat, 19 Jul 2014 22:45:51 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -79,6 +79,17 @@ cint = (function() {
 			var out = f.apply(that, args);
 			spier.call(that, f, args, out);
 			return out;
+		};
+	}
+
+	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal.
+		@memberOf module:cint#
+		@param f
+	*/
+	function inContext(f) {
+		return function(context) {
+			var otherArgs = Array.prototype.slice.call(arguments, 1);
+			return f.apply(context, otherArgs);
 		};
 	}
 
@@ -677,6 +688,7 @@ cint = (function() {
 		arritize				: arritize,
 		callTillValue		: callTillValue,
 		spy							: spy,
+		inContext				: inContext,
 
 		// string
 		supplant				: supplant,

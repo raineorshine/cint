@@ -7,7 +7,6 @@
 			open =		require('gulp-open'),
 			jshint =	require('gulp-jshint'),
 			clean =		require('gulp-clean'),
-			jsdoc =		require('gulp-jsdoc'),
 			uglify =	require('gulp-uglify'),
 			rename =	require('gulp-rename'),
 			header =	require('gulp-header'),
@@ -16,11 +15,6 @@
 	var srcPath = 'src/cint.js',
 			destPath = './',
 			docsPath = 'docs';
-
-	gulp.task('docs', function() {
-		gulp.src(srcPath)
-		  .pipe(jsdoc(docsPath))
-	});
 
 	gulp.task('default', ['clean'], function() {
 

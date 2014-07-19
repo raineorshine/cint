@@ -1,5 +1,6 @@
 QUnit.module('cint');
 
+// function
 test('not', function() {
 	var yes = function() { return true; };
 	var no = function() { return false; };
@@ -10,6 +11,59 @@ test('not', function() {
 	equal(cint.not(I)(false), true, 'Works with arguments.');
 	equal(cint.not(I)('a'), false, 'Works with non-booleans.');
 	equal(cint.not(I)(undefined), true, 'Works with non-booleans');
+});
+
+test('partialAt', function() {
+	var subtract = function(x,y) { return x - y; };
+	var subtractFromTen = cint.partialAt(subtract, 0, [10]);
+	equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
+
+	var subtractTen = cint.partialAt(subtract, 1, [10]);
+	equal(subtractTen(100), 90, 'Inject arguments in the middle.');
+
+	var subtractTwenty = cint.partialAt(subtract, -1, [20])
+	equal(subtractTwenty(100), 80, 'Handles negative indexes');
+});
+
+test('arritize', function() {
+	var joinEm = function() { 
+		var givenArgs = Array.prototype.slice.call(arguments, 0);
+		return givenArgs.join('');
+	};
+	var joinTwo = cint.arritize(joinEm, 2);
+	equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
+});
+
+test('spy', 3, function() {
+	
+	function add(x, y) { return x + y; }
+
+	function log(f, args, out) { 
+		equal(f, add, 'first argument is the function');
+		deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
+		equal(out, 3, 'third argument is the return value of the function');
+	}
+
+	cint.spy(add, log)(1,2);
+})
+
+test('inContext', function() {
+	var person = { name: 'Cecil' }
+	var getName = function() { return this.name }
+	var getNameInContext = cint.inContext(getName)
+	equal(getNameInContext(person), 'Cecil', 'calls the given function in the context of the first argument')
+
+	var greet = function(greeting) { return greeting + ' ' + this.name }
+	var greetInContext = cint.inContext(greet)
+	equal(greetInContext(person, 'Hi'), 'Hi Cecil', 'passes other arguments as normal')
+});
+
+
+// array
+test('spliced', function() {
+	var arr = [1,2,3,4,5];
+	deepEqual(cint.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
+	deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
 });
 
 test('chunk', function() {
@@ -63,40 +117,6 @@ test('new', function() {
 	equal(p.age, 26);
 });
 
-test('partialAt', function() {
-	var subtract = function(x,y) { return x - y; };
-	var subtractFromTen = cint.partialAt(subtract, 0, [10]);
-	equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
-
-	var subtractTen = cint.partialAt(subtract, 1, [10]);
-	equal(subtractTen(100), 90, 'Inject arguments in the middle.');
-
-	var subtractTwenty = cint.partialAt(subtract, -1, [20])
-	equal(subtractTwenty(100), 80, 'Handles negative indexes');
-});
-
-test('arritize', function() {
-	var joinEm = function() { 
-		var givenArgs = Array.prototype.slice.call(arguments, 0);
-		return givenArgs.join('');
-	};
-	var joinTwo = cint.arritize(joinEm, 2);
-	equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
-});
-
-test('spy', 3, function() {
-	
-	function add(x, y) { return x + y; }
-
-	function log(f, args, out) { 
-		equal(f, add, 'first argument is the function');
-		deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
-		equal(out, 3, 'third argument is the return value of the function');
-	}
-
-	cint.spy(add, log)(1,2);
-})
-
 
 
 // string
@@ -135,11 +155,3 @@ test('bookend', function() {
 	equal(cint.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
 	equal(cint.bookend('b'), 'b', 'Ignores falsey begin and end values')
 })
-
-// array
-test('spliced', function() {
-	var arr = [1,2,3,4,5];
-	deepEqual(cint.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
-	deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
-});
-
