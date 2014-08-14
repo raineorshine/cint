@@ -17,7 +17,7 @@ cint = (function() {
 
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
 		@memberOf module:cint#
-		@example _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arrity of the function.
+		@example _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arity of the function.
 		@param {Function} f
 		@param {Number} index
 		@param {...*} curriedArgs
@@ -43,7 +43,7 @@ cint = (function() {
 		@param {Function} f
 		@param {Number} n
 	*/
-	function arritize(f, n) {
+	function aritize(f, n) {
 		return function() {
 			var givenArgs = Array.prototype.slice.call(arguments, 0, n);
 			return f.apply(this, givenArgs);
@@ -680,7 +680,7 @@ cint = (function() {
 		// function
 		not							: not,
 		partialAt				: partialAt,
-		arritize				: arritize,
+		aritize					: aritize,
 		callTillValue		: callTillValue,
 		spy							: spy,
 		inContext				: inContext,

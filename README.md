@@ -40,12 +40,12 @@ Require it:
 	cint.not(f)
 
 	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
-		i.e. _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arrity of the function.
+		i.e. _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arity of the function.
 	*/
 	cint.partialAt(f, index, curriedArgs)
 
 	/** Returns a new function that calls the given function with a limit on the number of arguments. */
-	cint.arritize(f, n)
+	cint.aritize(f, n)
 
 	/** Recursively invokes the given function with no parameters until it returns a non-functional value. */
 	cint.callTillValue(value)
