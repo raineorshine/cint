@@ -1,8 +1,6 @@
 A Javascript utility belt with an emphasis on Functional Programming.
 
-[<img src="https://travis-ci.org/metaraine/cint.svg">](https://travis-ci.org/metaraine/cint)
-
-[![NPM version](https://badge.fury.io/js/cint.svg)](http://badge.fury.io/js/cint)
+[<img src="https://travis-ci.org/metaraine/cint.svg">](https://travis-ci.org/metaraine/cint) [![NPM version](https://badge.fury.io/js/cint.svg)](http://badge.fury.io/js/cint)
 
 # Usage
 
