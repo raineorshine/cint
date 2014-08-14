@@ -28,27 +28,6 @@ Require it:
 
 	var cint = require("cint");
 
-# Prototyping Onto Native Objects
-cint gets way better with [nativity](https://github.com/metaraine/nativity).
-
-While controversial, prototyping functions onto some native objects can result in especially elegant code.
-
-The majority of the functions in cint center around native types like String, Number, Array, and Function, making them perfect candidates for prototyping. Nothing is prototyped onto Object.
-
-Instead of this:
-
-	cint.pluck(people, 'name')
-
-Consider the following: 
-
-	people.pluck('name')
-
-Much better! It's more intuitive because it conforms to the subject-verb-object structure of the English language.
-
-Adding cint functions to native objects is off by default. To opt-in, use [nativity-cint](https://github.com/metaraine/nativity-cint):
-
-	require('nativity-cint').install();
-
 # Unit Tests
 
 	npm test
