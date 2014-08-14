@@ -12,7 +12,7 @@ Read the API (below) or check out some examples used in the [unit tests](https:/
 
 Bower:
 
-  bower install --save cint
+	bower install --save cint
 
 Include it:
 
