@@ -25,12 +25,12 @@ test('partialAt', function() {
 	equal(subtractTwenty(100), 80, 'Handles negative indexes');
 });
 
-test('arritize', function() {
+test('aritize', function() {
 	var joinEm = function() { 
 		var givenArgs = Array.prototype.slice.call(arguments, 0);
 		return givenArgs.join('');
 	};
-	var joinTwo = cint.arritize(joinEm, 2);
+	var joinTwo = cint.aritize(joinEm, 2);
 	equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
 });
 
