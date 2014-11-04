@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.0.0 (Tue, 04 Nov 2014 03:48:12 GMT)
+	@version v7.0.0 (Tue, 04 Nov 2014 03:51:21 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -510,7 +510,7 @@ cint = (function() {
 
 	/** Adds all given arguments. */
 	function add() {
-		return arguments.length ? [].reduce.call(arguments, addTwo) : 0;
+		return arguments.length ? Array.prototype.reduce.call(arguments, addTwo) : 0;
 	}
 
 	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. 

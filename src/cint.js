@@ -505,7 +505,7 @@ cint = (function() {
 
 	/** Adds all given arguments. */
 	function add() {
-		return arguments.length ? [].reduce.call(arguments, addTwo) : 0;
+		return arguments.length ? Array.prototype.reduce.call(arguments, addTwo) : 0;
 	}
 
 	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. 
