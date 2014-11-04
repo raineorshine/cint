@@ -518,7 +518,7 @@ cint = (function() {
 	}
 
 	/** Adds all given arguments. */
-	function add() {
+	function add(/*x,y,z,...*/) {
 		return arguments.length ? Array.prototype.reduce.call(arguments, addTwo) : 0;
 	}
 

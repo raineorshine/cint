@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.0.0 (Tue, 04 Nov 2014 04:06:40 GMT)
+	@version v7.1.1 (Tue, 04 Nov 2014 04:28:32 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -523,7 +523,7 @@ cint = (function() {
 	}
 
 	/** Adds all given arguments. */
-	function add() {
+	function add(/*x,y,z,...*/) {
 		return arguments.length ? Array.prototype.reduce.call(arguments, addTwo) : 0;
 	}
 

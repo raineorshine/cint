@@ -1,7 +1,12 @@
 # Deployment Steps
-1. 	npm version {major/minor/patch}
-2. 	gulp
-3. 	git add -A
-		git commit -m "Deploy vX.X.X"
-		git push && git push --tags
-		npm publish
+Add and commit all changes
+Add tests
+Update README
+Update HISTORY
+Bump version number in package.json
+gulp
+git add -A
+git commit -m "vX.X.X"
+git tag vX.X.X
+git push && git push --tags
+npm publish

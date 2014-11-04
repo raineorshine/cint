@@ -12,11 +12,11 @@ Read the API (below) or check out some examples used in the [unit tests](https:/
 
 Bower:
 
-	bower install --save cint
+	bower install cint --save
 
 Include it:
 
-	<script type="text/javascript" src="bower_components/cint/dist/latest.js"></script>
+	<script src="bower_components/cint/cint.min.js"></script>
 
 ## Server-Side
 
@@ -155,6 +155,12 @@ Require it:
 	/** Returns a new object with the given key and value. */
 	cint.keyValue(key, value)
 
+	/** Sets the value of the given key and returns the object. */
+	cint.setValue(o, key, value)
+
+	/** Creates a mapping function that applies the given function to the value of the specified key. */
+	cint.mapOverKey(f, originalKey, newKey)
+
 	/** Join the object into a single string with the given separators separating properties from each other as well as values. */
 	cint.joinObj(obj, propSeparator, valueSeparator)
 
@@ -186,7 +192,19 @@ Require it:
 	*/
 	cint.changeKeys(obj, changedKeys)
 
+	/** Calls a function on an object and returns the object (for chaining purposes). */
+	cint.tap(f, o)
+
+	/* console.log's the given object and returns the object (for chaining purposes). */
+	cint.look(o)
+
 ## Utility
+
+	/** Adds two numbers. */
+	cint.addTwo(x, y)
+
+	/** Adds all given arguments. */
+	cint.add(/*x,y,z,...*/)
 
 	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. */
 	cint.compare(a,b)
@@ -223,3 +241,5 @@ Require it:
 	/** Create a new instance of the given constructor with the given constructor arguments. Useful for higher order programmer where the new keyword won't work. */
 	cint.createNew(C, args)
 
+	/** Converts the given value to a string by calling its toString method. */
+	cint.intoString(value)
