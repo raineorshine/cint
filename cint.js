@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.0.0 (Tue, 04 Nov 2014 03:51:21 GMT)
+	@version v7.0.0 (Tue, 04 Nov 2014 04:06:40 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -63,7 +63,7 @@ cint = (function() {
 		return typeof value === 'function' ? callTillValue(value()) : value;
 	}
 
-	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) 
+	/** Returns a function that calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) 
 		@memberOf module:cint#
 		@param {Function} f
 		@param {Function} [spier=console.log]
@@ -382,10 +382,10 @@ cint = (function() {
 
 	/** Sets the value of the given key and returns the object.
 	*/
-  function setValue(o, key, value) {
-    o[key] = value;
-    return o;
-  }
+	function setValue(o, key, value) {
+		o[key] = value;
+		return o;
+	}
 
 	/** Creates a mapping function that applies the given function to the value of the specified key.
 	*/
@@ -496,6 +496,20 @@ cint = (function() {
 			result[key in changedKeys ? changedKeys[key] : key] = obj[key];
 		}
 		return result;
+	}
+
+	/** Calls a function on an object and returns the object (for chaining purposes).
+	*/
+	function tap(f, o) {
+		f(o)
+		return o
+	}
+
+	/* console.log's the given object and returns the object (for chaining purposes).
+	*/
+	function look(o) {
+		console.log(o)
+		return o
 	}
 
 
@@ -702,7 +716,8 @@ cint = (function() {
 	}
 
 
-	// Converts the given value to a string by calling its toString method.
+	/** Converts the given value to a string by calling its toString method.
+	*/
 	function intoString(value) {
 		return value.toString();
 	}
@@ -755,6 +770,8 @@ cint = (function() {
 		toArray					: toArray,
 		filterObject		: filterObject,
 		changeKeys			: changeKeys,
+		tap							: tap,
+		look						: look,
 
 		// utility
 		addTwo					: addTwo,

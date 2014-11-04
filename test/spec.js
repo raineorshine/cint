@@ -149,7 +149,7 @@ test('mapOverKey', function() {
   	{ name: 'Tia', age: 33 },
   	{ name: 'José', age: 41 }
   ];
-  var increment = function(n) { return n+1; }
+  var increment = function(n) { return ++n }
 	var incrementAge = cint.mapOverKey(increment, 'age')
 	deepEqual(people.map(incrementAge), olderPeople, 'Maps the given function over the values of a key')
 
@@ -160,6 +160,16 @@ test('mapOverKey', function() {
   ];
 	var incrementNextAge = cint.mapOverKey(increment, 'age', 'nextAge')
 	deepEqual(people.map(incrementNextAge), nextPeople, 'Maps the given function over the values of a key and assigns them to a new key')
+
+})
+
+test('tap', function() {
+  
+	var o = { a: 10 }
+	var incrementA = function(o) { o.a++ }
+
+	equal(cint.tap(incrementA, o), o, 'Returns the given object')
+	deepEqual(o, { a: 11 }, 'Invokes the given function on the object')
 
 })
 

@@ -1,7 +1,7 @@
 # History
 
 ## 7.1.0
-- Added functions: addTwo, add, intoString, mapOverKey
+- Added functions: addTwo, add, intoString, mapOverKey, tap, look
 
 ## 7.0.0
 - Corrected spelling of 'arritize' to 'aritize'
