@@ -1,7 +1,7 @@
 # History
 
 ## 7.1.2
-- Removed semicolons
+- Removed semicolons. Enabled header in minified file.
 
 ## 7.1.1
 - Updated README
