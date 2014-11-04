@@ -1,5 +1,11 @@
 # History
 
+## 7.1.2
+- Removed semicolons
+
+## 7.1.1
+- Updated README
+
 ## 7.1.0
 - Added functions: addTwo, add, intoString, setValue, mapOverKey, tap, look
 
