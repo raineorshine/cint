@@ -118,6 +118,51 @@ test('new', function() {
 });
 
 
+// object
+test('keyValue', function() {
+  deepEqual(cint.keyValue('a',1), {a:1}, 'Creates a key-value pair.')
+  notEqual(cint.keyValue('a',1), cint.keyValue('a',1), 'Creates a new object instance each time.')
+})
+
+test('setValue', function() {
+
+  var o = {a:1};
+  cint.setValue(o, 'a', 2)
+  deepEqual(o, {a:2}, 'Sets the value of the given existing key')
+
+  cint.setValue(o, 'b', 10)
+  deepEqual(o, {a:2, b:10}, 'Sets the value of the given new key')
+
+  equal(cint.setValue(o, 'a', 10), o, 'Returns the object')
+
+})
+
+test('mapOverKey', function() {
+  
+  var people = [
+  	{ name: 'Bob', age: 26 },
+  	{ name: 'Tia', age: 32 },
+  	{ name: 'José', age: 40 }
+  ];
+  var olderPeople = [
+  	{ name: 'Bob', age: 27 },
+  	{ name: 'Tia', age: 33 },
+  	{ name: 'José', age: 41 }
+  ];
+  var increment = function(n) { return n+1; }
+	var incrementAge = cint.mapOverKey(increment, 'age')
+	deepEqual(people.map(incrementAge), olderPeople, 'Maps the given function over the values of a key')
+
+  var nextPeople = [
+  	{ name: 'Bob', age: 27, nextAge: 28 },
+  	{ name: 'Tia', age: 33, nextAge: 34 },
+  	{ name: 'José', age: 41, nextAge: 42 }
+  ];
+	var incrementNextAge = cint.mapOverKey(increment, 'age', 'nextAge')
+	deepEqual(people.map(incrementNextAge), nextPeople, 'Maps the given function over the values of a key and assigns them to a new key')
+
+})
+
 
 // string
 test('supplant', function() {

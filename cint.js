@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.0.0 (Tue, 04 Nov 2014 03:25:46 GMT)
+	@version v7.0.0 (Tue, 04 Nov 2014 03:48:12 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -380,6 +380,22 @@ cint = (function() {
 		return o;
 	}
 
+	/** Sets the value of the given key and returns the object.
+	*/
+  function setValue(o, key, value) {
+    o[key] = value;
+    return o;
+  }
+
+	/** Creates a mapping function that applies the given function to the value of the specified key.
+	*/
+	function mapOverKey(f, originalKey, newKey) {
+		return function(o) {
+			return setValue(o, newKey || originalKey, f(o[originalKey]));
+		};
+	}
+
+
 	/** Join the object into a single string with the given separators separating properties from each other as well as values. 
 		@memberOf module:cint#
 		@param {Object} obj
@@ -732,6 +748,8 @@ cint = (function() {
 
 		// object
 		keyValue				: keyValue,
+		setValue				: setValue,
+		mapOverKey			: mapOverKey,
 		joinObj					: joinObj,
 		mapObject				: mapObject,
 		toArray					: toArray,
