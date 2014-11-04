@@ -155,3 +155,16 @@ test('bookend', function() {
 	equal(cint.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
 	equal(cint.bookend('b'), 'b', 'Ignores falsey begin and end values')
 })
+
+// utility
+test('addTwo', function() {
+	equal(cint.addTwo(4,5), 9, 'Add two numbers.')
+})
+
+test('add', function() {
+	equal(cint.add(), 0, 'No arguments returns 0')
+	equal(cint.add(1), 1, '1 argument returns the argument')
+	equal(cint.add(1,2), 3, '2 arguments are added')
+	equal(cint.add(1,2,3), 6, 'More than 2 arguments are added')
+})
+

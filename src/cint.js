@@ -482,6 +482,16 @@ cint = (function() {
 	 * Utility
 	 ***********************************/
 
+	/** Adds two numbers. */
+	function addTwo(x, y) {
+		return x + y;
+	}
+
+	/** Adds all given arguments. */
+	function add() {
+    return arguments.length ? [].reduce.call(arguments, addTwo) : 0;
+	}
+
 	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. 
 		@memberOf module:cint#
 		@param a
@@ -506,7 +516,7 @@ cint = (function() {
 	/** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties. A property can also be appended with ' ASC' or ' DESC' to control the sort order.
 		@memberOf module:cint#
 		@param {String[]|Object[]} props
-  */
+	*/
 	function dynamicCompare(props) {
 
 		if(!props || !(props instanceof Array)) {
@@ -717,6 +727,8 @@ cint = (function() {
 		changeKeys			: changeKeys,
 
 		// utility
+		addTwo					: addTwo,
+		add							: add,
 		compare					: compare,
 		compareProperty	: compareProperty,
 		dynamicCompare	: dynamicCompare,
