@@ -489,7 +489,7 @@ cint = (function() {
 
 	/** Adds all given arguments. */
 	function add() {
-    return arguments.length ? [].reduce.call(arguments, addTwo) : 0;
+		return arguments.length ? [].reduce.call(arguments, addTwo) : 0;
 	}
 
 	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. 
@@ -681,6 +681,13 @@ cint = (function() {
 	}
 
 
+	// Converts the given value to a string by calling its toString method.
+	function intoString(value) {
+		return value.toString();
+	}
+
+
+
 	/***********************************
 	 * Export Public Interface
 	 ***********************************/
@@ -738,6 +745,7 @@ cint = (function() {
 		guid						: guid,
 		typeOf					: typeOf,
 		'new'						: createNew,
+		intoString			: intoString
 	};
 
 })();

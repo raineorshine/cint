@@ -1,7 +1,10 @@
 # History
 
+## 7.1.0
+- Added functions: addTwo, add, intoString
+
 ## 7.0.0
-Corrected spelling of 'arritize' to 'aritize'
+- Corrected spelling of 'arritize' to 'aritize'
 
 ## 6.0.0
 - Removed compose, contains, filter, find, group, isEmpty, merged, pluck, range. Use underscore functions of the same name.

@@ -168,3 +168,22 @@ test('add', function() {
 	equal(cint.add(1,2,3), 6, 'More than 2 arguments are added')
 })
 
+test('intoString', function(assert) {
+	equal(cint.intoString(4), '4', 'Converts a number to a string')
+	equal(cint.intoString(true), 'true', 'Converts a boolean to a string')
+	// Can't get assert.throws to work as documented here:
+	// http://api.qunitjs.com/throws/
+	// assert.throws(
+	// 	function() {
+	// 		cint.intoString(null);
+	// 	},
+	// 	new TypeError('Cannot read property \'toString\' of null'),
+	// 	'Passing null throws a TypeError'
+	// )
+	// assert.throws(
+	// 	cint.intoString.bind(cint, undefined),
+	// 	new TypeError('Cannot read property \'toString\' of undefined'),
+	// 	'Passing undefined throws a TypeError'
+	// )
+})
+

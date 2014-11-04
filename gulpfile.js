@@ -19,7 +19,6 @@
 	gulp.task('default', ['clean'], function() {
 
 		gulp.src(srcPath)
-			// is jshint working?
 			.pipe(jshint('.jshintrc'))
 			.pipe(jshint.reporter('jshint-stylish'))
 			.pipe(jshint.reporter('fail'))
