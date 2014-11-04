@@ -1,6 +1,7 @@
 {
 	"validthis": true,
 	"smarttabs": true,
+	"asi": true,
 	"globals": [
 		"module",
 		"require"
