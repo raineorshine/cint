@@ -1,97 +1,10 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.1.2 (Tue, 04 Nov 2014 04:52:29 GMT)
+	@version v7.1.2 (Fri, 14 Nov 2014 21:50:50 GMT)
 */
 cint = (function() {
 	'use strict';
-
-	/***********************************
-	 * Function
-	 ***********************************/
-
-	/** Returns a function that returns the inverse of the given boolean function.
-		@memberOf module:cint#
-		@param {function} f The function to inverse.
-	*/
-	function not(f) {
-		return function() {
-			return !f.apply(this, arguments)
-		}
-	}
-
-	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
-		@memberOf module:cint#
-		@example _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arity of the function.
-		@param {Function} f
-		@param {Number} index
-		@param {...*} curriedArgs
-	*/
-	function partialAt(f, index, curriedArgs) {
-		return function() {
-			var givenArgs = Array.prototype.slice.call(arguments)
-
-			// handle negative indices
-			// Note that we add 1 so that -1 points to the slot AFTER the last element, not before the last element (which is what the last index points to).
-			if(index < 0) {
-				index = circ(givenArgs, index) + 1
-			}
-
-			var spliceArgs = [givenArgs, index, 0].concat(curriedArgs)
-			var newArgs = spliced.apply(this, spliceArgs)
-			return f.apply(this, newArgs)
-		}
-	}
-
-	/** Returns a new function that calls the given function with a limit on the number of arguments. 
-		@memberOf module:cint#
-		@param {Function} f
-		@param {Number} n
-	*/
-	function aritize(f, n) {
-		return function() {
-			var givenArgs = Array.prototype.slice.call(arguments, 0, n)
-			return f.apply(this, givenArgs)
-		}
-	}
-
-	/** Recursively invokes the given function with no parameters until it returns a non-functional value. 
-		@memberOf module:cint#
-		@param value
-	*/
-	function callTillValue(value) {
-		return typeof value === 'function' ? callTillValue(value()) : value
-	}
-
-	/** Returns a function that calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) 
-		@memberOf module:cint#
-		@param {Function} f
-		@param {Function} [spier=console.log]
-	*/
-	function spy(f, spier) {
-		var that = this
-		/* jshint ignore:start */
-		spier = spier || console.log.bind(console)
-		/* jshint ignore:end */
-
-		return function() {
-			var args = Array.prototype.slice.call(arguments)
-			var out = f.apply(that, args)
-			spier.call(that, f, args, out)
-			return out
-		}
-	}
-
-	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal.
-		@memberOf module:cint#
-		@param f
-	*/
-	function inContext(f) {
-		return function(context) {
-			var otherArgs = Array.prototype.slice.call(arguments, 1)
-			return f.apply(context, otherArgs)
-		}
-	}
 
 
 	/***********************************
@@ -215,6 +128,16 @@ cint = (function() {
 		return results
 	}
 
+	/** Adds two numbers. */
+	function addTwo(x, y) {
+		return x + y
+	}
+
+	/** Adds all given arguments. */
+	function add(/*x,y,z,...*/) {
+		return arguments.length ? Array.prototype.reduce.call(arguments, addTwo) : 0
+	}
+
 
 	/***********************************
 	 * Array
@@ -262,6 +185,53 @@ cint = (function() {
 			dict[arr[i]] = count + 1
 		}
 		return dict
+	}
+
+	/** 
+	e.g.
+	[
+		{
+			ideal: 4,
+			past: 3,
+			present: 7
+		},
+		{
+			ideal: 5,
+			past: 7,
+			present: 7
+		}
+	]
+
+	=>
+
+	{
+		"4": {
+			ideal: 1
+		},
+		"3": {
+			past: 1
+		}
+		"5": {
+			ideal: 1
+		}
+		"7": {
+			present: 2,
+			past: 1
+		}
+	}
+	*/
+	function tallyProps(arr) {
+		var tallies = {}
+		for(var i=0; i<arr.length; i++) {
+			var o = arr[i];
+			for(var key in o) {
+				var value = o[key];
+				if(!tallies[value]) { tallyObject = tallies[value] = {} }
+				if(!tallyObject[key]) { tallyObject[key] = 0 }
+				tallyObject[key]++;
+			}
+		}
+		return tallies
 	}
 
 
@@ -514,18 +484,96 @@ cint = (function() {
 
 
 	/***********************************
-	 * Utility
+	 * Function
 	 ***********************************/
 
-	/** Adds two numbers. */
-	function addTwo(x, y) {
-		return x + y
+	/** Returns a function that returns the inverse of the given boolean function.
+		@memberOf module:cint#
+		@param {function} f The function to inverse.
+	*/
+	function not(f) {
+		return function() {
+			return !f.apply(this, arguments)
+		}
 	}
 
-	/** Adds all given arguments. */
-	function add(/*x,y,z,...*/) {
-		return arguments.length ? Array.prototype.reduce.call(arguments, addTwo) : 0
+	/** Returns a new function that inserts the given curried arguments to the inner function at the specified index of its runtime arguments.
+		@memberOf module:cint#
+		@example _.partial(f, args...) is equivalent to cint.partialAt(f, 0, args) and _.partialRight(f, args...) is equivalent to cint.partialAt(f, n, args) where n is the arity of the function.
+		@param {Function} f
+		@param {Number} index
+		@param {...*} curriedArgs
+	*/
+	function partialAt(f, index, curriedArgs) {
+		return function() {
+			var givenArgs = Array.prototype.slice.call(arguments)
+
+			// handle negative indices
+			// Note that we add 1 so that -1 points to the slot AFTER the last element, not before the last element (which is what the last index points to).
+			if(index < 0) {
+				index = circ(givenArgs, index) + 1
+			}
+
+			var spliceArgs = [givenArgs, index, 0].concat(curriedArgs)
+			var newArgs = spliced.apply(this, spliceArgs)
+			return f.apply(this, newArgs)
+		}
 	}
+
+	/** Returns a new function that calls the given function with a limit on the number of arguments. 
+		@memberOf module:cint#
+		@param {Function} f
+		@param {Number} n
+	*/
+	function aritize(f, n) {
+		return function() {
+			var givenArgs = Array.prototype.slice.call(arguments, 0, n)
+			return f.apply(this, givenArgs)
+		}
+	}
+
+	/** Recursively invokes the given function with no parameters until it returns a non-functional value. 
+		@memberOf module:cint#
+		@param value
+	*/
+	function callTillValue(value) {
+		return typeof value === 'function' ? callTillValue(value()) : value
+	}
+
+	/** Returns a function that calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) 
+		@memberOf module:cint#
+		@param {Function} f
+		@param {Function} [spier=console.log]
+	*/
+	function spy(f, spier) {
+		var that = this
+		/* jshint ignore:start */
+		spier = spier || console.log.bind(console)
+		/* jshint ignore:end */
+
+		return function() {
+			var args = Array.prototype.slice.call(arguments)
+			var out = f.apply(that, args)
+			spier.call(that, f, args, out)
+			return out
+		}
+	}
+
+	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal.
+		@memberOf module:cint#
+		@param f
+	*/
+	function inContext(f) {
+		return function(context) {
+			var otherArgs = Array.prototype.slice.call(arguments, 1)
+			return f.apply(context, otherArgs)
+		}
+	}
+
+
+	/***********************************
+	 * Utility
+	 ***********************************/
 
 	/** Compares two items lexigraphically.	Returns 1 if a>b, 0 if a==b, or -1 if a<b. 
 		@memberOf module:cint#
@@ -730,14 +778,6 @@ cint = (function() {
 
 	return {
 
-		// function
-		not							: not,
-		partialAt				: partialAt,
-		aritize					: aritize,
-		callTillValue		: callTillValue,
-		spy							: spy,
-		inContext				: inContext,
-
 		// string
 		supplant				: supplant,
 		startsWith			: startsWith,
@@ -751,6 +791,8 @@ cint = (function() {
 		// number
 		ordinal					: ordinal,
 		mapNumber				: mapNumber,
+		addTwo					: addTwo,
+		add							: add,
 
 		// array
 		orderedGroup		: orderedGroup,
@@ -773,9 +815,15 @@ cint = (function() {
 		tap							: tap,
 		look						: look,
 
+		// function
+		not							: not,
+		partialAt				: partialAt,
+		aritize					: aritize,
+		callTillValue		: callTillValue,
+		spy							: spy,
+		inContext				: inContext,
+
 		// utility
-		addTwo					: addTwo,
-		add							: add,
 		compare					: compare,
 		compareProperty	: compareProperty,
 		dynamicCompare	: dynamicCompare,

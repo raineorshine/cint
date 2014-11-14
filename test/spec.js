@@ -1,70 +1,118 @@
 QUnit.module('cint');
 
-// function
-test('not', function() {
-	var yes = function() { return true; };
-	var no = function() { return false; };
-	var I = function(x) { return x; };
-	equal(cint.not(yes)(), false, 'Reverses true to false.');
-	equal(cint.not(no)(), true, 'Reverses false to true.');
-	equal(cint.not(I)(true), false, 'Works with arguments.');
-	equal(cint.not(I)(false), true, 'Works with arguments.');
-	equal(cint.not(I)('a'), false, 'Works with non-booleans.');
-	equal(cint.not(I)(undefined), true, 'Works with non-booleans');
-});
+/***********************************
+ * String
+ ***********************************/
 
-test('partialAt', function() {
-	var subtract = function(x,y) { return x - y; };
-	var subtractFromTen = cint.partialAt(subtract, 0, [10]);
-	equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
+test('supplant', function() {
 
-	var subtractTen = cint.partialAt(subtract, 1, [10]);
-	equal(subtractTen(100), 90, 'Inject arguments in the middle.');
+	equal(cint.supplant('{0} walks his {1} in the {2}.', 
+		['Jim', 'dinosaur', 'park']), 
+		'Jim walks his dinosaur in the park.', 
+		'Supplant with array by index');
 
-	var subtractTwenty = cint.partialAt(subtract, -1, [20])
-	equal(subtractTwenty(100), 80, 'Handles negative indexes');
-});
+	equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
+		{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
+		'Jim walks his dinosaur in the park.', 
+		'Supplant with object by key');
 
-test('aritize', function() {
-	var joinEm = function() { 
-		var givenArgs = Array.prototype.slice.call(arguments, 0);
-		return givenArgs.join('');
-	};
-	var joinTwo = cint.aritize(joinEm, 2);
-	equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
-});
+	equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
+		{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
+		'Jim walks his dinosaur in the park.', 
+		'Supplant with object by key');
 
-test('spy', 3, function() {
-	
-	function add(x, y) { return x + y; }
+	equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
+		{ owner: 'Jim', pet: 'dinosaur' }), 
+		'Jim walks his dinosaur in the {place}.', 
+		'Ignores non-existant keys');
 
-	function log(f, args, out) { 
-		equal(f, add, 'first argument is the function');
-		deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
-		equal(out, 3, 'third argument is the return value of the function');
-	}
-
-	cint.spy(add, log)(1,2);
+	var Dino = function() {};
+	Dino.prototype.toString = function() { return 'dinosaur'; };
+	equal(cint.supplant('{owner} walks his {pet}.', 
+		{ owner: 'Jim', pet: new Dino() }), 
+		'Jim walks his dinosaur.', 
+		'toStrings all values to be interpolated');
 })
 
-test('inContext', function() {
-	var person = { name: 'Cecil' }
-	var getName = function() { return this.name }
-	var getNameInContext = cint.inContext(getName)
-	equal(getNameInContext(person), 'Cecil', 'calls the given function in the context of the first argument')
+// test('startsWith', function() {
+// })
 
-	var greet = function(greeting) { return greeting + ' ' + this.name }
-	var greetInContext = cint.inContext(greet)
-	equal(greetInContext(person, 'Hi'), 'Hi Cecil', 'passes other arguments as normal')
+// test('before', function() {
+// })
+
+// test('after', function() {
+// })
+
+// test('between', function() {
+// })
+
+test('bookend', function() {
+	equal(cint.bookend('b', 'a', 'c'), 'abc', 'Add a string to the beginning and a string to the end of a string.')
+	equal(cint.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
+	equal(cint.bookend('b'), 'b', 'Ignores falsey begin and end values')
+})
+
+// test('repeatString', function() {
+// })
+
+// test('toTitleCase', function() {
+// })
+
+
+/***********************************
+ * Number
+ ***********************************/
+
+// test('ordinal', function() {
+// })
+
+// test('mapNumber', function() {
+// })
+
+test('addTwo', function() {
+	equal(cint.addTwo(4,5), 9, 'Add two numbers.')
+})
+
+test('add', function() {
+	equal(cint.add(), 0, 'No arguments returns 0')
+	equal(cint.add(1), 1, '1 argument returns the argument')
+	equal(cint.add(1,2), 3, '2 arguments are added')
+	equal(cint.add(1,2,3), 6, 'More than 2 arguments are added')
+})
+
+/***********************************
+ * Array
+ ***********************************/
+
+// test('orderedGroup', function() {
+// })
+
+// test('tally', function() {
+// })
+
+test('index', function() {
+	var arr = [1,2,3,4,5];
+	equal(cint.index(arr, 2), 3, 'Index into an array as normal');
+	equal(cint.index(arr, -1), 5, 'Negative index');
+	equal(cint.index(arr, 16), 2, 'Out of bounds index');
+
+	var str = 'abcde';
+	equal(cint.index(str, 2), 'c', 'Index into an array-like object as normal')
+	equal(cint.index(str, -1), 'e', 'Negative index of array-like object')
+	equal(cint.index(str, 16), 'b', 'Out of bounds index of array-like object')
 });
 
+// test('rotate', function() {
+// })
 
-// array
+// test('toObject', function() {
+// })
+
 test('spliced', function() {
 	var arr = [1,2,3,4,5];
 	deepEqual(cint.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
 	deepEqual(arr, [1,2,3,4,5], 'Original array is unchanged.');
-});
+})
 
 test('chunk', function() {
 	var arr = [1,2,3,4,5,6,7,8,9,10];
@@ -77,46 +125,10 @@ test('chunk', function() {
 })
 
 
-test('mapObject', function() {
-	var o = { a: 1, b: 2, c: 3 };
-	var swap = function(k,v) { return cint.keyValue(v,k); };
-	deepEqual(cint.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' });
-});
 
-test('changeKeys', function() {
-	// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
-	var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' };
-	var newObject = cint.changeKeys( oldObject, { fname: 'first', lname: 'last' });
-	deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 'Old object is unmodified.');
-	deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' }, 'New object ontains modified keys.');
-
-});
-
-test('index (array)', function() {
-	var arr = [1,2,3,4,5];
-	equal(cint.index(arr, 2), 3, 'Index into an array as normal');
-	equal(cint.index(arr, -1), 5, 'Negative index');
-	equal(cint.index(arr, 16), 2, 'Out of bounds index');
-});
-
-test('index (string)', function() {
-	var str = 'abcde';
-	equal(cint.index(str, 2), 'c', 'Index into an array as normal');
-	equal(cint.index(str, -1), 'e', 'Negative index');
-	equal(cint.index(str, 16), 'b', 'Out of bounds index');
-});
-
-test('new', function() {
-	var Person = function(name, age) {
-		this.name = name;
-		this.age = age;
-	};
-	var p = cint.new(Person, ['Raine', 26]);
-	ok(p instanceof Person);
-	equal(p.name, 'Raine');
-	equal(p.age, 26);
-});
-
+/***********************************
+ * Object
+ ***********************************/
 
 // object
 test('keyValue', function() {
@@ -163,6 +175,30 @@ test('mapOverKey', function() {
 
 })
 
+// test('joinObj', function() {
+// })
+
+test('mapObject', function() {
+	var o = { a: 1, b: 2, c: 3 };
+	var swap = function(k,v) { return cint.keyValue(v,k); };
+	deepEqual(cint.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' });
+});
+
+// test('toArray', function() {
+// })
+
+// test('filterObject', function() {
+// })
+
+test('changeKeys', function() {
+	// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
+	var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' };
+	var newObject = cint.changeKeys( oldObject, { fname: 'first', lname: 'last' });
+	deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }, 'Old object is unmodified.');
+	deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' }, 'New object ontains modified keys.');
+
+});
+
 test('tap', function() {
   
 	var o = { a: 10 }
@@ -173,55 +209,113 @@ test('tap', function() {
 
 })
 
+// test('look', function() {
+// })
 
-// string
-test('supplant', function() {
 
-	equal(cint.supplant('{0} walks his {1} in the {2}.', 
-		['Jim', 'dinosaur', 'park']), 
-		'Jim walks his dinosaur in the park.', 
-		'Supplant with array by index');
+/***********************************
+ * Function
+ ***********************************/
 
-	equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
-		{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
-		'Jim walks his dinosaur in the park.', 
-		'Supplant with object by key');
+test('not', function() {
+	var yes = function() { return true; };
+	var no = function() { return false; };
+	var I = function(x) { return x; };
+	equal(cint.not(yes)(), false, 'Reverses true to false.');
+	equal(cint.not(no)(), true, 'Reverses false to true.');
+	equal(cint.not(I)(true), false, 'Works with arguments.');
+	equal(cint.not(I)(false), true, 'Works with arguments.');
+	equal(cint.not(I)('a'), false, 'Works with non-booleans.');
+	equal(cint.not(I)(undefined), true, 'Works with non-booleans');
+});
 
-	equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
-		{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
-		'Jim walks his dinosaur in the park.', 
-		'Supplant with object by key');
+test('partialAt', function() {
+	var subtract = function(x,y) { return x - y; };
+	var subtractFromTen = cint.partialAt(subtract, 0, [10]);
+	equal(subtractFromTen(1), 9, 'Inject arguments at the beginning.');
 
-	equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
-		{ owner: 'Jim', pet: 'dinosaur' }), 
-		'Jim walks his dinosaur in the {place}.', 
-		'Ignores non-existant keys');
+	var subtractTen = cint.partialAt(subtract, 1, [10]);
+	equal(subtractTen(100), 90, 'Inject arguments in the middle.');
 
-	var Dino = function() {};
-	Dino.prototype.toString = function() { return 'dinosaur'; };
-	equal(cint.supplant('{owner} walks his {pet}.', 
-		{ owner: 'Jim', pet: new Dino() }), 
-		'Jim walks his dinosaur.', 
-		'toStrings all values to be interpolated');
+	var subtractTwenty = cint.partialAt(subtract, -1, [20])
+	equal(subtractTwenty(100), 80, 'Handles negative indexes');
+});
+
+test('aritize', function() {
+	var joinEm = function() { 
+		var givenArgs = Array.prototype.slice.call(arguments, 0);
+		return givenArgs.join('');
+	};
+	var joinTwo = cint.aritize(joinEm, 2);
+	equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
+});
+
+// test('callTillValue', function() {
+// })
+
+test('spy', 3, function() {
+	
+	function add(x, y) { return x + y; }
+
+	function log(f, args, out) { 
+		equal(f, add, 'first argument is the function');
+		deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
+		equal(out, 3, 'third argument is the return value of the function');
+	}
+
+	cint.spy(add, log)(1,2);
 })
 
-test('bookend', function() {
-	equal(cint.bookend('b', 'a', 'c'), 'abc', 'Add a string to the beginning and a string to the end of a string.')
-	equal(cint.bookend('b', 'a'), 'aba', 'Wrap a string with another string')
-	equal(cint.bookend('b'), 'b', 'Ignores falsey begin and end values')
-})
+test('inContext', function() {
+	var person = { name: 'Cecil' }
+	var getName = function() { return this.name }
+	var getNameInContext = cint.inContext(getName)
+	equal(getNameInContext(person), 'Cecil', 'calls the given function in the context of the first argument')
 
-// utility
-test('addTwo', function() {
-	equal(cint.addTwo(4,5), 9, 'Add two numbers.')
-})
+	var greet = function(greeting) { return greeting + ' ' + this.name }
+	var greetInContext = cint.inContext(greet)
+	equal(greetInContext(person, 'Hi'), 'Hi Cecil', 'passes other arguments as normal')
+});
 
-test('add', function() {
-	equal(cint.add(), 0, 'No arguments returns 0')
-	equal(cint.add(1), 1, '1 argument returns the argument')
-	equal(cint.add(1,2), 3, '2 arguments are added')
-	equal(cint.add(1,2,3), 6, 'More than 2 arguments are added')
-})
+
+/***********************************
+ * Utility
+ ***********************************/
+
+// test('compare', function() {
+// })
+
+// test('compareProperty', function() {
+// })
+
+// test('dynamicCompare', function() {
+// })
+
+// test('equals', function() {
+// })
+
+// test('isValue', function() {
+// })
+
+// test('hash', function() {
+// })
+
+// test('guid', function() {
+// })
+
+// test('typeOf', function() {
+// })
+
+test('new', function() {
+	var Person = function(name, age) {
+		this.name = name;
+		this.age = age;
+	};
+	var p = cint.new(Person, ['Raine', 26]);
+	ok(p instanceof Person);
+	equal(p.name, 'Raine');
+	equal(p.age, 26);
+});
 
 test('intoString', function(assert) {
 	equal(cint.intoString(4), '4', 'Converts a number to a string')
