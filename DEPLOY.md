@@ -1,8 +1,8 @@
 # Deployment Steps
-Add and commit all changes
 Add tests
 Update README
 Update HISTORY
+Add and commit all changes
 Bump version number in package.json
 gulp
 git add -A

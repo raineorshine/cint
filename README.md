@@ -106,6 +106,41 @@ Require it:
 	/** Returns a dictionary whose keys are the values of the array and values are the number of instances of that value within the array. */
 	cint.tally(arr)
 
+	/** Tally the property values of an array of object, grouping the counts for each property under its value.
+	e.g.
+	[
+		{
+			ideal: 4,
+			past: 3,
+			present: 7
+		},
+		{
+			ideal: 5,
+			past: 7,
+			present: 7
+		}
+	]
+
+	=>
+
+	{
+		"4": {
+			ideal: 1
+		},
+		"3": {
+			past: 1
+		}
+		"5": {
+			ideal: 1
+		}
+		"7": {
+			present: 2,
+			past: 1
+		}
+	}
+	*/
+	cint.tallyProps(arr)
+
 	/** Returns true if the array contains the given value. */
 	cint.contains(arr)
 
