@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.1.2 (Fri, 14 Nov 2014 21:50:50 GMT)
+	@version v7.1.2 (Fri, 14 Nov 2014 22:07:44 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -14,6 +14,7 @@ cint = (function() {
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
 		Same as Lodash's _.template(str, o, { interpolate: /{([\s\S]+?)}/g }).
 		Based on supplant by Douglas Crockford http://javascript.crockford.com/remedial.html
+		@memberOf module:cint#
 		@param {String} str
 		@param {Object|Array} o
 	*/
@@ -187,7 +188,7 @@ cint = (function() {
 		return dict
 	}
 
-	/** 
+	/** Tally the property values of an array of object, grouping the counts for each property under its value.
 	e.g.
 	[
 		{
@@ -221,16 +222,29 @@ cint = (function() {
 	}
 	*/
 	function tallyProps(arr) {
+
 		var tallies = {}
+
 		for(var i=0; i<arr.length; i++) {
-			var o = arr[i];
+
+			var o = arr[i]
+
+			// loop through each property so the value can be tallied in the tallies object
 			for(var key in o) {
+
+				// cache the value
 				var value = o[key];
-				if(!tallies[value]) { tallyObject = tallies[value] = {} }
-				if(!tallyObject[key]) { tallyObject[key] = 0 }
-				tallyObject[key]++;
+
+				// create a new tally object if it doesn't exist for this value
+				if(!tallies[value]) { 
+					tallies[value] = {} 
+				}
+
+				// increment the count
+				tallies[value][key] = (tallies[value][key] || 0) + 1
 			}
 		}
+
 		return tallies
 	}
 
@@ -797,6 +811,7 @@ cint = (function() {
 		// array
 		orderedGroup		: orderedGroup,
 		tally						: tally,
+		tallyProps			: tallyProps,
 		index						: index,
 		rotate					: rotate,
 		toObject				: toObject,

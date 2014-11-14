@@ -1,5 +1,9 @@
 # History
 
+## 7.2
+- Added tallyProps.
+- Rearranged sections.
+
 ## 7.1.2
 - Removed semicolons. Enabled header in minified file.
 

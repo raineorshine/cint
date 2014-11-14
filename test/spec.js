@@ -90,6 +90,39 @@ test('add', function() {
 // test('tally', function() {
 // })
 
+test('tallyProps', function() {
+
+	var data = [
+		{
+			ideal: 4,
+			past: 3,
+			present: 7
+		},
+		{
+			ideal: 3,
+			past: 7,
+			present: 7
+		}
+	]
+
+	var expectedTallies = {
+		"4": {
+			ideal: 1
+		},
+		"3": {
+			past: 1,
+			ideal: 1
+		},
+		"7": {
+			present: 2,
+			past: 1
+		}
+	}
+
+	deepEqual(cint.tallyProps(data), expectedTallies, 'Tally property values')
+
+})
+
 test('index', function() {
 	var arr = [1,2,3,4,5];
 	equal(cint.index(arr, 2), 3, 'Index into an array as normal');
