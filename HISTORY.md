@@ -1,6 +1,7 @@
 # History
 
 ## 7.2
+- Add unit tests for startsWith, before, after, between, repeatString, toTitleCase, ordinal, mapNumber, rotate, toObject, joinObj, toArray, filterObject, look, compare, compareProperty, isValue, typeof
 - Added tallyProps.
 - Rearranged sections.
 

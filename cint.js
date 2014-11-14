@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.1.2 (Fri, 14 Nov 2014 22:07:44 GMT)
+	@version v7.1.2 (Fri, 14 Nov 2014 23:55:19 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -26,13 +26,13 @@ cint = (function() {
 		)
 	}
 
-	/** Returns true if the string starts with the given substring. 
+	/** Returns true if the string starts with the given substring. Returns false if the substring is the empty string.
 		@memberOf module:cint#
 		@param {String} str
 		@param {String} sub The substring.
 	*/
 	function startsWith(str, sub){
-		return (str.indexOf(sub) === 0)
+		return str.indexOf(sub) === 0 && sub !== ''
 	}
 
 	/** Returns the substring before the first instance of the given delimiter. 

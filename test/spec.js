@@ -34,17 +34,23 @@ test('supplant', function() {
 		'toStrings all values to be interpolated');
 })
 
-// test('startsWith', function() {
-// })
+test('startsWith', function() {
+	equal(cint.startsWith('abc', 'a'), true, 'abc starts with a')
+	equal(cint.startsWith('abc', 'c'), false, 'abc doesn\'t start with c')
+	equal(cint.startsWith('abc', ''), false, 'Testing if something starts with empty string is always false.')
+})
 
-// test('before', function() {
-// })
+test('before', function() {
+	equal(cint.before('ab,cd,ef', ','), 'ab', 'Return the substring before the given delimiter')
+})
 
-// test('after', function() {
-// })
+test('after', function() {
+	equal(cint.after('ab,cd,ef', ','), 'cd,ef', 'Return the substring after the first given delimiter')
+})
 
-// test('between', function() {
-// })
+test('between', function() {
+	equal(cint.between('abcdef', 'ab', 'ef'), 'cd', 'Return the substring between the given two delimiters')
+})
 
 test('bookend', function() {
 	equal(cint.bookend('b', 'a', 'c'), 'abc', 'Add a string to the beginning and a string to the end of a string.')
@@ -52,22 +58,58 @@ test('bookend', function() {
 	equal(cint.bookend('b'), 'b', 'Ignores falsey begin and end values')
 })
 
-// test('repeatString', function() {
-// })
+test('repeatString', function() {
+	equal(cint.repeatString('abc', 3), 'abcabcabc', 'Repeat a string n times')
+	equal(cint.repeatString('abc', 0), '', 'Repeating a string 0 times returns an empty string')
+})
 
-// test('toTitleCase', function() {
-// })
+test('toTitleCase', function() {
+	equal(cint.toTitleCase('this is a test'), 'This Is A Test', 'Capitalize the first letter of each word in a sentence')
+	equal(cint.toTitleCase('tHis is A tEst'), 'This Is A Test', 'Lowercase the rest')
+	equal(cint.toTitleCase('don\'t fail the test.'), 'Don\'t Fail The Test.', 'Do not alter punctuation.')
+})
 
 
 /***********************************
  * Number
  ***********************************/
 
-// test('ordinal', function() {
-// })
+test('ordinal', function() {
+	equal(cint.ordinal(1), '1st')
+	equal(cint.ordinal(2), '2nd')
+	equal(cint.ordinal(3), '3rd')
+	equal(cint.ordinal(4), '4th')
+	equal(cint.ordinal(5), '5th')
+	equal(cint.ordinal(6), '6th')
+	equal(cint.ordinal(7), '7th')
+	equal(cint.ordinal(8), '8th')
+	equal(cint.ordinal(9), '9th')
+	equal(cint.ordinal(10), '10th')
+	equal(cint.ordinal(11), '11th')
+	equal(cint.ordinal(12), '12th')
+	equal(cint.ordinal(13), '13th')
+	equal(cint.ordinal(14), '14th')
+	equal(cint.ordinal(15), '15th')
+	equal(cint.ordinal(16), '16th')
+	equal(cint.ordinal(17), '17th')
+	equal(cint.ordinal(18), '18th')
+	equal(cint.ordinal(19), '19th')
+	equal(cint.ordinal(20), '20th')
+	equal(cint.ordinal(21), '21st')
+	equal(cint.ordinal(22), '22nd')
+	equal(cint.ordinal(23), '23rd')
+	equal(cint.ordinal(24), '24th')
+	equal(cint.ordinal(100), '100th')
+	equal(cint.ordinal(101), '101st')
+	equal(cint.ordinal(102), '102nd')
+	equal(cint.ordinal(103), '103rd')
+	equal(cint.ordinal(104), '104th')
+})
 
-// test('mapNumber', function() {
-// })
+test('mapNumber', function() {
+	var xTwo = function(n) { return n*2 }
+	deepEqual(cint.mapNumber(3, xTwo), [0, 2, 4])
+})
 
 test('addTwo', function() {
 	equal(cint.addTwo(4,5), 9, 'Add two numbers.')
@@ -135,11 +177,28 @@ test('index', function() {
 	equal(cint.index(str, 16), 'b', 'Out of bounds index of array-like object')
 });
 
-// test('rotate', function() {
-// })
+test('rotate', function() {
+	var arr = ['a', 'b', 'c']
+	var resultArr = cint.rotate(arr, 0)
+	deepEqual(resultArr, ['a', 'b', 'c'], 'Rotate array 0 spaces.')
+	deepEqual(cint.rotate(['a', 'b', 'c'], 1), ['b', 'c', 'a'], 'Rotate array 1 space to the left.')
+	notEqual(arr, resultArr, 'Returns a new array instance')
+	deepEqual(arr, ['a', 'b', 'c'], 'Does not modify the original array')
+	deepEqual(cint.rotate(['a', 'b', 'c'], 5), ['c', 'a', 'b'], 'Rotate an array more spaces than its length.')
+	deepEqual(cint.rotate(['a', 'b', 'c'], -1), ['c', 'a', 'b'], 'Rotate array 1 space to the left.')
+})
 
-// test('toObject', function() {
-// })
+test('toObject', function() {
+	var animals = ['cat', 'dog', 'gecko']
+	var pluralAnimals = cint.toObject(animals, function(animal) {
+	  return cint.keyValue(animal, animal + 's')
+	})
+	deepEqual(pluralAnimals, {
+		cat: 'cats',
+		dog: 'dogs',
+		gecko: 'geckos'
+	})
+})
 
 test('spliced', function() {
 	var arr = [1,2,3,4,5];
@@ -208,8 +267,11 @@ test('mapOverKey', function() {
 
 })
 
-// test('joinObj', function() {
-// })
+test('joinObj', function() {
+	var o = { a: 1, b: 2, c: 3 };
+	equal(cint.joinObj(o, '&', '='), 'a=1&b=2&c=3', 'Join object keys and values together into a string')
+	equal(cint.joinObj({}, '&', '='), '', 'Empty object gets joined into an empty string')
+})
 
 test('mapObject', function() {
 	var o = { a: 1, b: 2, c: 3 };
@@ -217,11 +279,29 @@ test('mapObject', function() {
 	deepEqual(cint.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' });
 });
 
-// test('toArray', function() {
-// })
+test('toArray', function() {
+	var o = { a: 1, b: 2, c: 3 };
 
-// test('filterObject', function() {
-// })
+	deepEqual(cint.toArray(o, function(key, value) {
+	  return key + '-' + value;
+	}), ['a-1', 'b-2', 'c-3'], 'Convert an object to an array')
+
+	deepEqual(cint.toArray(o), [
+		{ key: 'a', value: 1 },
+		{ key: 'b', value: 2 },
+		{ key: 'c', value: 3 }
+	], 'Convert an object to an array of { key: ____, value: ____ } objects if no function is given.')
+})
+
+test('filterObject', function() {
+	var o = { a: 1, b: 2, c: 3 }
+
+	deepEqual(cint.filterObject(o, function(key, value) {
+	  return key !== 'b' && value !== 3
+	}), { a: 1 }, 'Filter an object based on its keys and values')
+
+	deepEqual(o, { a: 1, b: 2, c: 3 }, 'Original object is not modified.')
+})
 
 test('changeKeys', function() {
 	// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
@@ -242,8 +322,10 @@ test('tap', function() {
 
 })
 
-// test('look', function() {
-// })
+test('look', function() {
+	equal(cint.look('test:look'), 'test:look', 'Returns the argument')
+	// Cant' really test the console.log
+})
 
 
 /***********************************
@@ -315,11 +397,23 @@ test('inContext', function() {
  * Utility
  ***********************************/
 
-// test('compare', function() {
-// })
+test('compare', function() {
+	equal(cint.compare(2,1), 1, 'Returns 1 if a > b')
+	equal(cint.compare(1,1), 0, 'Returns 0 if a == b')
+	equal(cint.compare(1,2), -1, 'Returns -1 if a < b')
+	equal(cint.compare('ace', 'Ann'), 1, 'Returns 1 if a > b for strings')
+	equal(cint.compare('ace', 'ace'), 0, 'Returns 0 if a == b for strings')
+	equal(cint.compare('Ann', 'ace'), -1, 'Returns -1 if a < b for strings')
+})
 
-// test('compareProperty', function() {
-// })
+test('compareProperty', function() {
+	var small = { n: 1 }
+	var big = { n: 2 }
+	var compareN = cint.compareProperty('n')
+	equal(compareN(big, small), 1, 'Returns 1 if a > b')
+	equal(compareN(big, big), 0, 'Returns 0 if a == b')
+	equal(compareN(small, big), -1, 'Returns -1 if a < b')
+})
 
 // test('dynamicCompare', function() {
 // })
@@ -327,8 +421,16 @@ test('inContext', function() {
 // test('equals', function() {
 // })
 
-// test('isValue', function() {
-// })
+test('isValue', function() {
+	equal(cint.isValue(null), false, 'false is not valueful')
+	equal(cint.isValue(undefined), false, 'undefined is not valueful')
+	equal(cint.isValue(''), false, 'empty string is not valueful')
+	equal(cint.isValue(0), true, '0 is valueful')
+	equal(cint.isValue(1), true, '1 is valueful')
+	equal(cint.isValue(false), true, 'false is valueful')
+	equal(cint.isValue(true), true, 'true is valueful')
+	equal(cint.isValue('test'), true, 'a string is valueful')
+})
 
 // test('hash', function() {
 // })
@@ -336,8 +438,15 @@ test('inContext', function() {
 // test('guid', function() {
 // })
 
-// test('typeOf', function() {
-// })
+test('typeOf', function() {
+	equal(cint.typeOf(null), 'null')
+	equal(cint.typeOf(undefined), 'undefined')
+	equal(cint.typeOf('test'), 'string')
+	equal(cint.typeOf(1), 'number')
+	equal(cint.typeOf([]), 'array')
+	equal(cint.typeOf({}), 'object')
+	equal(cint.typeOf(function(){}), 'function')
+})
 
 test('new', function() {
 	var Person = function(name, age) {
