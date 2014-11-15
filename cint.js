@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.2.0 (Fri, 14 Nov 2014 23:59:23 GMT)
+	@version v8.0.0 (Sat, 15 Nov 2014 00:02:24 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -386,7 +386,7 @@ cint = (function() {
 		@param {String} propSeparator
 		@param {String} valueSeparator
 	*/
-	function joinObj(obj, propSeparator, valueSeparator) {
+	function joinObject(obj, propSeparator, valueSeparator) {
 		var keyValuePairs = []
 		for(var prop in obj) {
 			keyValuePairs.push(prop + valueSeparator + obj[prop])
@@ -820,7 +820,7 @@ cint = (function() {
 		keyValue				: keyValue,
 		setValue				: setValue,
 		mapOverKey			: mapOverKey,
-		joinObj					: joinObj,
+		joinObject					: joinObject,
 		mapObject				: mapObject,
 		toArray					: toArray,
 		filterObject		: filterObject,
