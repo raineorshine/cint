@@ -409,7 +409,7 @@ test('compare', function() {
 test('compareProperty', function() {
 	var small = { n: 1 }
 	var big = { n: 2 }
-	var compareN = cint.compareProperty('n')
+	var compareN = cint.compareProperty.bind(cint, 'n')
 	equal(compareN(big, small), 1, 'Returns 1 if a > b')
 	equal(compareN(big, big), 0, 'Returns 0 if a == b')
 	equal(compareN(small, big), -1, 'Returns -1 if a < b')

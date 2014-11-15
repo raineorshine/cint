@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v7.2.0 (Fri, 14 Nov 2014 23:57:27 GMT)
+	@version v7.2.0 (Fri, 14 Nov 2014 23:59:23 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -600,14 +600,12 @@ cint = (function() {
 			0
 	}
 
-	/** Returns a function that compares the given property of two items. 
+	/** Compares the value of the given property between two objects.
 		@memberOf module:cint#
 		@param {String} property
 	*/
-	function compareProperty(property) {
-		return function(a,b) {
-			return compare(a[property], b[property])
-		}
+	function compareProperty(property, a, b) {
+		return compare(a[property], b[property])
 	}
 
 	/** Returns a compare function that can be passed to Array.sort to sort in the order of the given array of properties. A property can also be appended with ' ASC' or ' DESC' to control the sort order.
