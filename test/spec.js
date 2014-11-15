@@ -267,10 +267,10 @@ test('mapOverKey', function() {
 
 })
 
-test('joinObj', function() {
+test('joinObject', function() {
 	var o = { a: 1, b: 2, c: 3 };
-	equal(cint.joinObj(o, '&', '='), 'a=1&b=2&c=3', 'Join object keys and values together into a string')
-	equal(cint.joinObj({}, '&', '='), '', 'Empty object gets joined into an empty string')
+	equal(cint.joinObject(o, '&', '='), 'a=1&b=2&c=3', 'Join object keys and values together into a string')
+	equal(cint.joinObject({}, '&', '='), '', 'Empty object gets joined into an empty string')
 })
 
 test('mapObject', function() {
