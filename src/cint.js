@@ -381,7 +381,7 @@ cint = (function() {
 		@param {String} propSeparator
 		@param {String} valueSeparator
 	*/
-	function joinObj(obj, propSeparator, valueSeparator) {
+	function joinObject(obj, propSeparator, valueSeparator) {
 		var keyValuePairs = []
 		for(var prop in obj) {
 			keyValuePairs.push(prop + valueSeparator + obj[prop])
@@ -815,7 +815,7 @@ cint = (function() {
 		keyValue				: keyValue,
 		setValue				: setValue,
 		mapOverKey			: mapOverKey,
-		joinObj					: joinObj,
+		joinObject					: joinObject,
 		mapObject				: mapObject,
 		toArray					: toArray,
 		filterObject		: filterObject,

@@ -197,7 +197,7 @@ Require it:
 	cint.mapOverKey(f, originalKey, newKey)
 
 	/** Join the object into a single string with the given separators separating properties from each other as well as values. */
-	cint.joinObj(obj, propSeparator, valueSeparator)
+	cint.joinObject(obj, propSeparator, valueSeparator)
 
 	/** Returns true if the object has no non-undefined properties.
 		@author	Douglas Crockford http://javascript.crockford.com/remedial.html

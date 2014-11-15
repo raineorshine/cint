@@ -1,6 +1,10 @@
 # History
 
-## 7.2
+## 8.0.0
+- Rename joinObj to joinObject
+- Simplify compareProperty. Use cint.compareProperty.bind(cint, property) to achieve old behavior.
+
+## 7.2.0
 - Add unit tests for startsWith, before, after, between, repeatString, toTitleCase, ordinal, mapNumber, rotate, toObject, joinObj, toArray, filterObject, look, compare, compareProperty, isValue, typeof
 - Added tallyProps.
 - Rearranged sections.
