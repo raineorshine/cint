@@ -53,6 +53,9 @@ Require it:
 	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
 	cint.spy(f, spier)
 
+	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal. */
+	cint.inContext(f)
+
 ## String
 
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
