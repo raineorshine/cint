@@ -84,9 +84,6 @@ Require it:
 	/** Capitalizes the first letter of each word in the given string. */
 	cint.toTitleCase(str)
 
-	/* Returns true if the string contains the given substring. */
-	cint.strContains(str)
-
 ## Number
 
 	/** Returns the ordinal value (like '1st' or '2nd') of the given integer. */
@@ -143,9 +140,6 @@ Require it:
 	}
 	*/
 	cint.tallyProps(arr)
-
-	/** Returns true if the array contains the given value. */
-	cint.contains(arr)
 
 	/** Returns the unique values in the array. */
 	cint.unique(arr)
