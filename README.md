@@ -187,6 +187,9 @@ Require it:
 	/** Returns a new object with the given key and value. */
 	cint.keyValue(key, value)
 
+	/** Gets the value of a key of the given object. */
+	cint.getValue(o, key)
+
 	/** Sets the value of the given key and returns the object. */
 	cint.setValue(o, key, value)
 

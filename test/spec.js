@@ -228,6 +228,13 @@ test('keyValue', function() {
   notEqual(cint.keyValue('a',1), cint.keyValue('a',1), 'Creates a new object instance each time.')
 })
 
+test('getValue', function() {
+
+  var o = {a:1};
+  equal(cint.getValue(o, 'a'), 1, 'Gets the value of a key of the gven object')
+
+})
+
 test('setValue', function() {
 
   var o = {a:1};

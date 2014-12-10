@@ -1,5 +1,8 @@
 # History
 
+## 8.1.0
+- Add getKey
+
 ## 8.0.0
 - Rename joinObj to joinObject
 - Simplify compareProperty. Use cint.compareProperty.bind(cint, property) to achieve old behavior.

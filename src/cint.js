@@ -359,6 +359,12 @@ cint = (function() {
 		return o
 	}
 
+	/** Gets the value of a key of the given object.
+	*/
+	function getValue(o, key) {
+		return o[key];
+	}
+
 	/** Sets the value of the given key and returns the object.
 	*/
 	function setValue(o, key, value) {
@@ -813,9 +819,10 @@ cint = (function() {
 
 		// object
 		keyValue				: keyValue,
+		getValue				: getValue,
 		setValue				: setValue,
 		mapOverKey			: mapOverKey,
-		joinObject					: joinObject,
+		joinObject			: joinObject,
 		mapObject				: mapObject,
 		toArray					: toArray,
 		filterObject		: filterObject,
