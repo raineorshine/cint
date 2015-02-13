@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/qunit/bin/cli.js -c cint.js -t test/spec.js"
+    "test": "qunit -c cint.js -t test/spec.js"
   },
   "repository": {
     "type": "git",
