@@ -56,6 +56,9 @@ Require it:
 	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal. */
 	cint.inContext(f)
 
+	/** Converts the given synchronous function into an asynchronous function that applies its arguments to the original function and invokes callback(error, result) */
+	cint.toAsync(f)
+
 ## String
 
 	/** Performs variable substitution on the string, replacing items in {curly braces}.
@@ -145,10 +148,10 @@ Require it:
 	cint.unique(arr)
 
 	/** Returns the reverse of the given array. Unlike the native reverse, does not modify the original array. */
-	cint.reversed(arr
+	cint.reversed(arr)
 
 	/** Indexes into an array, supports negative indices. */
-	cint.index(arr, i
+	cint.index(arr, i)
 
 	/** Returns a new array containing the elements of the given array shifted n spaces to the left, wrapping around the end. */
 	cint.rotate(arr, n)
@@ -157,7 +160,7 @@ Require it:
 	cint.toObject(arr, f)
 
 	/** Returns the first item in the given array that returns true for the given function. If no item is found, returns null. */
-	cint.find(arr, f
+	cint.find(arr, f)
 
 	/** Returns the first item in the given array whose specified property matches the given value. */
 	cint.findByProperty(arr, prop, value)
@@ -169,10 +172,7 @@ Require it:
 	cint.range(start, end)
 
 	/** Returns a new array that only includes items with a specific value of a given property. */
-	cint.filterBy(arr, prop, value
-
-	/** Returns a new array with the array's items in random order. */
-	cint.shuffle(arr)
+	cint.filterBy(arr, prop, value)
 
 	/** Breaks up the array into n evenly-sized chunks. 
 		Solution from http://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays

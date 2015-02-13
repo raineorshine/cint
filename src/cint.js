@@ -591,7 +591,7 @@ cint = (function() {
 		}
 	}
 
-	/** Converts the given synchronous function into an asynchronous function of the form callback(error, value); 
+	/** Converts the given synchronous function into an asynchronous function that applies its arguments to the original function and invokes callback(error, result).
 			@memberOf module:cint#
 			@param f
 	*/
