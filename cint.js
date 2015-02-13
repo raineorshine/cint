@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v8.1.0 (Fri, 13 Feb 2015 18:54:53 GMT)
+	@version v8.2.0 (Fri, 13 Feb 2015 19:56:49 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -596,7 +596,7 @@ cint = (function() {
 		}
 	}
 
-	/** Converts the given synchronous function into an asynchronous function of the form callback(error, value); 
+	/** Converts the given synchronous function into an asynchronous function that applies its arguments to the original function and invokes callback(error, result).
 			@memberOf module:cint#
 			@param f
 	*/
