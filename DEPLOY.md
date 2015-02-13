@@ -3,7 +3,8 @@ Add tests
 npm test
 Update README
 Add and commit all changes
-Manually bumb version number in package.json
+Bump version number in package.json
+Bump version number in bower.json
 Update HISTORY
 gulp
 git add -A
