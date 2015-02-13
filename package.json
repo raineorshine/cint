@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "qunit -c cint.js -t test/spec.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -22,18 +22,19 @@
   "readmeFilename": "README.md",
   "gitHead": "ba9f4a85fd605fdad2bde942d59b57c7415bd709",
   "devDependencies": {
+    "chai": "^2.0.0",
     "gulp": "^3.5.2",
-    "gulp-util": "^2.2.14",
-    "gulp-open": "^0.2.8",
     "gulp-clean": "^0.2.4",
+    "gulp-header": "^1.0.2",
     "gulp-jshint": "^1.4.2",
-    "jshint-stylish": "^0.1.5",
-    "gulp-uglify": "^0.2.1",
+    "gulp-open": "^0.2.8",
     "gulp-rename": "^1.1.0",
     "gulp-template": "^0.1.1",
-    "gulp-header": "^1.0.2",
+    "gulp-uglify": "^0.2.1",
+    "gulp-util": "^2.2.14",
+    "jshint-stylish": "^0.1.5",
     "lodash.assign": "^2.4.1",
-    "qunit": "^0.6.2"
+    "mocha": "^2.1.0"
   },
   "dependencies": {}
 }
