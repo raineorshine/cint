@@ -691,11 +691,11 @@ describe('intoString', function() {
 		assert.equal(cint.intoString(true), 'true')
 	})
 	it('should throw a TypeError if null is passed', function() {
-		assert.throws(function() { cint.intoString(null) }, 'Cannot read property \'toString\' of null')
+		assert.throws(function() { cint.intoString(null) }, 'null')
 	})
 	it('should throw a TypeError if undefined is passed', function() {
 		assert.throws(
-			cint.intoString.bind(cint, undefined), 'Cannot read property \'toString\' of undefined')
+			cint.intoString.bind(cint, undefined), 'undefined')
 	})
 })
 
