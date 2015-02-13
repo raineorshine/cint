@@ -1,5 +1,5 @@
-var assert = require('chai').assert;
-var cint = require('../src/cint.js');
+var assert = require('chai').assert
+var cint = require('../src/cint.js')
 
 /***********************************
  * String
@@ -10,30 +10,30 @@ describe('supplant', function() {
 	it('should supplant an array by index', function() {
 		assert.equal(cint.supplant('{0} walks his {1} in the {2}.', 
 			['Jim', 'dinosaur', 'park']), 
-			'Jim walks his dinosaur in the park.');
+			'Jim walks his dinosaur in the park.')
 	})
 
 	it('should supplant an object by key', function() {
 		assert.equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
 			{ owner: 'Jim', pet: 'dinosaur', place: 'park' }), 
 			'Jim walks his dinosaur in the park.', 
-			'Supplant with object by key');
+			'Supplant with object by key')
 	})
 
 	it('should ignore non-existant keys', function() {
 		assert.equal(cint.supplant('{owner} walks his {pet} in the {place}.', 
 			{ owner: 'Jim', pet: 'dinosaur' }), 
 			'Jim walks his dinosaur in the {place}.', 
-			'Ignores non-existant keys');
+			'Ignores non-existant keys')
 	})
 
 	it('should toString all values to be interpolated', function() {
-		var Dino = function() {};
-		Dino.prototype.toString = function() { return 'dinosaur'; };
+		var Dino = function() {}
+		Dino.prototype.toString = function() { return 'dinosaur' }
 		assert.equal(cint.supplant('{owner} walks his {pet}.', 
 			{ owner: 'Jim', pet: new Dino() }), 
 			'Jim walks his dinosaur.'
-		);
+		)
 	})
 })
 
@@ -213,18 +213,18 @@ describe('tallyProps', function() {
 })
 
 describe('index', function() {
-	var arr = [1,2,3,4,5];
+	var arr = [1,2,3,4,5]
 	it('Index into an array as normal', function() {
-		assert.equal(cint.index(arr, 2), 3);
+		assert.equal(cint.index(arr, 2), 3)
 	})
 	it('Negative index', function() {
-		assert.equal(cint.index(arr, -1), 5);
+		assert.equal(cint.index(arr, -1), 5)
 	})
 	it('Out of bounds index', function() {
-		assert.equal(cint.index(arr, 16), 2);
+		assert.equal(cint.index(arr, 16), 2)
 	})
 
-	var str = 'abcde';
+	var str = 'abcde'
 	it('Index into an array-like object as normal', function() {
 		assert.equal(cint.index(str, 2), 'c')
 	})
@@ -274,26 +274,26 @@ describe('toObject', function() {
 })
 
 describe('spliced', function() {
-	var arr = [1,2,3,4,5];
+	var arr = [1,2,3,4,5]
 	it('should splice an array', function() {
-		assert.deepEqual(cint.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5]);
+		assert.deepEqual(cint.spliced(arr, 2, 1, 100, 200, 300), [1,2,100,200,300,4,5])
 	})
 	it('Original array is unchanged.', function() {
-		assert.deepEqual(arr, [1,2,3,4,5]);
+		assert.deepEqual(arr, [1,2,3,4,5])
 	})
 })
 
 describe('chunk', function() {
-	var arr = [1,2,3,4,5,6,7,8,9,10];
+	var arr = [1,2,3,4,5,6,7,8,9,10]
 	it('should split an array into chunks', function() {
-		assert.deepEqual(cint.chunk(arr, 1), [[1,2,3,4,5,6,7,8,9,10]]);
-		assert.deepEqual(cint.chunk(arr, 2), [[1,2,3,4,5], [6,7,8,9,10]]);
-		assert.deepEqual(cint.chunk(arr, 3), [[1,2,3,4], [5,6,7], [8,9,10]]);
-		assert.deepEqual(cint.chunk(arr, 7), [[1,2], [3,4], [5,6], [7], [8], [9], [10]]);
-		assert.deepEqual(cint.chunk(arr, 10), [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]);
+		assert.deepEqual(cint.chunk(arr, 1), [[1,2,3,4,5,6,7,8,9,10]])
+		assert.deepEqual(cint.chunk(arr, 2), [[1,2,3,4,5], [6,7,8,9,10]])
+		assert.deepEqual(cint.chunk(arr, 3), [[1,2,3,4], [5,6,7], [8,9,10]])
+		assert.deepEqual(cint.chunk(arr, 7), [[1,2], [3,4], [5,6], [7], [8], [9], [10]])
+		assert.deepEqual(cint.chunk(arr, 10), [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]])
 	})
 	it('Original array is unchanged', function() {
-		assert.deepEqual(arr, [1,2,3,4,5,6,7,8,9,10]);
+		assert.deepEqual(arr, [1,2,3,4,5,6,7,8,9,10])
 	})
 })
 
@@ -313,14 +313,14 @@ describe('keyValue', function() {
 })
 
 describe('getValue', function() {
-  var o = {a:1};
+  var o = {a:1}
   it('Gets the value of a key of the gven object', function() {
 	  assert.equal(cint.getValue(o, 'a'), 1)
   })
 })
 
 describe('setValue', function() {
-  var o = {a:1};
+  var o = {a:1}
   it('Sets the value of the given existing key', function() {
 	  cint.setValue(o, 'a', 2)
 	  assert.deepEqual(o, {a:2})
@@ -343,13 +343,13 @@ describe('mapOverKey', function() {
   	{ name: 'Bob', age: 26 },
   	{ name: 'Tia', age: 32 },
   	{ name: 'José', age: 40 }
-  ];
+  ]
 	it('Maps the given function over the values of a key', function() {
 	  var olderPeople = [
 	  	{ name: 'Bob', age: 27 },
 	  	{ name: 'Tia', age: 33 },
 	  	{ name: 'José', age: 41 }
-	  ];
+	  ]
 		var incrementAge = cint.mapOverKey(increment, 'age')
 		assert.deepEqual(people.map(incrementAge), olderPeople)
 	})
@@ -359,7 +359,7 @@ describe('mapOverKey', function() {
 	  	{ name: 'Bob', age: 27, nextAge: 28 },
 	  	{ name: 'Tia', age: 33, nextAge: 34 },
 	  	{ name: 'José', age: 41, nextAge: 42 }
-	  ];
+	  ]
 		var incrementNextAge = cint.mapOverKey(increment, 'age', 'nextAge')
 		assert.deepEqual(people.map(incrementNextAge), nextPeople)
 	})
@@ -367,7 +367,7 @@ describe('mapOverKey', function() {
 })
 
 describe('joinObject', function() {
-	var o = { a: 1, b: 2, c: 3 };
+	var o = { a: 1, b: 2, c: 3 }
 	it('Join object keys and values together into a string', function() {
 		assert.equal(cint.joinObject(o, '&', '='), 'a=1&b=2&c=3')
 	})
@@ -378,17 +378,17 @@ describe('joinObject', function() {
 
 describe('mapObject', function() {
 	it('should map an object to an object with new key/values', function() {
-		var o = { a: 1, b: 2, c: 3 };
-		var swap = function(k,v) { return cint.keyValue(v,k); };
+		var o = { a: 1, b: 2, c: 3 }
+		var swap = function(k,v) { return cint.keyValue(v,k) }
 		assert.deepEqual(cint.mapObject(o, swap), { '1': 'a', '2': 'b', '3': 'c' })
 	})
 })
 
 describe('toArray', function() {
-	var o = { a: 1, b: 2, c: 3 };
+	var o = { a: 1, b: 2, c: 3 }
 	it('should convert an object to an array', function() {
 		assert.deepEqual(cint.toArray(o, function(key, value) {
-		  return key + '-' + value;
+		  return key + '-' + value
 		}), ['a-1', 'b-2', 'c-3'])
 	})
 
@@ -417,13 +417,13 @@ describe('filterObject', function() {
 
 describe('changeKeys', function() {
 	// Assertions, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual
-	var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' };
+	var oldObject = { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' }
 	var newObject = cint.changeKeys( oldObject, { fname: 'first', lname: 'last' })
 	it('Old object is unmodified.', function() {
-		assert.deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' });
+		assert.deepEqual(oldObject, { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' })
 	})
 	it('New object ontains modified keys.', function() {
-		assert.deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' });
+		assert.deepEqual(newObject, { first: 'Raine', last: 'Lourie', specialty: 'Javascript' })
 	})
 
 })
@@ -455,55 +455,55 @@ describe('look', function() {
  ***********************************/
 
 describe('not', function() {
-	var yes = function() { return true; };
-	var no = function() { return false; };
-	var I = function(x) { return x; };
+	var yes = function() { return true }
+	var no = function() { return false }
+	var I = function(x) { return x }
 	it('Reverses true to false.', function() {
-		assert.equal(cint.not(yes)(), false);
+		assert.equal(cint.not(yes)(), false)
 	})
 	it('Reverses false to true.', function() {
-		assert.equal(cint.not(no)(), true);
+		assert.equal(cint.not(no)(), true)
 	})
 	it('Works with arguments.', function() {
-		assert.equal(cint.not(I)(true), false);
+		assert.equal(cint.not(I)(true), false)
 	})
 	it('Works with arguments.', function() {
-		assert.equal(cint.not(I)(false), true);
+		assert.equal(cint.not(I)(false), true)
 	})
 	it('Works with non-booleans.', function() {
-		assert.equal(cint.not(I)('a'), false);
+		assert.equal(cint.not(I)('a'), false)
 	})
 	it('Works with non-booleans', function() {
-		assert.equal(cint.not(I)(undefined), true);
+		assert.equal(cint.not(I)(undefined), true)
 	})
 })
 
 describe('partialAt', function() {
-	var subtract = function(x,y) { return x - y; };
+	var subtract = function(x,y) { return x - y }
 	it('Inject arguments at the beginning.', function() {
-		var subtractFromTen = cint.partialAt(subtract, 0, [10]);
-		assert.equal(subtractFromTen(1), 9);
+		var subtractFromTen = cint.partialAt(subtract, 0, [10])
+		assert.equal(subtractFromTen(1), 9)
 	})
 
 	it('Inject arguments in the middle.', function() {
-		var subtractTen = cint.partialAt(subtract, 1, [10]);
-		assert.equal(subtractTen(100), 90);
+		var subtractTen = cint.partialAt(subtract, 1, [10])
+		assert.equal(subtractTen(100), 90)
 	})
 
 	it('Handles negative indexes', function() {
 		var subtractTwenty = cint.partialAt(subtract, -1, [20])
-		assert.equal(subtractTwenty(100), 80);
+		assert.equal(subtractTwenty(100), 80)
 	})
 })
 
 describe('aritize', function() {
 	it('should limit the arity of a function', function() {
 		var joinEm = function() { 
-			var givenArgs = Array.prototype.slice.call(arguments, 0);
-			return givenArgs.join('');
-		};
-		var joinTwo = cint.aritize(joinEm, 2);
-		assert.equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab');
+			var givenArgs = Array.prototype.slice.call(arguments, 0)
+			return givenArgs.join('')
+		}
+		var joinTwo = cint.aritize(joinEm, 2)
+		assert.equal(joinTwo('a', 'b', 'c', 'd', 'e'), 'ab')
 	})
 })
 
@@ -513,16 +513,16 @@ describe('aritize', function() {
 describe('spy', function() {
 	it('should call a custom log function', function(done) {
 		
-		function add(x, y) { return x + y; }
+		function add(x, y) { return x + y }
 
 		function log(f, args, out) { 
-			assert.equal(f, add, 'first argument is the function');
-			assert.deepEqual(args, [1,2], 'second argument is an array of arguments to that function');
-			assert.equal(out, 3, 'third argument is the return value of the function');
+			assert.equal(f, add, 'first argument is the function')
+			assert.deepEqual(args, [1,2], 'second argument is an array of arguments to that function')
+			assert.equal(out, 3, 'third argument is the return value of the function')
 			done()
 		}
 
-		cint.spy(add, log)(1,2);
+		cint.spy(add, log)(1,2)
 	})
 })
 
@@ -543,12 +543,12 @@ describe('inContext', function() {
 
 describe('toAsync', function() {
 	it('should return a function that invokes the given function and passes its results to a node-style callback', function(done) {
-		function add(x, y) { return x + y; }
-		var addAsync = cint.toAsync(add);
+		function add(x, y) { return x + y }
+		var addAsync = cint.toAsync(add)
 
 		addAsync(1, 2, function(error, result) {
 			assert.equal(result, 3, 'gives the result in a callback')
-			done();
+			done()
 		})
 	})
 })
@@ -660,13 +660,13 @@ describe('typeOf', function() {
 describe('new', function() {
 	it('should create an instance using the given constructor', function() {
 		var Person = function(name, age) {
-			this.name = name;
-			this.age = age;
-		};
-		var p = cint.new(Person, ['Raine', 26]);
-		assert.instanceOf(p, Person);
-		assert.equal(p.name, 'Raine');
-		assert.equal(p.age, 26);
+			this.name = name
+			this.age = age
+		}
+		var p = cint.new(Person, ['Raine', 26])
+		assert.instanceOf(p, Person)
+		assert.equal(p.name, 'Raine')
+		assert.equal(p.age, 26)
 	})
 })
 
