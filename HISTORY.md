@@ -1,5 +1,9 @@
 # History
 
+## 8.2.0
+- Add toAsync
+- Convert tests from QUnit to Mocha
+
 ## 8.1.0
 - Add getKey
 
