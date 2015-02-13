@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v8.2.0 (Fri, 13 Feb 2015 19:56:49 GMT)
+	@version v8.2.1 (Fri, 13 Feb 2015 20:24:14 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -608,7 +608,7 @@ cint = (function() {
 			setTimeout(function() {
 				try {
 					var result = f.apply(that, args);
-					callback(that, result);
+					callback(null, result);
 				}
 				catch(e) {
 					callback(e);

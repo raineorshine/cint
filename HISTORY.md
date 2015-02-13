@@ -1,5 +1,8 @@
 # History
 
+## 8.2.1
+- Fix toAsync bug and patch tests
+
 ## 8.2.0
 - Add toAsync
 - Convert tests from QUnit to Mocha
