@@ -399,6 +399,18 @@ test('inContext', function() {
 	equal(greetInContext(person, 'Hi'), 'Hi Cecil', 'passes other arguments as normal')
 });
 
+test('toAsync', function(assert) {
+	stop()
+
+	function add(x, y) { return x + y; }
+	var addAsync = cint.toAsync(add);
+
+	addAsync(1, 2, function(error, result) {
+		equal(result, 3, 'gives the result in a callback')
+		start()
+	})
+})
+
 
 /***********************************
  * Utility

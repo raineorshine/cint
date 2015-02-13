@@ -1,10 +1,16 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v8.1.0 (Wed, 10 Dec 2014 04:46:36 GMT)
+	@version v8.1.0 (Fri, 13 Feb 2015 18:54:53 GMT)
 */
 cint = (function() {
 	'use strict';
+
+	/***********************************
+	 * Private Functions
+	 ***********************************/
+	var _last = partialAt(index, 1, -1);
+
 
 
 	/***********************************
@@ -590,6 +596,28 @@ cint = (function() {
 		}
 	}
 
+	/** Converts the given synchronous function into an asynchronous function of the form callback(error, value); 
+			@memberOf module:cint#
+			@param f
+	*/
+	function toAsync(f) {
+		return function(/* [arg1], [arg2], ..., callback */) {
+			var that = this;
+			var args = Array.prototype.slice.call(arguments);
+			var callback = _last(args);
+			setTimeout(function() {
+				try {
+					var result = f.apply(that, args);
+					callback(that, result);
+				}
+				catch(e) {
+					callback(e);
+				}
+			}, 0)
+		};
+	}
+
+
 
 	/***********************************
 	 * Utility
@@ -842,6 +870,7 @@ cint = (function() {
 		callTillValue		: callTillValue,
 		spy							: spy,
 		inContext				: inContext,
+		toAsync					: toAsync,
 
 		// utility
 		compare					: compare,
