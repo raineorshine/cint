@@ -263,7 +263,7 @@ describe('toObject', function() {
 	it('should convert an array to an object', function() {
 		var animals = ['cat', 'dog', 'gecko']
 		var pluralAnimals = cint.toObject(animals, function(animal) {
-		  return cint.keyValue(animal, animal + 's')
+			return cint.keyValue(animal, animal + 's')
 		})
 		assert.deepEqual(pluralAnimals, {
 			cat: 'cats',
@@ -305,61 +305,61 @@ describe('chunk', function() {
 // object
 describe('keyValue', function() {
 	it('Creates a key-value pair.', function() {
-	  assert.deepEqual(cint.keyValue('a',1), {a:1})
+		assert.deepEqual(cint.keyValue('a',1), {a:1})
 	})
 	it('Creates a new object instance each time.', function() {
-	  assert.notEqual(cint.keyValue('a',1), cint.keyValue('a',1))
+		assert.notEqual(cint.keyValue('a',1), cint.keyValue('a',1))
 	})
 })
 
 describe('getValue', function() {
-  var o = {a:1}
-  it('Gets the value of a key of the gven object', function() {
-	  assert.equal(cint.getValue(o, 'a'), 1)
-  })
+	var o = {a:1}
+	it('Gets the value of a key of the gven object', function() {
+		assert.equal(cint.getValue(o, 'a'), 1)
+	})
 })
 
 describe('setValue', function() {
-  var o = {a:1}
-  it('Sets the value of the given existing key', function() {
-	  cint.setValue(o, 'a', 2)
-	  assert.deepEqual(o, {a:2})
-  })
+	var o = {a:1}
+	it('Sets the value of the given existing key', function() {
+		cint.setValue(o, 'a', 2)
+		assert.deepEqual(o, {a:2})
+	})
 
-  it('Sets the value of the given new key', function() {
-	  cint.setValue(o, 'b', 10)
-	  assert.deepEqual(o, {a:2, b:10})
-  })
+	it('Sets the value of the given new key', function() {
+		cint.setValue(o, 'b', 10)
+		assert.deepEqual(o, {a:2, b:10})
+	})
 
-  it('Returns the object', function() {
-	  assert.equal(cint.setValue(o, 'a', 10), o)
-  })
+	it('Returns the object', function() {
+		assert.equal(cint.setValue(o, 'a', 10), o)
+	})
 })
 
 describe('mapOverKey', function() {
-  
-  var increment = function(n) { return ++n }
-  var people = [
-  	{ name: 'Bob', age: 26 },
-  	{ name: 'Tia', age: 32 },
-  	{ name: 'José', age: 40 }
-  ]
+	
+	var increment = function(n) { return ++n }
+	var people = [
+		{ name: 'Bob', age: 26 },
+		{ name: 'Tia', age: 32 },
+		{ name: 'José', age: 40 }
+	]
 	it('Maps the given function over the values of a key', function() {
-	  var olderPeople = [
-	  	{ name: 'Bob', age: 27 },
-	  	{ name: 'Tia', age: 33 },
-	  	{ name: 'José', age: 41 }
-	  ]
+		var olderPeople = [
+			{ name: 'Bob', age: 27 },
+			{ name: 'Tia', age: 33 },
+			{ name: 'José', age: 41 }
+		]
 		var incrementAge = cint.mapOverKey(increment, 'age')
 		assert.deepEqual(people.map(incrementAge), olderPeople)
 	})
 
 	it('Maps the given function over the values of a key and assigns them to a new key', function() {
-	  var nextPeople = [
-	  	{ name: 'Bob', age: 27, nextAge: 28 },
-	  	{ name: 'Tia', age: 33, nextAge: 34 },
-	  	{ name: 'José', age: 41, nextAge: 42 }
-	  ]
+		var nextPeople = [
+			{ name: 'Bob', age: 27, nextAge: 28 },
+			{ name: 'Tia', age: 33, nextAge: 34 },
+			{ name: 'José', age: 41, nextAge: 42 }
+		]
 		var incrementNextAge = cint.mapOverKey(increment, 'age', 'nextAge')
 		assert.deepEqual(people.map(incrementNextAge), nextPeople)
 	})
@@ -388,7 +388,7 @@ describe('toArray', function() {
 	var o = { a: 1, b: 2, c: 3 }
 	it('should convert an object to an array', function() {
 		assert.deepEqual(cint.toArray(o, function(key, value) {
-		  return key + '-' + value
+			return key + '-' + value
 		}), ['a-1', 'b-2', 'c-3'])
 	})
 
@@ -406,7 +406,7 @@ describe('filterObject', function() {
 
 	it('Filter an object based on its keys and values', function() {
 		assert.deepEqual(cint.filterObject(o, function(key, value) {
-		  return key !== 'b' && value !== 3
+			return key !== 'b' && value !== 3
 		}), { a: 1 })
 	})
 
@@ -429,7 +429,7 @@ describe('changeKeys', function() {
 })
 
 describe('tap', function() {
-  
+	
 	var o = { a: 10 }
 	var incrementA = function(o) { o.a++ }
 
@@ -547,7 +547,19 @@ describe('toAsync', function() {
 		var addAsync = cint.toAsync(add)
 
 		addAsync(1, 2, function(error, result) {
+			assert.notOk(error, 'error is null when successful')
 			assert.equal(result, 3, 'gives the result in a callback')
+			done()
+		})
+	})
+	it('pass error as first argument to callback', function(done) {
+		function toss() { throw new Error('Got tossed') }
+		var tossAsync = cint.toAsync(toss)
+
+		tossAsync(function(error, result) {
+			assert.instanceOf(error, Error)
+			assert.equal(error.message, 'Got tossed')
+			assert.notOk(result, 'no result')
 			done()
 		})
 	})
@@ -634,25 +646,26 @@ describe('isValue', function() {
 // })
 
 describe('typeOf', function() {
-	it('should return "null"', function() {
+	it('should work for null', function() {
 		assert.equal(cint.typeOf(null), 'null')
 	})
-	it('should return "undefined"', function() {
+	it('should work for undefined', function() {
 		assert.equal(cint.typeOf(undefined), 'undefined')
 	})
-	it('should return "string"', function() {
+	it('should work for string', function() {
 		assert.equal(cint.typeOf('test'), 'string')
 	})
-	it('should return "number"', function() {
+	it('should work for number', function() {
 		assert.equal(cint.typeOf(1), 'number')
+		assert.equal(cint.typeOf(NaN), 'number')
 	})
-	it('should return "array"', function() {
+	it('should work for array', function() {
 		assert.equal(cint.typeOf([]), 'array')
 	})
-	it('should return "object"', function() {
+	it('should work for object', function() {
 		assert.equal(cint.typeOf({}), 'object')
 	})
-	it('should return "function"', function() {
+	it('should work for function', function() {
 		assert.equal(cint.typeOf(function(){}), 'function')
 	})
 })

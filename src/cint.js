@@ -603,7 +603,7 @@ cint = (function() {
 			setTimeout(function() {
 				try {
 					var result = f.apply(that, args);
-					callback(that, result);
+					callback(null, result);
 				}
 				catch(e) {
 					callback(e);
