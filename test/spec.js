@@ -539,6 +539,20 @@ describe('inContext', function() {
 		var greetInContext = cint.inContext(greet)
 		assert.equal(greetInContext(person, 'Hi'), 'Hi Cecil')
 	})
+
+	it('should curry additional arguments', function() {
+		var splitValues = cint.inContext(String.prototype.split, ',')
+		assert.deepEqual(splitValues('a,b,c'), ['a', 'b', 'c'])
+	})
+
+	it('should curry additional arguments without interfering with eventual actual arguments', function() {
+		var greet2 = function(greeting1, greeting2) { 
+			return greeting1 + ' ' + this.name + '! ' + 
+						 greeting2 + ' ' + this.name + '!'
+		}
+		var greetInContext = cint.inContext(greet2, 'Hi')
+		assert.deepEqual(greetInContext(person, 'Bye'), 'Hi Cecil! Bye Cecil!')
+	})
 })
 
 describe('toAsync', function() {
