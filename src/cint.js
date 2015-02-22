@@ -4,7 +4,7 @@ cint = (function() {
 	/***********************************
 	 * Private Functions
 	 ***********************************/
-	var _last = partialAt(index, 1, -1);
+	var _last = partialAt(index, 1, -1)
 
 
 
@@ -158,7 +158,7 @@ cint = (function() {
 
 		var getGroupKey = typeof propOrFunc === 'function' ?
 			propOrFunc :
-			function(item) { return item[propOrFunc]; }
+			function(item) { return item[propOrFunc] }
 
 		var results = []
 		var dict = {}
@@ -234,7 +234,7 @@ cint = (function() {
 			for(var key in o) {
 
 				// cache the value
-				var value = o[key];
+				var value = o[key]
 
 				// create a new tally object if it doesn't exist for this value
 				if(!tallies[value]) { 
@@ -368,7 +368,7 @@ cint = (function() {
 	/** Gets the value of a key of the given object.
 	*/
 	function getValue(o, key) {
-		return o[key];
+		return o[key]
 	}
 
 	/** Sets the value of the given key and returns the object.
@@ -597,19 +597,19 @@ cint = (function() {
 	*/
 	function toAsync(f) {
 		return function(/* [arg1], [arg2], ..., callback */) {
-			var that = this;
-			var args = Array.prototype.slice.call(arguments);
-			var callback = _last(args);
+			var that = this
+			var args = Array.prototype.slice.call(arguments)
+			var callback = _last(args)
 			setTimeout(function() {
 				try {
-					var result = f.apply(that, args);
-					callback(null, result);
+					var result = f.apply(that, args)
+					callback(null, result)
 				}
 				catch(e) {
-					callback(e);
+					callback(e)
 				}
 			}, 0)
-		};
+		}
 	}
 
 
