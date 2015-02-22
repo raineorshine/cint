@@ -1,7 +1,7 @@
 /** A Javascript utility belt with an emphasis on Functional Programming.
 	@module cint
 	@author Raine Lourie
-	@version v8.2.1 (Fri, 13 Feb 2015 20:24:14 GMT)
+	@version v9.0.0-alpha.1 (Sun, 22 Feb 2015 18:44:04 GMT)
 */
 cint = (function() {
 	'use strict';
@@ -9,7 +9,7 @@ cint = (function() {
 	/***********************************
 	 * Private Functions
 	 ***********************************/
-	var _last = partialAt(index, 1, -1);
+	var _last = partialAt(index, 1, -1)
 
 
 
@@ -163,7 +163,7 @@ cint = (function() {
 
 		var getGroupKey = typeof propOrFunc === 'function' ?
 			propOrFunc :
-			function(item) { return item[propOrFunc]; }
+			function(item) { return item[propOrFunc] }
 
 		var results = []
 		var dict = {}
@@ -239,7 +239,7 @@ cint = (function() {
 			for(var key in o) {
 
 				// cache the value
-				var value = o[key];
+				var value = o[key]
 
 				// create a new tally object if it doesn't exist for this value
 				if(!tallies[value]) { 
@@ -373,7 +373,7 @@ cint = (function() {
 	/** Gets the value of a key of the given object.
 	*/
 	function getValue(o, key) {
-		return o[key];
+		return o[key]
 	}
 
 	/** Sets the value of the given key and returns the object.
@@ -585,36 +585,25 @@ cint = (function() {
 		}
 	}
 
-	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal.
-		@memberOf module:cint#
-		@param f
-	*/
-	function inContext(f) {
-		return function(context) {
-			var otherArgs = Array.prototype.slice.call(arguments, 1)
-			return f.apply(context, otherArgs)
-		}
-	}
-
 	/** Converts the given synchronous function into an asynchronous function that applies its arguments to the original function and invokes callback(error, result).
 			@memberOf module:cint#
 			@param f
 	*/
 	function toAsync(f) {
 		return function(/* [arg1], [arg2], ..., callback */) {
-			var that = this;
-			var args = Array.prototype.slice.call(arguments);
-			var callback = _last(args);
+			var that = this
+			var args = Array.prototype.slice.call(arguments)
+			var callback = _last(args)
 			setTimeout(function() {
 				try {
-					var result = f.apply(that, args);
-					callback(null, result);
+					var result = f.apply(that, args)
+					callback(null, result)
 				}
 				catch(e) {
-					callback(e);
+					callback(e)
 				}
 			}, 0)
-		};
+		}
 	}
 
 
@@ -869,7 +858,6 @@ cint = (function() {
 		aritize					: aritize,
 		callTillValue		: callTillValue,
 		spy							: spy,
-		inContext				: inContext,
 		toAsync					: toAsync,
 
 		// utility
