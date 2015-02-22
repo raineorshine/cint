@@ -1,9 +1,9 @@
 A Javascript utility belt with an emphasis on Functional Programming.
 
-[![npm stable version](https://img.shields.io/npm/v/npm-check-updates.svg)](https://npmjs.org/package/npm-check-updates) 
-[![npm unstable version](https://img.shields.io/github/tag/tjunnone/npm-check-updates.svg?label=unstable)](https://github.com/tjunnone/npm-check-updates/tags) 
+[![npm stable version](https://img.shields.io/npm/v/cint.svg)](https://npmjs.org/package/cint) 
+[![npm unstable version](https://img.shields.io/github/tag/metaraine/cint.svg?label=unstable)](https://github.com/metaraine/cint/tags) 
 [![Travis CI](https://travis-ci.org/metaraine/cint.svg)](https://travis-ci.org/metaraine/cint)
-[![waffle.io issues](https://badge.waffle.io/tjunnone/npm-check-updates.png?label=ready&title=waffle.io)](https://waffle.io/tjunnone/npm-check-updates) 
+[![waffle.io issues](https://badge.waffle.io/metaraine/cint.png?label=ready&title=waffle.io)](https://waffle.io/metaraine/cint) 
 
 # Usage
 
