@@ -580,17 +580,6 @@ cint = (function() {
 		}
 	}
 
-	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal.
-		@memberOf module:cint#
-		@param f
-	*/
-	function inContext(f) {
-		return function(context) {
-			var otherArgs = Array.prototype.slice.call(arguments, 1)
-			return f.apply(context, otherArgs)
-		}
-	}
-
 	/** Converts the given synchronous function into an asynchronous function that applies its arguments to the original function and invokes callback(error, result).
 			@memberOf module:cint#
 			@param f
@@ -864,7 +853,6 @@ cint = (function() {
 		aritize					: aritize,
 		callTillValue		: callTillValue,
 		spy							: spy,
-		inContext				: inContext,
 		toAsync					: toAsync,
 
 		// utility

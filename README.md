@@ -53,9 +53,6 @@ Require it:
 	/** Calls the given function as normal, then passes its inputs and output to the spier (defaults to console.log) */
 	cint.spy(f, spier)
 
-	/** Returns a copy of the given function that calls the original function in the context of the first argument. Passes arguments 1..n as normal. */
-	cint.inContext(f)
-
 	/** Converts the given synchronous function into an asynchronous function that applies its arguments to the original function and invokes callback(error, result) */
 	cint.toAsync(f)
 

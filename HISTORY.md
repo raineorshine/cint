@@ -1,5 +1,8 @@
 # History
 
+## 9.0.0-alpha.1
+- Removed inContext. Use _.call.bind instead (see https://github.com/lodash/lodash/issues/821).
+
 ## 8.2.1
 - Fix toAsync bug and patch tests
 
