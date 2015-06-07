@@ -207,9 +207,6 @@ Require it:
 	/** Returns the number of properties on the given object. */
 	cint.numProperties(o)
 
-	/** Returns a new object with the given objects merged onto it. Non-undefined properties on later arguments override identical properties on earlier arguments. */
-	cint.merge(/*obj1, obj2, obj3, ...*/)
-
 	/** Returns a new object where f(key, value) returns a new key-value pair for each property. */
 	cint.mapObject(obj, f)
 
