@@ -9,6 +9,7 @@
   "scripts": {
     "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives src test",
     "lintfix": "npm run lint -- --fix",
+    "nyc": "nyc",
     "test": "mocha"
   },
   "repository": {
