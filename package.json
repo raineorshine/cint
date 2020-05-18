@@ -44,5 +44,19 @@
     "mocha": "^2.1.0",
     "nyc": "^15.0.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "mocha": {
+    "check-leaks": true,
+    "throw-deprecation": true,
+    "trace-deprecation": true,
+    "trace-warnings": true,
+    "use_strict": true
+  },
+  "nyc": {
+    "reporter": [
+      "html",
+      "lcov",
+      "text-summary"
+    ]
+  }
 }
