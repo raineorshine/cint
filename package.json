@@ -17,10 +17,9 @@
     "functional",
     "utility"
   ],
-  "author": "Raine Lourie",
+  "author": "Raine Revere",
   "license": "ISC",
   "readmeFilename": "README.md",
-  "gitHead": "ba9f4a85fd605fdad2bde942d59b57c7415bd709",
   "devDependencies": {
     "chai": "^2.0.0",
     "gulp": "^3.5.2",
