@@ -9,7 +9,6 @@ Update HISTORY
 
 ## stable
 npm version minor
-Bump version number in bower.json
 gulp
 git commit --amend
 git push
@@ -18,7 +17,6 @@ npm publish
 
 ## unstable
 Bump version number in package.json
-Bump version number in bower.json
 gulp
 git add -A
 git commit -m "vX.X.X-alpha.1"
