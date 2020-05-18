@@ -1,9 +1,9 @@
 {
   "name": "cint",
   "version": "9.0.0-alpha.2",
-  "homepage": "https://github.com/metaraine/cint",
+  "homepage": "https://github.com/raineorshine/cint",
   "authors": [
-    "metaraine <raineorshine@gmail.com>"
+    "raineorshine <raineorshine@gmail.com>"
   ],
   "description": "A Javascript utility belt with a focus on Functional Programming.",
   "main": "cint.js",
