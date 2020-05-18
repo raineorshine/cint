@@ -2,6 +2,7 @@ A Javascript utility belt with an emphasis on Functional Programming.
 
 [![npm version](https://badge.fury.io/js/cint.svg)](https://www.npmjs.com/package/cint)
 [![Build Status](https://github.com/raineorshine/cint/workflows/Tests/badge.svg?branch=master)](https://github.com/raineorshine/cint/actions?query=workflow%3ATests+branch%3Amaster) 
+[![Coverage Status](https://coveralls.io/repos/github/raineorshine/cint/badge.svg?branch=master)](https://coveralls.io/github/raineorshine/cint?branch=master)
 
 # Usage
 
