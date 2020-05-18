@@ -1,7 +1,7 @@
 A Javascript utility belt with an emphasis on Functional Programming.
 
 [![npm version](https://badge.fury.io/js/cint.svg)](https://www.npmjs.com/package/cint)
-[![Travis CI](https://travis-ci.org/raineorshine/cint.svg)](https://travis-ci.org/raineorshine/cint)
+[![Build Status](https://github.com/raineorshine/cint/workflows/Tests/badge.svg?branch=master)](https://github.com/raineorshine/cint/actions?query=workflow%3ATests+branch%3Amaster) 
 
 # Usage
 

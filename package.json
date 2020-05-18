@@ -40,7 +40,8 @@
     "gulp-util": "^2.2.14",
     "jshint-stylish": "^0.1.5",
     "lodash.assign": "^2.4.1",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "nyc": "^15.0.1"
   },
   "dependencies": {}
 }
