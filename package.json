@@ -8,7 +8,7 @@
   "main": "cint.js",
   "type": "module",
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "directories": {
     "test": "test"
