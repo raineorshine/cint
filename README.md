@@ -7,10 +7,8 @@ A Javascript utility belt with an emphasis on Functional Programming.
 # Usage
 
 ```js
-const cint = require("cint")
+import cint from 'cint'
 ```
-
-Read the API (below) or check out some examples used in the [unit tests](https://github.com/raineorshine/cint/blob/master/test/index.html).
 
 # Installation
 
