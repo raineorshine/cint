@@ -380,16 +380,6 @@ describe('joinObject', function() {
   })
 })
 
-describe('mapObject', function() {
-  it('should map an object to an object with new key/values', function() {
-    const o = { a: 1, b: 2, c: 3 }
-    const swap = function(k, v) {
-      return cint.keyValue(v, k)
-    }
-    assert.deepEqual(cint.mapObject(o, swap), { 1: 'a', 2: 'b', 3: 'c' })
-  })
-})
-
 describe('toArray', function() {
   const o = { a: 1, b: 2, c: 3 }
   it('should convert an object to an array', function() {

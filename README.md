@@ -18,6 +18,10 @@ Read the API (below) or check out some examples used in the [unit tests](https:/
 npm install cint --save
 ```
 
+# Development
+
+gulp v3 requires node v10
+
 # API
 
 ## Function
@@ -199,9 +203,6 @@ cint.isEmpty(o)
 /** Returns the number of properties on the given object. */
 cint.numProperties(o)
 
-/** Returns a new object where f(key, value) returns a new key-value pair for each property. */
-cint.mapObject(obj, f)
-
 /** Returns an array whose items are the result of calling f(key, value) on each property of the given object. If f is undefined, returns a list of { key: ___, value: ___ } objects. */
 cint.toArray(obj, f)
 
@@ -210,7 +211,7 @@ cint.filterObject(obj, f)
 
 /** Changes the specified keys in an object.
   @example cint.changeKeys(
-    { fname: 'Raine', lname: 'Lourie', specialty: 'Javascript' },
+    { fname: 'Raine', lname: 'Revere', specialty: 'Javascript' },
     { fname: 'first', lname: 'last' }
   )
 */
