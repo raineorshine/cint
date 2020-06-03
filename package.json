@@ -17,7 +17,7 @@
     "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives .",
     "lintfix": "npm run lint -- --fix",
     "nyc": "nyc",
-    "test": "NODE_ENV=test mocha test.js"
+    "test": "cross-env NODE_ENV=test mocha test.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   ],
   "devDependencies": {
     "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
     "eslint": "^7.1.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
