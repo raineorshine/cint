@@ -1,20 +1,23 @@
 {
   "name": "cint",
-  "version": "9.0.0-alpha.2",
+  "version": "9.0.0",
   "description": "A library of Javascript utility functions with an emphasis on Functional Programming.",
+  "author": "Raine Revere",
+  "license": "ISC",
+  "readmeFilename": "README.md",
   "main": "cint.js",
+  "type": "module",
   "engines": {
-    "node": "10"
+    "node": ">=12"
   },
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "build": "gulp",
-    "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives src test",
+    "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives .",
     "lintfix": "npm run lint -- --fix",
     "nyc": "nyc",
-    "test": "mocha"
+    "test": "cross-env NODE_ENV=test mocha test.js"
   },
   "repository": {
     "type": "git",
@@ -24,33 +27,22 @@
     "functional",
     "utility"
   ],
-  "author": "Raine Revere",
-  "license": "ISC",
-  "readmeFilename": "README.md",
   "devDependencies": {
-    "chai": "^2.0.0",
-    "eslint": "^7.0.0",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.1.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "gulp": "^3.5.2",
-    "gulp-clean": "^0.2.4",
-    "gulp-header": "^1.0.2",
-    "gulp-open": "^0.2.8",
-    "gulp-rename": "^1.1.0",
-    "gulp-template": "^0.1.1",
-    "gulp-uglify": "^0.2.1",
-    "gulp-util": "^2.2.14",
-    "jshint-stylish": "^0.1.5",
-    "lodash.assign": "^2.4.1",
-    "mocha": "^2.1.0",
-    "nyc": "^15.0.1"
+    "mocha": "^7.2.0",
+    "nyc": "^15.1.0"
   },
   "dependencies": {},
   "mocha": {
     "check-leaks": true,
+    "experimental-modules": true,
     "throw-deprecation": true,
     "trace-deprecation": true,
     "trace-warnings": true,

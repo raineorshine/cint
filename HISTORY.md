@@ -1,7 +1,14 @@
 # History
 
-## 9.0.0-alpha.2
+## 9.0.0
+- es6
+- Native Module
+- Remove gulp
+- Remove bower
+- Remove mapObject. Use _.transform instead.
 - Removed inContext. Use _.call.bind instead (see https://github.com/lodash/lodash/issues/821).
+- Add GitHub Action
+- Update dependencies
 
 ## 8.2.1
 - Fix toAsync bug and patch tests

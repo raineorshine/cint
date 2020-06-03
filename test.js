@@ -1,5 +1,7 @@
-const assert = require('chai').assert
-const cint = require('../src/cint.js')
+import chai from 'chai'
+import * as cint from './cint.js'
+
+const assert = chai.assert
 
 /***********************************
  * String
@@ -665,13 +667,13 @@ describe('typeOf', function() {
   })
 })
 
-describe('new', function() {
+describe('createNew', function() {
   it('should create an instance using the given constructor', function() {
     const Person = function(name, age) {
       this.name = name
       this.age = age
     }
-    const p = cint.new(Person, ['Raine', 26])
+    const p = cint.createNew(Person, ['Raine', 26])
     assert.instanceOf(p, Person)
     assert.equal(p.name, 'Raine')
     assert.equal(p.age, 26)
