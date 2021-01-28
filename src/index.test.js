@@ -1,5 +1,5 @@
 import chai from 'chai'
-import * as cint from './cint.js'
+import * as cint from './index.js'
 
 const assert = chai.assert
 

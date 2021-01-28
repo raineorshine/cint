@@ -5,19 +5,17 @@
   "author": "Raine Revere",
   "license": "ISC",
   "readmeFilename": "README.md",
-  "main": "cint.js",
+  "main": "src/index.js",
+  "files": "src",
   "type": "module",
   "engines": {
     "node": ">=12"
-  },
-  "directories": {
-    "test": "test"
   },
   "scripts": {
     "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives .",
     "lintfix": "npm run lint -- --fix",
     "nyc": "nyc",
-    "test": "cross-env NODE_ENV=test mocha test.js"
+    "test": "cross-env NODE_ENV=test mocha src"
   },
   "repository": {
     "type": "git",
