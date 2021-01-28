@@ -1,19 +1,19 @@
 A Javascript utility belt with an emphasis on Functional Programming.
 
-[![npm version](https://badge.fury.io/js/svg)](https://www.npmjs.com/package/cint)
-[![Build Status](https://github.com/raineorshine/cint/workflows/Tests/badge.svg?branch=master)](https://github.com/raineorshine/cint/actions?query=workflow%3ATests+branch%3Amaster) 
+[![npm version](https://img.shields.io/npm/v/cint.svg)](https://npmjs.org/package/cint)
+[![Build Status](https://img.shields.io/github/workflow/status/raineorshine/cint/Tests/master?label=tests&logo=github)](https://github.com/raineorshine/cint/actions?query=workflow%3ATests+branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/raineorshine/cint/badge.svg?branch=master)](https://coveralls.io/github/raineorshine/cint?branch=master)
+
+# Installation
+
+```sh
+npm install cint --save
+```
 
 # Usage
 
 ```js
 import cint from 'cint'
-```
-
-# Installation
-
-```
-npm install cint --save
 ```
 
 # API
