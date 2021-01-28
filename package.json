@@ -12,7 +12,7 @@
   ],
   "type": "module",
   "engines": {
-    "node": ">=12"
+    "node": ">=10.12.0"
   },
   "scripts": {
     "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives .",
@@ -42,7 +42,6 @@
   "dependencies": {},
   "mocha": {
     "check-leaks": true,
-    "experimental-modules": true,
     "throw-deprecation": true,
     "trace-deprecation": true,
     "trace-warnings": true,
